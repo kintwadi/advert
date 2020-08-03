@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="pt">
+
+<head th:insert="links :: header_links">
+	<meta  http-equiv="content-type" content="text/html;charset=iso-8859-1">
+	<meta name="google" content="notranslate">
+  <title></title>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container">
+      <a class="navbar-brand"><img alt=""></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto" id="headerContainerMenu">
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Page Content -->
+  <div class="containes">
+
+    <div class="rows">
+      <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row ls">
+              <div class="col-md-12" id="new-user">
+
+              </div>
+              <div class="col-md-12 options">
+                <div class="panel-group" id="accordion">
+                  <div class="panel panel-default">
+                    <div class="panel-heading pn">
+                      <h4 class="panel-title" id="mymessage">
+                      </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in message-left">
+                      <div class="panel-body messageList">
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-7 " id="middle_colapse">
+        <div class="panel panel-primary">
+          <div class="panel-body">
+            <div class="row search">
+
+
+            </div>
+          </div>
+        </div>
+        <div id="panel-new">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row publisher">
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+      <div class="col-md-2" id="adContainer">
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Button trigger modal -->
+
+  <!-- Modal -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="title"></h6>
+          <button type="button" class="closed" data-dismiss="modal" aria-label="Close">
+            <span class="closed" aria-hidden="true"> <i class="fa fa-close"></i></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12 title-modal">
+                  <div class="upl">
+                    <label id="uploadImage"></label>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-1 border-right">
+                      <div class="box" id="imgBox">
+                        <input type="file" id="img" class="inputfile inputfile-1 form-control" name="puth"
+                          accept="image/jpeg, image/png">
+                        <label for="img">
+                          <img data-toggle="tooltip" data-placement="right" class="puth" src="img/add-photo.png">
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-11">
+                      <div class="col-md-12">
+
+                        <div class="top-content">
+                          <div class="container-fluid">
+                            <div id="uploads" class="carousel slide" data-ride="carousel">
+                              <div class="carousel-inner row w-100 mx-auto" id="slideList" role="listbox">
+                                    
+                              </div>
+                              <a class="carousel-control-prev" href="#uploads" role="button" data-slide="prev" id="prev">
+                                <i class="fa fa-chevron-left"></i>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                              <a class="carousel-control-next" href="#uploads" role="button" data-slide="next" id="next">
+                                <i class="fa fa-chevron-right"></i>
+                                <span class="sr-only">Next</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body mg">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" id="addType"></label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="iOffer" class="btn btn-warning radio" id="offer">
+                      <input type="radio" class="badgebox" name="valAd" id="iOffer">
+                      <span class="badge"><i class="fa fa-circle"></i></span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label for="iLookingfor" class="btn btn-warning radio" id="lookingfor">
+                      <input type="radio" class="badgebox" name="valAd" id="iLookingfor">
+                      <span class="badge"><i class="fa fa-circle"></i></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body mg">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="form-group row">
+                        <label for="inputText" class="col-sm-2 col-form-label" id="lblTitle"></label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="titelVal">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputText" class="col-sm-2 col-form-label" id="lblDescription"></label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" rows="3" id="descriptionVal"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label id="tips"></label>
+                        <textarea class="form-control" rows="4" id="tipsVal"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row margin-botton">
+                    <div class="col-md-3">
+                      <div class="form-group row">
+                        <label for="inputText" class="col-sm-6 col-form-label" id="price"></label>
+                        <div class="col-sm-6">
+                          <input type="text" class="form-control" id="priceVal">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-check form-check-inline">
+                        <label for="iNegotiable" class="btn btn-warning radio" id="negotiable">
+                          <input type="radio" class="badgebox" name="price" id="iNegotiable" value="">
+                          <span class="badge"><i class="fa fa-circle"></i></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label for="iTochange" class="btn btn-warning radio" id="tochange">
+                          <input type="radio" class="badgebox" name="price" id="iTochange" value="">
+                          <span class="badge"><i class="fa fa-circle"></i></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label for="Itogiveaway" class="btn btn-warning radio" id="togiveaway">
+                          <input type="radio" class="badgebox" name="price" id="Itogiveaway" value="">
+                          <span class="badge"><i class="fa fa-circle"></i></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <div class="form-check form-check-inline">
+                        <label for="iNew" class="btn btn-warning radio" id="new">
+                          <input type="radio" id="iNew" name="stateAd" class="badgebox">
+                          <span class="badge"><i class="fa fa-circle"></i></span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <label for="iUsed" class="btn btn-warning radio" id="used">
+                          <input type="radio" id="iUsed" name="stateAd" class="badgebox">
+                          <span class="badge"><i class="fa fa-circle"></i></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body mg">
+              <div class="row ">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="form-group row">
+                        <label for="inputText" class="col-sm-2 col-form-label" id="categorization"></label>
+                        <div class="col-sm-5">
+                          <select class="form-control" id="categorizationList">
+                            <option selected class="none" id="placeCategorization"></option>
+                          </select>
+                        </div>
+                        <div class="col-sm-5">
+                          <input type="text" class="form-control" id="subcategory">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-body mg">
+              <div class="row ">
+                <div class="col-md-12">
+                  <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label for="inputZip" id="zip"></label>
+                      <input type="text" class="form-control" id="iZip">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputState" id="province"></label>
+                      <select id="inputState" class="form-control">
+                        <option selected class="none" id="placeState"></option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputCity" id="street"></label>
+                      <input type="text" id="iStreet" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-8">
+                      <label for="inputCity" id="preference"> </label>
+                      <textarea class="form-control" id="iPreference" rows="5"></textarea>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputState" id="tips2"></label>
+                      <textarea class="form-control" rows="5" id="iTips2"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-4">
+
+                      <div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <label for="" id="phone"> </label>
+                          </div>
+                          <div class="col-md-8">
+                            <label for="visible1" class="btn btn-warning" id="phoneState">
+                              <input type="checkbox" id="visible1" class="badgebox">
+                              <span class="badge">&check;</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <input type="text" id="iPhone" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <label for="" id="email"> </label>
+                          </div>
+                          <div class="col-md-9">
+                            <label for="visible2" class="btn btn-warning" id="emailState">
+                              <input type="checkbox" id="visible2" class="badgebox">
+                              <span class="badge">&check;</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <input type="email" id="iEmail" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <label for="" id="name"> </label>
+                          </div>
+                          <div class="col-md-9 ck">
+                          </div>
+                        </div>
+                      </div>
+                      <input type="text" id="iName" class="form-control">
+                    </div>
+                  </div>
+
+                  <br>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <div class="form-check form-check-inline">
+                        <label for="publish_now" id="publishNow" class="btn btn-warning">
+                          <input type="checkbox" id="publish_now" class="badgebox">
+                          <span class="badge">&check;</span>
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline" id="divAdd">
+                        <button type="submit" id="finish" data-dismiss="modal" class="btn btn-primary"></button>
+                      </div>
+                      <div class="form-check form-check-inline" id="divEdit">
+                        <button type="submit" id="finishEdit" data-dismiss="modal" class="btn btn-primary"></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="py-2 bg-dark navbar-fixed-botton">
+    <div class="container">
+      <div class="row">
+
+      </div>
+    </div>
+    <!-- /.container -->
+  </footer>
+  
+
+  <span th:insert = "links :: footer_links"></span>
+  
+  <script th:src="@{js/profile.js}"></script>
+	
+	
+
+</body>
+
+</html>

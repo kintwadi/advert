@@ -1,0 +1,421 @@
+{
+"Application": {
+    "name": "Advert43",
+    "favCon": {
+        "icon": "img/icon.png"
+    },
+    "UserContainer": {
+        "User": {
+            "id": "1",
+            "name": "advert43",
+            "image": "img/user.png",
+            "link": "#"
+        }
+    }
+    ,
+    "HeaderContainer": {
+        "Logo": {
+            "icon": "img/logo.png",
+            "iconLink": "#",
+            "cssClass": "logoImg",
+            "cssId": "logoImg"
+        },
+        
+        "Menu": [
+        	 {
+              "Home":{
+                  "text": "Home",
+                "link": "#",
+                "cssClass": "nav-link",
+                "cssId": "home"
+              } 
+            },
+            {
+              "AboutUS":{
+                  "text": "Sobre n�s",
+                "link": "#",
+                "cssClass": "nav-link",
+                "cssId": "about-us"
+              } 
+            },
+           { 
+             "ContactUS": {
+                "text": "Contacto",
+                "link": "#",
+                "cssClass": "nav-link",
+                "cssId": ""
+             }
+
+            },
+            {
+              "Login": {
+                "text": "Acesso",
+                "link": "#",
+                "cssClass": "nav-link",
+                "cssId": ""
+              }
+
+            },
+            {
+              "SignUp": {
+                "text": "Cadastre-se",
+                "link": "#",
+                "cssClass": "nav-link",
+                "cssId": ""
+              }
+
+            }
+        ],
+
+          "Locale": {
+            "country": ["Angola", "EN"],
+            "language": [
+                {
+                  "EN":{
+                    "text": "EN",
+                    "link": "#",
+                    "countryIconFlag": "flag-icon-de"
+                  }
+                }, 
+                {
+                  "DE":
+                  {
+                    "text": "DE",
+                    "link": "#",
+                    "countryIconFlag": "flag-icon-gb-eng"
+                  }
+                },
+                {
+                  "PT": {
+                    "text": "PT",
+                    "link": "#",
+                    "countryIconFlag": "flag-icon-pt"
+                  }
+                }
+            ],
+            "cssClass": "nav-item dropdown locale",
+            "cssId": "locale"
+          }
+      
+    },
+    "SearchContainer": {
+       "Category": {
+            "text": "Categoria",
+            "categories": ["cars", "bykes", "scooters"],
+            "link": "#",
+            "cssClass": "category",
+            "cssId": "category"
+        },
+        "Location": {
+            "text": "Localiza&#231;&#227;o",
+            "locations": ["cars", "bykes", "scooters"],
+            "link": "#",
+            "cssClass": "location",
+            "cssId": "location"
+        },
+        "Search": {
+            "text": "",
+            "icon": "fa fa-search",
+            "link": "#",
+            "cssClass": "searchInput",
+            "cssId": "searchInput"
+        },
+        "Button": {
+            "text": "Buscar",
+            "icon": "",
+            "link": "#",
+            "cssClass": "button",
+            "cssId": "button"
+        }
+
+    },
+    "AdContainer": {
+        "cssClass": "adContainer",
+        "cssId": "",
+        "image": "img/news_card.jpg",
+        "link": "#"
+    },
+    "CategoryContainer": {
+        "text": "Categorias",
+        "categories":[
+            {
+              "Category1": {
+                "text":"Cars",
+                "link":"#",
+                "Entries":
+                [
+                    {
+                      "CategoryItem1":{
+                        "text": "i10",
+                        "link": "#",
+                        "cssClass": "",
+                        "cssId": ""
+                      }
+                    },
+                    {
+                      "CategoryItem1": {
+                        "text": "i20",
+                        "link": "#",
+                        "cssClass": "",
+                        "cssId": ""
+                    }
+                    }
+                ],
+                "cssClass": "cars",
+                "cssId": "cars"
+            },
+            
+              "Category": {
+                "text": "Bike",
+                "link":"#",
+                "Entries":
+                [
+                    {
+                      "CategoryItem1":{
+                        "text": "rt50",
+                        "link": "#",
+                        "cssClass": "",
+                        "cssId": ""
+                      }
+                    },
+                    
+                    {
+                      "CategoryItem1":{
+                        "text": "renock",
+                        "link": "#",
+                        "cssClass": "renock",
+                        "cssId": "renock"
+                      }
+                    }
+                ],
+                "cssClass": "bike",
+                "cssId": "bike"
+            }  
+            }
+        ],
+        "cssClass": "",
+        "cssId": "treeview"
+    },
+    "NewEntriesContainer": {
+        "text": "Novos an&#249;ncios",
+        "link": "#",
+        "cssClass": "newEntriesContainer",
+        "cssId": "newEntriesContainer",
+        "Entries": [
+            {
+              "Card1":  {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+              }
+            },
+            {
+              
+            "Card2" :{
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+            }
+            },
+            {
+             "Card3": {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+             }
+            },
+            {
+            "Card4" : {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+            }
+            },
+            {
+            "Card5" : {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMabiala.â€�",
+                "image": "img/whatNews2.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+            }
+            },
+            {
+           "Card6": {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMaloza.â€�",
+                "image": "img/whatNews2.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+           }
+            },
+            {
+               "Card7" : {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews2.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+               }
+            },
+            {
+              "Card8":  {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+              }
+            }
+        ],
+        "Control": {
+            "first": "First",
+            "previous": "Prev",
+            "counts": [1, 2],
+            "next": "Next",
+            "last": "Last"
+        }
+    },
+
+    "OldEntriesContainer" : {
+        "text": "An&#249;nciados anteriormente",
+        "link": "#",
+        "cssClass": "oldEntriesContainer",
+        "cssId": "oldEntriesContainer",
+        "Entries": [
+            {
+              "Card1":  {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+              }
+            },
+            {
+              
+            "Card2" :{
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+            }
+            },
+            {
+             "Card3": {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+             }
+            },
+            {
+            "Card4" : {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+            }
+            },
+            {
+            "Card5" : {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMabiala.â€�",
+                "image": "img/whatNews2.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+            }
+            },
+            {
+           "Card6": {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMaloza.â€�",
+                "image": "img/whatNews2.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+           }
+            },
+            {
+               "Card7" : {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews2.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+               }
+            },
+            {
+              "Card8":  {
+                "header": "Get the Illusion",
+                "description": "Get the Illusion of Fuller Lashes by â€œMascng.â€�",
+                "image": "img/whatNews1.jpg",
+                "Footer": {
+                    "price": "$ 5000",
+                    "link": "#"
+                }
+              }
+            }
+        ],
+        "showMore": " Mostrar mais"
+    },
+    
+    "FooterContainer": {
+        "copyRight": "&copy;2020",
+        "Private": {
+            "text": "POL�TICA DE PRIVACIDADE",
+            "link": "login.html"
+        },
+        "Terms": {
+            "text": "TERMOS DE USO",
+            "link": "logins.html"
+        },
+        "Provider": {
+            "text": "FORNECIDO POR Q - SOFT TEAM",
+            "link": "loginss.html"
+        }
+    }
+}
+}
+

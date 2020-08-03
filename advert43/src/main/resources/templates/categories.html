@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="pt">
+
+<head th:insert="links :: header_links">
+	<meta  http-equiv="content-type" content="text/html;charset=iso-8859-1">
+  <title></title>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container">
+      <a class="navbar-brand"><img alt=""></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto" id="headerContainerMenu">
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Page Content -->
+  <div class="containes">
+
+    <div class="rows">
+      <div class="col-md-3">
+        <div class="panel panel-default pn-s">
+          <div class="panel-body">
+            <div class="row ls">
+              <div class="col-md-12" id="userContainer">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default pn-s">
+          <div class="panel-heading">
+          </div>
+          <div class="panel-body">
+            <div class="row ls">
+              <div class="col-md-12" id="categories">
+                <div id="treeview_container" class="hummingbird-treeview well h-scroll-large">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7 " id="middle_colapse">
+        <div class="panel panel-primary">
+          <div class="panel-body">
+            <div class="row search">
+
+              
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-2" id="adContainer">
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-2 bg-dark navbar-fixed-botton">
+    <div class="container">
+      <div class="row">
+
+      </div>
+    </div>
+    <!-- /.container -->
+  </footer>
+  
+  <span th:insert = "links :: footer_links"></span>
+
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+package com.advert43.dao;
+
+import java.util.Iterator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Repository;
+
+import com.advert43.dto.Card;
+import com.advert43.dto.Entry;
+
+@Repository
+public class DaoImpl  implements IDao{
+
+	@PersistenceContext
+	private EntityManager entityManager;
+	@Override
+	public void showAll() {
+		
+		Query query = entityManager.createNativeQuery("Select * from entry",Entry.class);
+		
+//		List<User> users = query.getResultList();
+//		
+//		users.forEach(user ->{
+//			System.out.println("user id: "+ user.getId());
+//			System.out.println("user name: "+ user.getName());
+//		});
+		
+		List<Entry>  list = query.getResultList();
+		for(int i = 0; i < list.size(); i++) {
+			
+			Object object = list.get(i);
+			
+			System.out.println(object.toString());
+			
+		}
+		
+//		Query query = entityManager.createNativeQuery("Select * from user as u ,entry as e ,card as c ,entry_cards as ec where "
+//				+ "u.user_id = e.user "
+//				+ "and e.entry_id = ec.entry_entry_id "
+//				+ "and c.card_id = ec.cards_card_id");
+////		List resultList = query.getResultList();
+////		
+////		Iterator iterator = resultList.iterator();
+////		while(iterator.hasNext()) {
+////			
+////			System.out.println(iterator.next());
+////		}
+//
+//		List<Object[]> list = query.getResultList();
+//		for (int i = 0; i < list.size(); i++) {
+//			
+//			Object [] object = list.get(i);
+//			for(int j = 0; j < object.length; j++) {
+//				System.out.print(object[j] +" ");
+//			}
+//			
+//			System.out.println();
+//		}
+//	
+	
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Card> newEntries() {
+		Query query = entityManager.createNativeQuery("Select * from card ",Card.class);
+		
+		List<Card> cards = query.getResultList();
+		
+		return cards;
+		
+		
+	}
+
+}
