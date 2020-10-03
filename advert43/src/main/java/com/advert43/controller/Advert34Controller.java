@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
 import com.advert43.dto.CardDetails;
-import com.advert43.dto.CardImage;
 import com.advert43.dto.Footer;
 import com.advert43.dto.Profile;
 import com.advert43.dto.User;
 import com.advert43.service.Adver43Service;
+import com.advert43.util.Constants;
 import com.advert43.util.Util;
 
 @Controller
@@ -28,49 +28,47 @@ public class Advert34Controller {
 	ServletContext servletContext;
 	@Autowired
 	private Adver43Service service;
-	private String lang = "pt";
 
-	@GetMapping("/")
+
+	@GetMapping(Constants.ROOT)
 	public String home(Model model) {
 
-		model.addAttribute("lang", lang);
-		return "home";
+		model.addAttribute("lang", Constants.LANGUAGE);
+		return Constants.WIEW_HOME;
 	}
 
-	@GetMapping("/app_new_entries")
+	@GetMapping(Constants.NEW_ENTRIES)
 	@ResponseBody
 	public JSONObject newEntries(Model model){
 
-		JSONObject newEntries = service.newEntries(lang);
-		return  newEntries;
+		
+		return  service.newEntries(Constants.LANGUAGE);
 
 	}
 
 
-	@GetMapping("/app_old_entries")
+	@GetMapping(Constants.OLD_ENTRIES)
 	@ResponseBody
 	public JSONObject oldEntries(Model model){
 
-		return service.oldEntries(lang);
+		return service.oldEntries(Constants.LANGUAGE);
 
 	}
 
-	@GetMapping("/app_categories")
+	@GetMapping(Constants.CATEGORIES)
 	@ResponseBody
 	public JSONObject categories(Model model){
 
-		return service.categories(lang);
+		return service.categories(Constants.LANGUAGE);
 
 	}
 
-	@GetMapping("/app_random_ad")
+	@GetMapping(Constants.RANDOM_AD)
 	@ResponseBody
 	public Ad getRandomAd(Model model){
 
-		Ad ad = service.getRandomAds(lang);
 
-		return ad;
-
+		return service.getRandomAds(Constants.LANGUAGE);
 	}
 
 	@GetMapping("/app_search_container")
@@ -78,10 +76,10 @@ public class Advert34Controller {
 	public JSONObject locations(Model model){
 
 
-		return service.locations(lang);
+		return service.locations(Constants.LANGUAGE);
 
 	}
-	@GetMapping("/app_default_ad")
+	@GetMapping(Constants.DEFAULT_AD)
 	@ResponseBody
 	public JSONObject defaultAd(Model model){
 
@@ -90,44 +88,35 @@ public class Advert34Controller {
 
 	}
 
-	@GetMapping("/app_main_app")
+	@GetMapping(Constants.APP_MAIN)
 	@ResponseBody
 	public JSONObject getMainApplication(Model model){
 
 
-		JSONObject application = service.getMainApplication(lang);
-
-		return application;
+		return service.getMainApplication(Constants.LANGUAGE);
 
 	}
 
-	@GetMapping("/single_card")
+	@GetMapping(Constants.SINGLE_CARD)
 	public String singleCardPage(Model model, HttpServletRequest request) {
 
-		String categoryType = request.getParameter("type");
-		int subCategoryId = Integer.parseInt(request.getParameter("ref"));
-
-		String message = "categoryType: "+categoryType + " subCategoryId "+subCategoryId; 
-		Util.setLogger(this.getClass(), message);
-
-		model.addAttribute("lang", lang);
-		return "single_card";
+		
+		return Constants.VIEW_SINGLE_CARD;
 	}
 
 
-	@GetMapping("/query_categories")
+	@GetMapping(Constants.QUERY_CAREGORIES)
 	public String fetchCategories(Model model, HttpServletRequest request) {
 
-		String category = request.getParameter("type");
-		model.addAttribute("lang", lang);
-		return "categories";
+		
+		model.addAttribute("lang", Constants.LANGUAGE);
+		return Constants.VIEW_CATEGORIES;
 	}
 
-	@GetMapping("/query_subCategory_all")
+	@GetMapping(Constants.ALL_SUBCATEGORIES)
 	public String fetchSubCategoryAll(Model model, HttpServletRequest request) {
 
-		String category = request.getParameter("type");
-		model.addAttribute("lang", lang);
+		model.addAttribute("lang", Constants.LANGUAGE);
 		return "subcategory_all";
 	}
 
@@ -135,7 +124,7 @@ public class Advert34Controller {
 	@ResponseBody
 	public Profile login(Model model, HttpServletRequest request) {
 
-		model.addAttribute("lang", lang);
+		model.addAttribute("lang", Constants.LANGUAGE);
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		boolean remember = Boolean.parseBoolean(request.getParameter("remember"));
@@ -163,7 +152,7 @@ public class Advert34Controller {
 	@GetMapping("/profile")
 	public String admin(Model model) {
 
-		model.addAttribute("lang", lang);
+		model.addAttribute("lang", Constants.LANGUAGE);
 		return "profile";
 	}
 
