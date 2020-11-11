@@ -25,18 +25,22 @@ public class Card implements Serializable{
 	private String image; // cover image
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "footer", referencedColumnName = "footer_id")
+	@JoinColumn(name = "footer_id", referencedColumnName = "footer_id")
 	private Footer footer;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user", referencedColumnName = "user_id")
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	private User user;
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "card_details", referencedColumnName = "card_detail_id")
-	private CardDetails cardDetails;
+	@JoinColumn(name = "card_detail_id", referencedColumnName = "card_detail_id")
+	private CardDetails cardDetail;
 	
+        
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
+	private Location location;
 
 	public Card() {
 	}
@@ -82,11 +86,11 @@ public class Card implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public CardDetails getCardDetails() {
-		return cardDetails;
+	public CardDetails getCardDetail() {
+		return cardDetail;
 	}
-	public void setCardDetails(CardDetails cardDetails) {
-		this.cardDetails = cardDetails;
+	public void setCardDetail(CardDetails cardDetail) {
+		this.cardDetail = cardDetail;
 	}
 	@Override
 	public String toString() {
@@ -104,7 +108,7 @@ public class Card implements Serializable{
 		builder.append(", user=");
 		builder.append(user);
 		builder.append(", cardDetails=");
-		builder.append(cardDetails);
+		builder.append(cardDetail);
 		builder.append("]");
 		return builder.toString();
 	}

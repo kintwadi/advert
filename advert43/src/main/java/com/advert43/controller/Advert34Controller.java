@@ -184,7 +184,7 @@ public class Advert34Controller {
 		
 		card.setFooter(footerCreate(request));
 		card.setUser(cardUserCreate(request));
-		card.setCardDetails(cardDetailsCreate(request));
+		card.setCardDetail(cardDetailsCreate(request));
 
 	}
 	private Footer footerCreate(HttpServletRequest request) {

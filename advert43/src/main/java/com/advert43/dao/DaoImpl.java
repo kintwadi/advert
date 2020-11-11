@@ -77,11 +77,12 @@ public class DaoImpl  implements IDao {
 	public List<List<SubCategory>> categoryDataList() {
 
 
-		Query query = entityManager.createNativeQuery("Select * from sub_category where parent = ?",SubCategory.class);
+		Query query = entityManager.createNativeQuery("Select * from sub_category where category_id = ?",SubCategory.class);
 
 		List<List<SubCategory>> subCategoryList = new ArrayList<>();
-	
-		
+                // observation:
+		// big complexity, try to do join of the tables subcategory with category 
+                // on back with foreach is more slow than to do with query join tables
 		Categories().forEach(category ->{
 
 			

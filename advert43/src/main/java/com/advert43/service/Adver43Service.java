@@ -143,7 +143,7 @@ public class Adver43Service {
 			List<SubCategory> subCategories = categoryDataList.get(i);
 
 
-			Category parent = subCategories.get(i).getParent();
+			Category parent = subCategories.get(i).getCategory();
 
 			JSONObject category = new JSONObject();
 			category.put("text",parent.getName() );
@@ -337,7 +337,7 @@ public class Adver43Service {
 				List<SubCategory> subCategories = categoryDataList.get(i);
 
 
-				Category parent = subCategories.get(i).getParent();
+				Category parent = subCategories.get(i).getCategory();
 
 				JSONObject category = new JSONObject();
 				category.put("id",parent.getId() );

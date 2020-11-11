@@ -33,10 +33,10 @@ public class CardDetails {
 	private String reference;
 	// publish now
 	private boolean publish;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "card_image", referencedColumnName = "card_image_id")
-	private CardImage cardImage;
+        // i commented this relation 'cause was sugested do it yet
+	//@OneToOne(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "card_image", referencedColumnName = "card_image_id")
+	//private CardImage cardImage;
 
 	public int getId() {
 		return id;
@@ -133,7 +133,7 @@ public class CardDetails {
 	public void setPublish(boolean publish) {
 		this.publish = publish;
 	}
-
+/*
 	public CardImage getCardImage() {
 		return cardImage;
 	}
@@ -141,7 +141,7 @@ public class CardDetails {
 	public void setCardImage(CardImage cardImage) {
 		this.cardImage = cardImage;
 	}
-
+*/
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -170,11 +170,8 @@ public class CardDetails {
 		builder.append(", publish=");
 		builder.append(publish);
 		builder.append(", cardImage=");
-		builder.append(cardImage);
+		//builder.append(cardImage);
 		builder.append("]");
 		return builder.toString();
 	}
-
-
-
 }
