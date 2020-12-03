@@ -48,9 +48,5 @@ public class CardImage implements Serializable{
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
-	
-	
-	
+
 }
