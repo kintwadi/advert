@@ -135,6 +135,11 @@ public class Adver43Service {
 		JSONArray categories = (JSONArray) categoryContainer.get("categories");
 		categories.clear();
 
+		JSONObject newAd = (JSONObject) application.get("NewAdd");
+		JSONObject categorization = (JSONObject) newAd.get("categorization");
+		//JSONArray categorizationList = (JSONArray) categorization.get("list");
+		//categorizationList.clear();
+		
 		List<List<SubCategory>> categoryDataList = dao.categoryDataList();
 
 		for(int i = 0; i < categoryDataList.size(); i++) {
@@ -162,15 +167,18 @@ public class Adver43Service {
 				entries.add(CategoryItem1);
 
 			}
-
+ 
 			category.put("Entries", entries);
 			categories.add(category);
 		}
 
 		categoryContainer.replace("categories", categories);
-
+		categorization.replace("list", categories);
+		newAd.replace("categorization", categorization);
+		
 		application.replace("CategoryContainer", categoryContainer);
-
+		application.replace("NewAdd", newAd);
+		
 		return application ;
 	}
 

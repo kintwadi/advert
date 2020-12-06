@@ -1355,7 +1355,7 @@ function Render(app) {
     */
     this.LoadAllAds = function(){
         // this request go at server and return the ads of current user 
-        $.post('LoadAllAds',null,'LoadAllAdsCallBack');
+        $.post('app_random_ad',null,'LoadAllAdsCallBack');
     }
     // get the ajax response of LoadAllAds
     this.LoadAllAdsCallBack = function (data, status) {
