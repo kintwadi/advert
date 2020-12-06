@@ -137,8 +137,8 @@ public class Adver43Service {
 
 		JSONObject newAd = (JSONObject) application.get("NewAdd");
 		JSONObject categorization = (JSONObject) newAd.get("categorization");
-		//JSONArray categorizationList = (JSONArray) categorization.get("list");
-		//categorizationList.clear();
+		JSONArray categorizationList = (JSONArray) categorization.get("list");
+		categorizationList.clear();
 		
 		List<List<SubCategory>> categoryDataList = dao.categoryDataList();
 
