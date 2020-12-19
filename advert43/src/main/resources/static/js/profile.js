@@ -1,3 +1,5 @@
+
+
 var app = Application;
 //Instantiate the render constructor  pulling default definitions
 var render = new Render(app); 

@@ -666,9 +666,59 @@ function Render(app) {
         btnCreateNewAd.click(this.CleanModalForm);
         btnCreateNewAd.click(this.SlideRender);
         btnCreateNewAd.click(this.CreateYourAddMood);
-
+        btnCreateNewAd.click(this.LoadDatasToNewAd);
         newAdComponent.prepend(btnCreateNewAd);
     };
+    this.LoadDatasToNewAd = function(){
+    // get all categorization and render then
+    	$.get("categories_list", function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // this is the update list of the categorizations on create new Card
+        app.NewAdd.categorization.list = data;
+		render.renderDataCategorization();
+    });
+    // get all locations and render then
+    	$.get("locations_list", function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // this is the update list of the locations on create new Card
+        app.NewAdd.province.list = data;
+		render.renderDataProvince();
+    });
+    }
+    this.renderDataCategorization = function(){
+    	let newAd = app.NewAdd;
+		$("#categorization").text(newAd.categorization.text);
+        let _sizeCategorization = newAd.categorization.list.length;
+        $("#categorizationList").find('option').remove().end();
+        for (let index = 0; index < _sizeCategorization; index++) {
+            const element = newAd.categorization.list[index];
+            let option = $('<option>');
+            let indexOf = index + 1;
+            option.attr("value", "category_" + indexOf);
+            option.text(element);
+            $("#categorizationList").append(option);
+        }
+        $("#placeCategorization").text(newAd.categorization.placeholder);
+        $("#categorizationList").val(null);
+    }
+    this.renderDataProvince = function(){
+        let newAd = app.NewAdd;
+        $("#province").text(newAd.province.text);
+        let _sizeState = newAd.province.list.length;
+        $("#inputState").find('option').remove().end();
+        for (let index = 0; index < _sizeState; index++) {
+            const element = newAd.province.list[index];
+            let option = $('<option>');
+            let indexOf = index + 1;
+            option.attr("value", "state_" + indexOf);
+            option.text(element);
+            $("#inputState").append(option);
+        }
+        $("#placeState").text(newAd.province.placeholder);
+        $("#inputState").val(null);
+    }
     var slideList = [];
     var listAds = Array();
     // this represents the Message buttom near of create new ad (render Message Component)
@@ -1052,7 +1102,7 @@ function Render(app) {
     }
     // 
     this.CreateYourAddMood = function () {
-        var newAd = app.NewAdd;
+        let newAd = app.NewAdd;
         $("#title").text(newAd.title);
         $("#divEdit").attr("style", "display:none;");
         $("#divAdd").attr("style", "");
@@ -1075,30 +1125,10 @@ function Render(app) {
         $("#togiveaway").prepend(newAd.toGiveAwey);
         $("#new").prepend(newAd.new);
         $("#used").prepend(newAd.used);
-        $("#categorization").text(newAd.categorization.text);
-        let _sizeCategorization = newAd.categorization.list.length;
-        $("#placeCategorization").text(newAd.categorization.placeholder)
-        for (let index = 0; index < _sizeCategorization; index++) {
-            const element = newAd.categorization.list[index];
-            let option = $('<option>');
-            let indexOf = index + 1;
-            option.attr("value", "category_" + indexOf);
-            option.text(element);
-            $("#categorizationList").append(option);
-        }
+        
         $("#subcategory").attr("placeholder", newAd.subcategory);
         $("#zip").text(newAd.zip);
-        $("#province").text(newAd.province.text);
-        let _sizeState = newAd.province.list.length;
-        $("#placeState").text(newAd.province.placeholder);
-        for (let index = 0; index < _sizeState; index++) {
-            const element = newAd.province.list[index];
-            let option = $('<option>');
-            let indexOf = index + 1;
-            option.attr("value", "state_" + indexOf);
-            option.text(element);
-            $("#inputState").append(option);
-        }
+        
         $("#street").text(newAd.street);
         $("#preference").text(newAd.preference);
         $("#tips2").text(newAd.tips2.text);
@@ -1355,7 +1385,7 @@ function Render(app) {
     */
     this.LoadAllAds = function(){
         // this request go at server and return the ads of current user 
-        $.post('app_random_ad',null,'LoadAllAdsCallBack');
+        $.get('LoadAllAds',null,'LoadAllAdsCallBack');
     }
     // get the ajax response of LoadAllAds
     this.LoadAllAdsCallBack = function (data, status) {
@@ -2731,6 +2761,7 @@ $.get("app_main_app", function(application, status){
 	//render.NewEntriesContainer();
 	//render.OldEntriesContainer();
 	render.SearchContainer();
+	//render.CreateNewAd();
 	render.CategoryContainer();
 });
 

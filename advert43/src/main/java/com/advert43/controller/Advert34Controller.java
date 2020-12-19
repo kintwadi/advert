@@ -3,6 +3,7 @@ package com.advert43.controller;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import com.advert43.dto.User;
 import com.advert43.service.Adver43Service;
 import com.advert43.util.Constants;
 import com.advert43.util.Util;
+import com.google.gson.JsonArray;
 
 @Controller
 public class Advert34Controller {
@@ -34,7 +36,16 @@ public class Advert34Controller {
 	public String home(Model model) {
 
 		model.addAttribute("lang", Constants.LANGUAGE);
-		return Constants.WIEW_HOME;
+		return Constants.VIEW_HOME;
+	}
+
+	@GetMapping(Constants.APP_MAIN)
+	@ResponseBody
+	public JSONObject getMainApplication(Model model){
+
+
+		return service.getMainApplication(Constants.LANGUAGE);
+
 	}
 
 	@GetMapping(Constants.NEW_ENTRIES)
@@ -88,15 +99,6 @@ public class Advert34Controller {
 
 	}
 
-	@GetMapping(Constants.APP_MAIN)
-	@ResponseBody
-	public JSONObject getMainApplication(Model model){
-
-
-		return service.getMainApplication(Constants.LANGUAGE);
-
-	}
-
 	@GetMapping(Constants.SINGLE_CARD)
 	public String singleCardPage(Model model, HttpServletRequest request) {
 
@@ -129,7 +131,7 @@ public class Advert34Controller {
 		String password = request.getParameter("password");
 		boolean remember = Boolean.parseBoolean(request.getParameter("remember"));
 		Profile profile = new Profile();
-
+		
 
 		if(Util.isValid(email)) {
 
@@ -140,7 +142,7 @@ public class Advert34Controller {
 
 
 			}
-
+			
 			user.setPassword("");	
 			profile.setUser(user);
 		}
@@ -151,11 +153,23 @@ public class Advert34Controller {
 
 	@GetMapping("/profile")
 	public String admin(Model model) {
-
+		//System.out.println(service.getListOfCategories());
 		model.addAttribute("lang", Constants.LANGUAGE);
 		return "profile";
 	}
 
+	@GetMapping(Constants.CAREGORIES_LIST)
+	@ResponseBody
+	public JSONArray categoriesList(Model model) {
+		return service.getListOfCategories();
+	}
+	
+	@GetMapping(Constants.LOCATIONS_LIST)
+	@ResponseBody
+	public JSONArray locationsList(Model model) {
+		return service.getListOfLocations();
+	}
+	
 	@PostMapping("/saveNewAd")
 	@ResponseBody
 	public String saveNewAd(Model model, HttpServletRequest request) {

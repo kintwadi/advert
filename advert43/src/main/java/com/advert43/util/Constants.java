@@ -15,7 +15,7 @@ public class Constants {
 	public static final String CARD_FOOTER = "Footer";
 	public static final String LANGUAGE = "pt";
 	// Views
-	public static final String WIEW_HOME = "home";
+	public static final String VIEW_HOME = "home";
 	public static final String VIEW_SINGLE_CARD  = "single_card";
 	public static final String VIEW_CATEGORIES = "categories";
 	// endpoints
@@ -28,6 +28,8 @@ public class Constants {
 	public static final String APP_MAIN = "/app_main_app"; 
 	public static final String SINGLE_CARD = "/single_card"; 
 	public static final String QUERY_CAREGORIES = "/query_categories";
+	public static final String CAREGORIES_LIST = "/categories_list";
+	public static final String LOCATIONS_LIST = "/locations_list";
 	
 	public static final String ALL_SUBCATEGORIES = "/query_subCategory_all";
 

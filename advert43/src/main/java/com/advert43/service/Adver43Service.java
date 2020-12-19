@@ -134,12 +134,7 @@ public class Adver43Service {
 		JSONObject categoryContainer = (JSONObject) application.get("CategoryContainer");
 		JSONArray categories = (JSONArray) categoryContainer.get("categories");
 		categories.clear();
-
-		JSONObject newAd = (JSONObject) application.get("NewAdd");
-		JSONObject categorization = (JSONObject) newAd.get("categorization");
-		JSONArray categorizationList = (JSONArray) categorization.get("list");
-		categorizationList.clear();
-		
+ 
 		List<List<SubCategory>> categoryDataList = dao.categoryDataList();
 
 		for(int i = 0; i < categoryDataList.size(); i++) {
@@ -149,7 +144,6 @@ public class Adver43Service {
 
 
 			Category parent = subCategories.get(i).getCategory();
-
 			JSONObject category = new JSONObject();
 			category.put("text",parent.getName() );
 			category.put("link","#" );
@@ -173,11 +167,8 @@ public class Adver43Service {
 		}
 
 		categoryContainer.replace("categories", categories);
-		categorization.replace("list", categories);
-		newAd.replace("categorization", categorization);
 		
 		application.replace("CategoryContainer", categoryContainer);
-		application.replace("NewAdd", newAd);
 		
 		return application ;
 	}
@@ -251,8 +242,27 @@ public class Adver43Service {
 		return application;	
 	}
 
+	@SuppressWarnings("unchecked")
+	public JSONArray getListOfCategories() {
+		List<Category> cateListList= dao.Categories();		
+		JSONArray categories = new JSONArray();
 
+		for(Category cat:cateListList) {
 
+			categories.add(cat.getName());
+		}
+		return categories;
+	}
+	@SuppressWarnings("unchecked")
+	public JSONArray getListOfLocations() {
+		List<Location> locationList= dao.locations();
+		JSONArray locations = new JSONArray();
+
+		for(Location loc:locationList) {
+			locations.add(loc.getLocation());
+		}
+		return locations;
+	}
 
 	@SuppressWarnings("unchecked")
 	public JSONObject getMainApplication(String lang) {
