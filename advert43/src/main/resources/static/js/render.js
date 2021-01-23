@@ -221,8 +221,8 @@ function Render(app) {
 		var profile  = null;
 		userName = $("<h6>");
 		name = $("<span>");
-		userLink = $("<a>");;
-		userImage = $("<img>");
+		userLink = $("<a>");
+		userImage = $("<img >");
 		profile = $("<a>");
 		// render the name of user
 		name.html(app.UserContainer.User.name);
@@ -234,6 +234,7 @@ function Render(app) {
 		profile.html(app.UserContainer.User.profile);
 		// render the image of user 
 		userImage.attr("src", app.UserContainer.User.image);
+		console.log(app.UserContainer.User.image);
 		userImage.attr("id", app.UserContainer.User.imageCssId);
 		profile.attr("href", app.UserContainer.User.profileLink);
 		profile.attr("id", app.UserContainer.User.profileCssId);
@@ -380,7 +381,7 @@ function Render(app) {
 			cardColumn.prop("type","OC");
 			var singleBotton = $('<div class="single-bottom mb-35">');
 			var image = $('<img>');
-			image.attr("src", element.image);
+			image.attr("src", "data:image/jpg;base64,"+element.image);
 			singleBotton.append(image);
 			var bottonCap = $('<div class="trend-bottom-cap">');
 			bottonCap.append($('<h6>').text(element.header));
@@ -478,7 +479,7 @@ function Render(app) {
 			cardColumn.prop("type","NC");
 			var singleBotton = $('<div class="single-bottom mb-35">');
 			var image = $('<img>');
-			image.attr("src", element.image);
+			image.attr("src", "data:image/jpg;base64,"+element.image);
 			singleBotton.append(image);
 			var bottonCap = $('<div class="trend-bottom-cap">');
 			bottonCap.append($('<h6>').text(element.header));
@@ -585,7 +586,7 @@ function Render(app) {
 						var cardColumn = $('<div class="col-md-3 old-card">');
 						var singleBotton = $('<div class="single-bottom mb-35">');
 						var image = $('<img>');
-						image.attr("src", element.image);
+						image.attr("src", "data:image/jpg;base64,"+element.image);
 						singleBotton.append(image);
 						var bottonCap = $('<div class="trend-bottom-cap">');
 						bottonCap.append($('<h6>').text(element.header));
@@ -612,7 +613,7 @@ function Render(app) {
 						var cardColumn = $('<div class="col-md-3 old-card">');
 						var singleBotton = $('<div class="single-bottom mb-35">');
 						var image = $('<img>');
-						image.attr("src", element.image);
+						image.attr("src", "data:image/jpg;base64,"+element.image);
 						singleBotton.append(image);
 						var bottonCap = $('<div class="trend-bottom-cap">');
 						bottonCap.append($('<h6>').text(element.header));
@@ -1515,10 +1516,10 @@ function Render(app) {
             // img fazia
             return;
         }
-        render.MoveImageToserver($("#img").val());
+        render.MoveImageToserver($("#img"));
         slideList.push(img);
         // comment the line bellow when the server ajax request are running
-        render.SlideRender();
+        //render.SlideRender();
 
     }
     /*
@@ -1533,7 +1534,7 @@ function Render(app) {
     this.MoveImageToserver = function (image) {
         // get the  image and move to server folder 
         // and return de urlBase of image ex: urlBase = "image/slideAds/"
-        $.post('MoveImageToserver', 'image', 'MoveImageToserverCallBack');
+        $.get('slide_upload', image, 'MoveImageToserverCallBack');
     }
     // get the ajax response of MoveImageToserver
     this.MoveImageToserverCallBack = function (data, status) {
@@ -1907,7 +1908,7 @@ function Render(app) {
 			var cardColumn = $('<div class="col-md-3 old-card">');
 			var singleBotton = $('<div class="single-bottom mb-35">');
 			var image = $('<img>');
-			image.attr("src", element.image);
+			image.attr("src", "data:image/jpg;base64,"+element.image);
 			singleBotton.append(image);
 			var bottonCap = $('<div class="trend-bottom-cap">');
 			bottonCap.append($('<h6>').text(element.header));
@@ -1983,7 +1984,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2057,7 +2058,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2082,7 +2083,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2127,7 +2128,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2152,7 +2153,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2189,7 +2190,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2212,7 +2213,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2771,7 +2772,7 @@ function setRandomAd(){
 
 		var adContainer = document.querySelector(".adContainer");
 		console.log("ad: "+ JSON.stringify(ad));
-		adContainer.setAttribute('src',ad.image);
+		adContainer.setAttribute('src',"data:image/jpg;base64,"+ad.image);
 
 	});
 }

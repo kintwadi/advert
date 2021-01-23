@@ -14,6 +14,7 @@ public class Constants {
 	public static final String CARD_FOOTER_LINK = "link";
 	public static final String CARD_FOOTER = "Footer";
 	public static final String LANGUAGE = "pt";
+	public static final String SLIDE_UPLOAD_DIRETORY = System.getProperty("user.dir")+"/uploads";
 	// Views
 	public static final String VIEW_HOME = "home";
 	public static final String VIEW_SINGLE_CARD  = "single_card";
@@ -30,6 +31,7 @@ public class Constants {
 	public static final String QUERY_CAREGORIES = "/query_categories";
 	public static final String CAREGORIES_LIST = "/categories_list";
 	public static final String LOCATIONS_LIST = "/locations_list";
+	public static final String SLIDE_UPLOAD = "/slide_upload";
 	
 	public static final String ALL_SUBCATEGORIES = "/query_subCategory_all";
 

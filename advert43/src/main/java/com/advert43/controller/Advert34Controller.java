@@ -1,8 +1,19 @@
 package com.advert43.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.jni.File;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
@@ -65,7 +78,7 @@ public class Advert34Controller {
 		return service.oldEntries(Constants.LANGUAGE);
 
 	}
-
+	
 	@GetMapping(Constants.CATEGORIES)
 	@ResponseBody
 	public JSONObject categories(Model model){
@@ -98,7 +111,23 @@ public class Advert34Controller {
 		return service.defaultAd("right_side");
 
 	}
-
+	
+	@GetMapping(Constants.SLIDE_UPLOAD)
+	public String upload(Model model, @RequestParam("files") MultipartFile file) {
+		StringBuilder fileName = new  StringBuilder();
+		Path fileNameAndPath = Paths.get(Constants.SLIDE_UPLOAD_DIRETORY,file.getOriginalFilename());
+		fileName.append(file.getOriginalFilename());
+		System.out.println("image: "+fileName);
+		try {
+			Files.write(fileNameAndPath,file.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.addAttribute("msg", "Successfully upload image to slide"+fileName.toString());
+		return Constants.SLIDE_UPLOAD_DIRETORY;
+	}
+	
 	@GetMapping(Constants.SINGLE_CARD)
 	public String singleCardPage(Model model, HttpServletRequest request) {
 
@@ -136,10 +165,12 @@ public class Advert34Controller {
 		if(Util.isValid(email)) {
 
 			User user = service.findByEmail(email);
+			//user.setPhoto(service.decompressBytes(user.getPhoto()));
+			//testeToGenerateImgIntemporaryFolder(user.getPhoto().getBytes(),user.getPhoto().length());
+		    //user.setPhoto(Base64.getEncoder().encodeToString(user.getPhoto().));
 			if(user!= null && remember != user.isRemember() && password.equals(user.getPassword())) {
 
 				service.updateUserRemember(email, remember);
-
 
 			}
 			
@@ -149,8 +180,17 @@ public class Advert34Controller {
 
 		return profile;
 	}
-
-
+	private void testeToGenerateImgIntemporaryFolder(byte[] img, int len) {
+		String url = System.getProperty("user.dir");
+		String imageName = url+"\\uploads\\user.jpg";
+		try(FileOutputStream fs = new FileOutputStream(imageName)){
+			fs.write(img, 0, len);
+			System.out.println("imagem criada :"+imageName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
 	@GetMapping("/profile")
 	public String admin(Model model) {
 		//System.out.println(service.getListOfCategories());

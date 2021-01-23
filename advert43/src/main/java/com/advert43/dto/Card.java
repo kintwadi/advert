@@ -22,7 +22,7 @@ public class Card implements Serializable{
 	private int id;
 	private String header; // title
 	private String description;
-	private String image; // cover image
+	private byte[] image; // cover image
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "footer_id", referencedColumnName = "footer_id")
@@ -57,10 +57,10 @@ public class Card implements Serializable{
 		this.header = header;
 	}
 
-	public String getImage() {
+	public byte[] getImage() {
 		return image;
 	}
-	public void setImage(String image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 

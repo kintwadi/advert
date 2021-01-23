@@ -12,8 +12,9 @@ function setUserInfo(){
 	  	var userId = localStorage.userId;
 	 	var username = localStorage.username;
 	 	var userphoto = localStorage.userphoto;
-	 	
-	 	$("#user-link-img").attr("src",userphoto);
+	 	console.log(userphoto);
+	 	//$("#user-link-img").attr("src","img/uploads/user.jpg");
+	 	$("#user-link-img").attr("src","data:image/jpg;base64,"+userphoto);
 	 	$("#user-name-id").html(username);
 	 	$("#new-card").css("display","none");
 		$(".newEntriesContainer").css("display","none");
