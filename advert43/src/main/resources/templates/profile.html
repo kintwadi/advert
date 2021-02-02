@@ -3,6 +3,7 @@
 
 <head th:insert="links :: header_links">
 	<meta  http-equiv="content-type" content="text/html;charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
 	<meta name="google" content="notranslate">
   <title></title>
 
@@ -134,8 +135,10 @@
                   <div class="row">
                     <div class="col-md-1 border-right">
                       <div class="box" id="imgBox">
+                      <form action="" enctype="multipart/form-data">
                         <input type="file" id="img" class="inputfile inputfile-1 form-control" name="puth"
                           accept="image/jpeg, image/png">
+                        </form>
                         <label for="img">
                           <img data-toggle="tooltip" data-placement="right" class="puth" src="img/add-photo.png">
                         </label>

@@ -1386,7 +1386,7 @@ function Render(app) {
     */
     this.LoadAllAds = function(){
         // this request go at server and return the ads of current user 
-        $.get('LoadAllAds',null,'LoadAllAdsCallBack');
+        //$.get('LoadAllAds',null,'LoadAllAdsCallBack');
     }
     // get the ajax response of LoadAllAds
     this.LoadAllAdsCallBack = function (data, status) {
@@ -1517,7 +1517,7 @@ function Render(app) {
             return;
         }
         render.MoveImageToserver($("#img"));
-        slideList.push(img);
+        //slideList.push(img);
         // comment the line bellow when the server ajax request are running
         //render.SlideRender();
 
@@ -1531,17 +1531,49 @@ function Render(app) {
     *  return the urlBase of folder
     *  
     */
+    this.convert = function (my) {
+
+        var arrayBuffer = my;
+        let array = new Uint8Array(arrayBuffer);
+        let binaryString = String.fromCharCode.apply(null, array);
+
+        //console.log(binaryString);
+        //alert(binaryString);
+        return binaryString;
+    }
+    /*document.getElementById('img').addEventListener('change', function () {
+
+        var reader = new FileReader();
+        
+        reader.onload = function(){
+            var bytes = render.convert(this.result);
+        	//alert(bytes);
+        	console.log(bytes);
+        	//slideList.push(bytes);
+        	//render.SlideRender();
+        	render.MoveImageToserver(bytes);
+        };
+        var vall = reader.readAsArrayBuffer(this.files[0]);
+
+    }, false);
+    */
     this.MoveImageToserver = function (image) {
         // get the  image and move to server folder 
         // and return de urlBase of image ex: urlBase = "image/slideAds/"
-        $.get('slide_upload', image, 'MoveImageToserverCallBack');
+        let imageFile = new FormData();
+        //imageFile.append('image',imageFile.get('image'));
+        
+        $.post('slide_upload', {image:image.prop('file')}, this.MoveImageToserverCallBack);
     }
+
     // get the ajax response of MoveImageToserver
     this.MoveImageToserverCallBack = function (data, status) {
-        console.log("response data::" + data);
+    	console.log("response data::" + data);
         console.log("response status::" + status);
         // this is the urlBase f image 
-        urlBase = data;
+        //slideList = null;
+        slideList.push(data);
+        //alert("response data::" + data);
         // this render the slide
         render.SlideRender();
     }
@@ -1587,7 +1619,7 @@ function Render(app) {
             span.append(i);
             indexOf = index + 1;
             let img = $('<img>');
-            img.attr("src", urlBase + "" + element);
+            img.attr("src", "data:image/jpg;base64," + element);
             span.click(
                 function () {
                     render.DeleteSlideImg(index);
@@ -2770,9 +2802,10 @@ function setRandomAd(){
 
 	$.get("app_random_ad", function(ad, status){
 
-		var adContainer = document.querySelector(".adContainer");
-		console.log("ad: "+ JSON.stringify(ad));
-		adContainer.setAttribute('src',"data:image/jpg;base64,"+ad.image);
+		var adContainer = $('.adContainer');
+		//console.log("ad: "+ JSON.stringify(ad));
+		//alert(ad.image);
+		adContainer.attr("src","data:image/jpg;base64,"+ad.image);
 
 	});
 }

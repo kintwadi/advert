@@ -1,5 +1,7 @@
 package com.advert43.dto;
 
+import java.util.ArrayList;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,6 +33,7 @@ public class CardDetails {
 	private String province;
 	private String street;
 	private String reference;
+	private ArrayList<CardImage> cardImages;
 	// publish now
 	private boolean publish;
         // i commented this relation 'cause was sugested do it yet
@@ -58,10 +61,17 @@ public class CardDetails {
 		return price;
 	}
 
+	public void setCardImages(ArrayList<CardImage> cardImage) {
+		this.cardImages = cardImage;
+	}
+	
+	public ArrayList<CardImage> getCardImages() {
+		return cardImages;
+	}
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
 	public boolean isStatus() {
 		return status;
 	}

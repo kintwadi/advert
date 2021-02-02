@@ -16,7 +16,7 @@ public class CardImage implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="card_image_id")
 	private int id;
-	private String image;
+	private byte[] image;
 	private boolean isCover;
 	public int getId() {
 		return id;
@@ -24,10 +24,10 @@ public class CardImage implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getImage() {
+	public byte[] getImage() {
 		return image;
 	}
-	public void setImage(String image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	public boolean isCover() {

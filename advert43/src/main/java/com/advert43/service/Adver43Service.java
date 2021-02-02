@@ -68,8 +68,12 @@ public class Adver43Service {
 			jCard.put("id", card.getId());
 			jCard.put("header", card.getHeader());
 			jCard.put("description", card.getDescription());
-			jCard.put("image", card.getImage());
-
+			// use the image cover to default image
+			if(card.getCardDetail().getCardImages().size()>0) {
+				jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+			}else {
+				jCard.put("image", "img/ads.png");
+			}
 			JSONObject jFooter = new JSONObject();
 
 			jFooter.put("price", card.getFooter().getPrice());
@@ -145,7 +149,12 @@ public class Adver43Service {
 			jCard.put("id", card.getId());
 			jCard.put("header", card.getHeader());
 			jCard.put("description", card.getDescription());
-			jCard.put("image", card.getImage());
+			// use the image cover to default image
+			if(card.getCardDetail().getCardImages().size()>0) {
+				jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+			}else {
+				jCard.put("image", "img/ads.png");
+			}
 
 			JSONObject jFooter = new JSONObject();
 
@@ -217,7 +226,6 @@ public class Adver43Service {
 		List<Ad> ads = dao.randomAds();
 		Random rand = new Random(); 
 		int index = rand.nextInt(ads.size()); 
-
 		return ads.get(index);
 	}
 
@@ -322,13 +330,17 @@ public class Adver43Service {
 			counts.clear();
 
 			cards.forEach(card -> {
-
 				JSONObject jCard = new JSONObject();
 				jCard.put("id", card.getId());
 				jCard.put("header", card.getHeader());
 				jCard.put("description", card.getDescription());
-				jCard.put("image", card.getImage());
-
+				// use the image cover to default image
+				if(card.getCardDetail().getCardImages().size()>0) {
+					jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+				}else {
+					jCard.put("image", "img/ads.png");
+				}
+				
 				JSONObject jFooter = new JSONObject();
 
 				jFooter.put("price", card.getFooter().getPrice());
@@ -363,8 +375,12 @@ public class Adver43Service {
 				jCard.put("id", card.getId());
 				jCard.put("header", card.getHeader());
 				jCard.put("description", card.getDescription());
-				jCard.put("image", card.getImage());
-
+				// use the image cover to default image
+				if(card.getCardDetail().getCardImages().size()>0) {
+					jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+				}else {
+					jCard.put("image", "img/ads.png");
+				}
 				JSONObject jFooter = new JSONObject();
 
 				jFooter.put("price", card.getFooter().getPrice());

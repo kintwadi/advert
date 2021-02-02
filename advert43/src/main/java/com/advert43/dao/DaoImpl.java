@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
+import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
 import com.advert43.dto.Location;
 import com.advert43.dto.SubCategory;
@@ -59,11 +60,13 @@ public class DaoImpl  implements IDao {
 		Query query = entityManager.createNativeQuery("Select * from card ",Card.class);
 
 		List<Card> cards = query.getResultList();
-
+		cards.forEach(card->{
+			card.getCardDetail().setCardImages(this.findCardImagesByCardDetailsId(card.getCardDetail().getId()));
+		});
 		return cards;
 
-
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> Categories() {
@@ -72,6 +75,16 @@ public class DaoImpl  implements IDao {
 
 		List<Category> categories = query.getResultList();
 		return categories;
+	}
+	@Override
+	public ArrayList<CardImage> findCardImagesByCardDetailsId(int cardDetailsId){
+		Query query = entityManager.createNativeQuery("Select * from card_image where card_detail_id = ?",CardImage.class);
+		query.setParameter(1, cardDetailsId);
+		@SuppressWarnings("unchecked")
+		List<CardImage> cardImages = query.getResultList();
+		ArrayList<CardImage> imgs = new ArrayList<>();
+		imgs.addAll(cardImages);
+		return imgs;
 	}
 	@Override
 	public List<List<SubCategory>> categoryDataList() {

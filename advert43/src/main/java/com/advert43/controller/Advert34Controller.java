@@ -8,9 +8,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 
 import javax.servlet.ServletContext;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tomcat.jni.File;
@@ -23,6 +25,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.advert43.dto.Ad;
@@ -36,6 +41,8 @@ import com.advert43.util.Constants;
 import com.advert43.util.Util;
 import com.google.gson.JsonArray;
 
+import antlr.collections.List;
+
 @Controller
 public class Advert34Controller {
 
@@ -43,7 +50,7 @@ public class Advert34Controller {
 	ServletContext servletContext;
 	@Autowired
 	private Adver43Service service;
-
+	private ArrayList<byte[]> slideList = new ArrayList();
 
 	@GetMapping(Constants.ROOT)
 	public String home(Model model) {
@@ -70,7 +77,6 @@ public class Advert34Controller {
 
 	}
 
-
 	@GetMapping(Constants.OLD_ENTRIES)
 	@ResponseBody
 	public JSONObject oldEntries(Model model){
@@ -90,8 +96,6 @@ public class Advert34Controller {
 	@GetMapping(Constants.RANDOM_AD)
 	@ResponseBody
 	public Ad getRandomAd(Model model){
-
-
 		return service.getRandomAds(Constants.LANGUAGE);
 	}
 
@@ -112,22 +116,15 @@ public class Advert34Controller {
 
 	}
 	
-	@GetMapping(Constants.SLIDE_UPLOAD)
-	public String upload(Model model, @RequestParam("files") MultipartFile file) {
-		StringBuilder fileName = new  StringBuilder();
-		Path fileNameAndPath = Paths.get(Constants.SLIDE_UPLOAD_DIRETORY,file.getOriginalFilename());
-		fileName.append(file.getOriginalFilename());
-		System.out.println("image: "+fileName);
-		try {
-			Files.write(fileNameAndPath,file.getBytes());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		model.addAttribute("msg", "Successfully upload image to slide"+fileName.toString());
-		return Constants.SLIDE_UPLOAD_DIRETORY;
+	@PostMapping(Constants.SLIDE_UPLOAD)
+	public ArrayList<byte[]> slide_upload(Model model, @RequestParam("image")  MultipartFile multipartFile) throws IOException {
+		//MultipartFile file = request.getParameter("image").getBytes();
+		//String f = request.getParameter("image");
+		System.out.println(multipartFile.getBytes());
+		slideList.add(multipartFile.getBytes());
+		return slideList;
 	}
-	
+	 
 	@GetMapping(Constants.SINGLE_CARD)
 	public String singleCardPage(Model model, HttpServletRequest request) {
 
@@ -173,7 +170,7 @@ public class Advert34Controller {
 				service.updateUserRemember(email, remember);
 
 			}
-			
+			System.out.println(user.getPhoto());
 			user.setPassword("");	
 			profile.setUser(user);
 		}

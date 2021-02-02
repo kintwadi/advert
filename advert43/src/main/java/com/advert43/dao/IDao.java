@@ -1,9 +1,11 @@
 package com.advert43.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
+import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
 import com.advert43.dto.Location;
 import com.advert43.dto.SubCategory;
@@ -21,5 +23,6 @@ public interface IDao {
 	public User addUser(User user);
 	public User findByEmail(String email);
 	public User findUserById(int id);
+	public ArrayList<CardImage> findCardImagesByCardDetailsId(int cardDetailsId);
 	public void updateUserRemember(String email,boolean remember);
 }
