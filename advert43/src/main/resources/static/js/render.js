@@ -678,6 +678,7 @@ function Render(app) {
         // this is the update list of the categorizations on create new Card
         app.NewAdd.categorization.list = data;
 		render.renderDataCategorization();
+		render.renderDataSubCategorization(null);
     });
     // get all locations and render then
     	$.get("locations_list", function (data, status) {
@@ -697,12 +698,35 @@ function Render(app) {
             const element = newAd.categorization.list[index];
             let option = $('<option>');
             let indexOf = index + 1;
-            option.attr("value", "category_" + indexOf);
+            option.attr("value", indexOf);
             option.text(element);
             $("#categorizationList").append(option);
         }
         $("#placeCategorization").text(newAd.categorization.placeholder);
         $("#categorizationList").val(null);
+        $("#categorizationList").change(function(){
+        	//alert("mudou para: "+$("#categorizationList").val()+" user:"+localStorage.userId);
+        	$.get('subcategories_list',{category:$("#categorizationList").val()},function(data){
+        		render.renderDataSubCategorization(data);
+        	});
+        });
+    }
+    
+    this.renderDataSubCategorization = function(data){
+    	let newAd = app.NewAdd;
+		$("#lblSubcategory").text(newAd.subcategory.text);
+        let _sizeSubCategory = data.length;
+        $("#subcategory").find('option').remove().end();
+        for (let index = 0; index < _sizeSubCategory; index++) {
+            const element = data[index];
+            let option = $('<option>');
+            let indexOf = index + 1;
+            option.attr("value", indexOf);
+            option.text(element);
+            $("#subcategory").append(option);
+        }
+        $("#placeSubcategory").text(newAd.subcategory.placeholder);
+        $("#subcategory").val(null);
     }
     this.renderDataProvince = function(){
         let newAd = app.NewAdd;
@@ -713,7 +737,7 @@ function Render(app) {
             const element = newAd.province.list[index];
             let option = $('<option>');
             let indexOf = index + 1;
-            option.attr("value", "state_" + indexOf);
+            option.attr("value", indexOf);
             option.text(element);
             $("#inputState").append(option);
         }
@@ -1127,7 +1151,7 @@ function Render(app) {
         $("#new").prepend(newAd.new);
         $("#used").prepend(newAd.used);
         
-        $("#subcategory").attr("placeholder", newAd.subcategory);
+        //$("#subcategory").attr("placeholder", newAd.subcategory);
         $("#zip").text(newAd.zip);
         
         $("#street").text(newAd.street);
@@ -1227,15 +1251,7 @@ function Render(app) {
     }
     this.CreateNewAdWithModalData = function () {
         let ad = {};
-        let _size = slideList.length;
-        let urlBase = "img/backgrounds/";
-        let images = [];
-        for (let index = 0; index < _size; index++) {
-            const element = slideList[index];
-            let image = urlBase + "" + element;
-            images.push(image);
-        }
-        ad.UploadImage = images;
+        ad.UploadImage = slideList;
         AddType = {
             offer: true,
             looking: true,
@@ -1418,8 +1434,7 @@ function Render(app) {
     this.SaveNewAdInToServer = function(ad){
         // this request go at server and add new ad and return the update list of ads
     	ad.userId = localStorage.userId;
-    	console.log("aqui:: "+add.toString());
-        $.post('saveNewAd',ad,this.SaveNewAdInToServerCallBack);
+    	$.post('saveNewAd', ad, this.SaveNewAdInToServerCallBack);
     }
     // get the ajax response of SaveNewAdInToServer
     this.SaveNewAdInToServerCallBack = function (data, status) {
@@ -1450,7 +1465,7 @@ function Render(app) {
         publish1 = {
             title: "Publish",
             state: "publish-on",
-            image: "img/1.jpg",
+            image: "",
             Edit: {
                 cssId: "btn_edit",
                 title: "Edit",
@@ -1466,9 +1481,10 @@ function Render(app) {
             publish1.state = "publish-on";
         else
             publish1.state = "publish-off";
-        if (ad.UploadImage.length > 0)
-            publish1.image = ad.UploadImage[0];
-
+        if (ad.UploadImage.length > 0){
+            publish1.image = ad.UploadImage[0].image;
+			//console.log(ad.UploadImage[0].image);
+		}
         if (position >= 0 && position < app.Publisher.publishList.length) {
             app.Publisher.publishList[position] = publish1;
         } else {
@@ -1516,7 +1532,7 @@ function Render(app) {
             // img fazia
             return;
         }
-        render.MoveImageToserver($("#img"));
+        render.MoveImageToserver($("#formUpload")[0]);
         //slideList.push(img);
         // comment the line bellow when the server ajax request are running
         //render.SlideRender();
@@ -1541,42 +1557,38 @@ function Render(app) {
         //alert(binaryString);
         return binaryString;
     }
-    /*document.getElementById('img').addEventListener('change', function () {
-
-        var reader = new FileReader();
-        
-        reader.onload = function(){
-            var bytes = render.convert(this.result);
-        	//alert(bytes);
-        	console.log(bytes);
-        	//slideList.push(bytes);
-        	//render.SlideRender();
-        	render.MoveImageToserver(bytes);
-        };
-        var vall = reader.readAsArrayBuffer(this.files[0]);
-
-    }, false);
-    */
     this.MoveImageToserver = function (image) {
         // get the  image and move to server folder 
         // and return de urlBase of image ex: urlBase = "image/slideAds/"
-        let imageFile = new FormData();
+        var imageFile = new FormData(image);
         //imageFile.append('image',imageFile.get('image'));
         
-        $.post('slide_upload', {image:image.prop('file')}, this.MoveImageToserverCallBack);
+        //$.post('slide_upload', imageFile, this.MoveImageToserverCallBack);
+        $.ajax({
+        type:"POST",
+        enctype:'multipart/form-data',
+        url:"slide_upload",
+        data:imageFile,
+        processData:false,
+        contentType:false,
+        cache:false,
+        success : this.MoveImageToserverCallBack,
+    	error : function(e){
+    		console.log(e.responseText);
+    	}
+        });
     }
 
     // get the ajax response of MoveImageToserver
-    this.MoveImageToserverCallBack = function (data, status) {
-    	console.log("response data::" + data);
-        console.log("response status::" + status);
-        // this is the urlBase f image 
-        //slideList = null;
-        slideList.push(data);
-        //alert("response data::" + data);
-        // this render the slide
-        render.SlideRender();
-    }
+    this.MoveImageToserverCallBack = function(data) {
+    	//console.log("response data::" + JSON.stringify(data));
+     	// this is the urlBase f image 
+       	//slideList = null;
+       	slideList.push(data);
+       	//alert("response data::" + JSON.stringify(data));
+       	// this render the slide
+       	render.SlideRender();
+   	}
     /*
     * this represents how to process the output or events
     * get the output data and prepare it for the back end
@@ -1587,17 +1599,18 @@ function Render(app) {
     */
     this.RemoveImageToserver = function (image) {
         // get the  image and move to server folder 
-        // and return de urlBase of image ex: urlBase = "image/slideAds/"
-        $.post('RemoveImageToserver', 'image', 'RemoveImageToserverCallBack');
+        // and return de image that was deleted"
+        console.log(image);
+        $.post('slide_delete', {position:image}, this.RemoveImageToserverCallBack);
     }
     // get the ajax response of RemoveImageToserver
     this.RemoveImageToserverCallBack = function (data, status) {
         console.log("response data::" + data);
         console.log("response status::" + status);
         // remove into variable list of imageSlide wheather status is success 
-        if (data == true) {
+        if (data != null) {
             // remove in local variable list of  image in to slide 
-            slideList.splice(index, 1);
+            slideList.splice(data, 1);
             // render the slide
             render.SlideRender();
         }
@@ -1619,7 +1632,7 @@ function Render(app) {
             span.append(i);
             indexOf = index + 1;
             let img = $('<img>');
-            img.attr("src", "data:image/jpg;base64," + element);
+            img.attr("src", "data:image/jpg;base64," + element.image);
             span.click(
                 function () {
                     render.DeleteSlideImg(index);
@@ -1679,9 +1692,9 @@ function Render(app) {
     var actualActive = 0;
     var action = 0;
     this.DeleteSlideImg = function (index) {
-        render.RemoveImageToserver(slideList[index]);
+        render.RemoveImageToserver(index);
         // comment this two lines bellow when the method that remove image in to Server just do and work 
-        slideList.splice(index, 1);
+        //slideList.splice(index, 1);
         render.SlideRender();
     }
     var indexEdit = -1;
@@ -1705,7 +1718,11 @@ function Render(app) {
             var panelBody = $('<div class="panel-body">');
             var picture = $('<div class="picture">');
             var image = $('<img alt="">');
-            image.attr("src", element.image);
+            if(element.image!=null){
+            	image.attr("src", "data:image/jpg;base64,"+element.image);
+            }else{
+            	image.attr("src", "");
+            }
             var tambler = $('<div>');
             tambler.addClass(element.state);
             tambler.attr("id", "state_" + val);

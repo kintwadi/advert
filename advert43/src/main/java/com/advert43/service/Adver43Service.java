@@ -18,7 +18,10 @@ import org.springframework.stereotype.Service;
 import com.advert43.dao.IDao;
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
+import com.advert43.dto.CardDetails;
+import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
+import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
 import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
@@ -301,6 +304,21 @@ public class Adver43Service {
 		return categories;
 	}
 	@SuppressWarnings("unchecked")
+	public Location findLocationByLocationId(int location_id){
+		return dao.findLocationByLocationId(location_id);
+	}
+	@SuppressWarnings("unchecked")
+	public JSONArray getListOfSubCategoriesFromcategory(int category) {
+		List<SubCategory> subcateListList = dao.subCategoryListFromCategory(category);		
+		JSONArray subcategories = new JSONArray();
+
+		for(SubCategory cat :subcateListList) {
+
+			subcategories.add(cat.getName());
+		}
+		return subcategories;
+	}
+	@SuppressWarnings("unchecked")
 	public JSONArray getListOfLocations() {
 		List<Location> locationList= dao.locations();
 		JSONArray locations = new JSONArray();
@@ -488,14 +506,23 @@ public class Adver43Service {
 
 		}
 	}
-	
+	public Footer findFooterByPrice(String price) {
+		return dao.findFooterByPrice(price);
+	}
+	public void saveFooter(Footer footer) {
+		dao.saveFooter(footer);
+	}
 	public User findUserById(int id) {
-		
 		return dao.findUserById(id);
 	}
+	public int saveCardDetails(CardDetails cardDetail) {
+		return dao.saveCardDetails(cardDetail);
+	}
+	public void saveCardImage(CardImage cardImage) {
+		dao.saveCardImage(cardImage);
+	}
 	public void saveCard(Card card) {
-		
-		
+		dao.saveCard(card);
 	}
 
 }

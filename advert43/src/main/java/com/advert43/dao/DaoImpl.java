@@ -8,12 +8,18 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.hibernate.Hibernate;
+import org.hibernate.action.internal.EntityInsertAction;
+import org.springframework.data.jpa.provider.HibernateUtils;
+import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.stereotype.Repository;
 
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
+import com.advert43.dto.CardDetails;
 import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
+import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
 import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
@@ -23,13 +29,64 @@ public class DaoImpl  implements IDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	private EntityManagerHolder entityManagerHolder; 
 	
-	
+	@Override
+	public Footer findFooterByPrice(String price) {
+		// TODO Auto-generated method stub
+		Query query = entityManager.createNativeQuery("Select * from footer where price = ?",Footer.class);
+		query.setParameter(1, price);
+		return (Footer) query.getSingleResult();
+	}
+	@Override
+	public SubCategory findSubCategoryById(int subcategory_id) {
+		// TODO Auto-generated method stub
+		Query query = entityManager.createNativeQuery("Select * from subcategory where subcategory_id = ?",SubCategory.class);
+		query.setParameter(1, subcategory_id);
+		return (SubCategory) query.getSingleResult();
+	}
+	@Override
+	public void saveFooter(Footer footer) {
+		// TODO Auto-generated method stub
+		entityManager.persist(footer);
+	}
+	@Override
+	public void saveSubCategory(SubCategory subcategory) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	@Transactional
+	public void saveCard(Card card) {
+		// TODO Auto-generated method stub
+		entityManager.persist(card);
+	}
+	@Override
+	@Transactional
+	public int saveCardDetails(CardDetails cardDetail) {
+		// TODO Auto-generated method stub
+		entityManager.persist(cardDetail);
+		entityManager.flush();
+		return cardDetail.getId();
+	}
+	@Override
+	@Transactional
+	public void saveCardImage(CardImage cardImage) {
+		// TODO Auto-generated method stub
+		entityManager.persist(cardImage);
+	}
 	@Override
 	public User addUser(User user) {
 		
 		return null;
 		
+	}
+	@Override
+	public Location findLocationByLocationId(int location_id) {
+		
+		Query query = entityManager.createNativeQuery("Select * from location where location_id = ?",Location.class);
+		query.setParameter(1, location_id);
+		return  (Location)query.getSingleResult();
 	}
 	@Override
 	public User findByEmail(String email) {
@@ -66,7 +123,15 @@ public class DaoImpl  implements IDao {
 		return cards;
 
 	}
-	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SubCategory> subCategoryListFromCategory(int category) {
+
+		Query query = entityManager.createNativeQuery("Select s.* from sub_category s where s.category_id = ?",SubCategory.class);
+		query.setParameter(1, category);
+		List<SubCategory> subcategories = query.getResultList();
+		return subcategories;
+	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> Categories() {

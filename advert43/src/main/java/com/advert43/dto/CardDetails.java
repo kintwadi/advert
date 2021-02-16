@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -33,14 +34,12 @@ public class CardDetails {
 	private String province;
 	private String street;
 	private String reference;
+	//@OneToMany(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "card_image_id", referencedColumnName = "card_detail_id")
 	private ArrayList<CardImage> cardImages;
 	// publish now
 	private boolean publish;
-        // i commented this relation 'cause was sugested do it yet
-	//@OneToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "card_image", referencedColumnName = "card_image_id")
-	//private CardImage cardImage;
-
+    
 	public int getId() {
 		return id;
 	}

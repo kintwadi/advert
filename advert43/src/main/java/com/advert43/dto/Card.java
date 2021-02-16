@@ -69,8 +69,12 @@ public class Card implements Serializable{
 		this.footer = footer;
 	}
 
-
-
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 	public User getUser() {
 		return user;
 	}

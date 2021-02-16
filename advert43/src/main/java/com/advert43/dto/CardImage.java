@@ -2,11 +2,14 @@ package com.advert43.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class CardImage implements Serializable{
@@ -18,6 +21,10 @@ public class CardImage implements Serializable{
 	private int id;
 	private byte[] image;
 	private boolean isCover;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "card_detail_id", referencedColumnName = "card_detail_id")
+	private CardDetails cardDetail;
+	
 	public int getId() {
 		return id;
 	}
@@ -35,6 +42,13 @@ public class CardImage implements Serializable{
 	}
 	public void setCover(boolean isCover) {
 		this.isCover = isCover;
+	}
+	
+	public CardDetails getCardDetail() {
+		return cardDetail;
+	}
+	public void setCardDetail(CardDetails cardDetail) {
+		this.cardDetail = cardDetail;
 	}
 	@Override
 	public String toString() {

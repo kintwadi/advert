@@ -19,6 +19,7 @@ import org.apache.tomcat.jni.File;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
 import com.advert43.dto.CardDetails;
+import com.advert43.dto.CardImage;
 import com.advert43.dto.Footer;
+import com.advert43.dto.Location;
 import com.advert43.dto.Profile;
 import com.advert43.dto.User;
 import com.advert43.service.Adver43Service;
@@ -50,7 +53,7 @@ public class Advert34Controller {
 	ServletContext servletContext;
 	@Autowired
 	private Adver43Service service;
-	private ArrayList<byte[]> slideList = new ArrayList();
+	private ArrayList<CardImage> slideList = new ArrayList();
 
 	@GetMapping(Constants.ROOT)
 	public String home(Model model) {
@@ -62,8 +65,6 @@ public class Advert34Controller {
 	@GetMapping(Constants.APP_MAIN)
 	@ResponseBody
 	public JSONObject getMainApplication(Model model){
-
-
 		return service.getMainApplication(Constants.LANGUAGE);
 
 	}
@@ -116,13 +117,29 @@ public class Advert34Controller {
 
 	}
 	
+	
 	@PostMapping(Constants.SLIDE_UPLOAD)
-	public ArrayList<byte[]> slide_upload(Model model, @RequestParam("image")  MultipartFile multipartFile) throws IOException {
-		//MultipartFile file = request.getParameter("image").getBytes();
-		//String f = request.getParameter("image");
-		System.out.println(multipartFile.getBytes());
-		slideList.add(multipartFile.getBytes());
-		return slideList;
+	@ResponseBody
+	public CardImage slide_upload(@RequestParam("puth")  MultipartFile multipartFile){
+		try {
+			CardImage img = new CardImage();
+			img.setImage(multipartFile.getBytes());
+			img.setCardDetail(null);
+			slideList.add(img);
+			return img;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@PostMapping(Constants.SLIDE_DELETE)
+	@ResponseBody
+	public int slide_delete(HttpServletRequest request){
+		int index = Integer.parseInt(request.getParameter("position"));
+		System.out.println(index);
+		slideList.remove(index);
+		return index;
 	}
 	 
 	@GetMapping(Constants.SINGLE_CARD)
@@ -200,7 +217,12 @@ public class Advert34Controller {
 	public JSONArray categoriesList(Model model) {
 		return service.getListOfCategories();
 	}
-	
+	@GetMapping(Constants.SUBCAREGORIES_LIST)
+	@ResponseBody
+	public JSONArray subCategoriesList(Model model, HttpServletRequest request) {
+		int category_id = Integer.parseInt(request.getParameter("category"));
+		return service.getListOfSubCategoriesFromcategory(category_id);
+	}
 	@GetMapping(Constants.LOCATIONS_LIST)
 	@ResponseBody
 	public JSONArray locationsList(Model model) {
@@ -213,39 +235,66 @@ public class Advert34Controller {
 
 		Card card = new Card();
 		cardCreate (card,request);
-		service.saveCard(card);
 		
 		for( String key : request.getParameterMap().keySet()) {
 
 			System.out.println("key: "+key);
-			System.out.println("value: "+request.getParameter(key));
-
+			if(key.contains("[image]")) {
+				System.out.println("value: "+request.getParameter(key).getBytes());
+			}else{
+				System.out.println("value: "+request.getParameter(key));
+			}
 		}
 		return "card saved";
 	}
+	
 	private void cardCreate (Card card,HttpServletRequest request) {
 
 		String header = request.getParameter("TitleOfAd");
 		String description = request.getParameter("Description");
-		String image = request.getParameter("image");// cover
 		
 		card.setDescription(description);
 		card.setHeader(header);
-		card.setImage(image);
 		
 		card.setFooter(footerCreate(request));
 		card.setUser(cardUserCreate(request));
 		card.setCardDetail(cardDetailsCreate(request));
-
+		createCardImage(card.getCardDetail(),request);
+		card.setLocation(LocationCreate(request));
+		service.saveCard(card);
+	}
+	private void createCardImage(CardDetails cd, HttpServletRequest request) {
+		for(int i = 0;i<slideList.size();i++) {
+			//System.out.println("imagem_capa: "+request.getParameter("UploadImage["+i+"][id]"));
+			//System.out.println("imagem_capa: "+request.getParameter("UploadImage["+i+"][cover]"));
+			//System.out.println("imagem_capa: "+request.getParameter("UploadImage["+i+"][image]").getBytes());
+			System.out.println("imagem_id: "+slideList.get(i).getId());
+			System.out.println("imagem_capa: "+slideList.get(i).isCover());
+			System.out.println("imagem: "+slideList.get(i).getImage());
+			if(i==0)
+				slideList.get(i).setCover(true);
+			slideList.get(i).setCardDetail(cd);
+			service.saveCardImage(slideList.get(i));
+		}
+		slideList = new ArrayList<CardImage>();
+	}
+	private Location LocationCreate(HttpServletRequest request) {
+		return  service.findLocationByLocationId(Integer.parseInt(request.getParameter("Province")));
 	}
 	private Footer footerCreate(HttpServletRequest request) {
 
 		String link = "";
 		String price = request.getParameter("Price");
-		Footer footer = new Footer();
-		footer.setLink(link);
-		footer.setPrice(price);
-
+		Footer footer = service.findFooterByPrice(price);
+		if(footer == null){
+			footer = new Footer();
+			footer.setLink(link);
+			footer.setPrice(price);
+			service.saveFooter(footer);
+			footer = service.findFooterByPrice(price);
+		}else
+			System.out.println("footer found:: "+ footer.toString());
+		
 		return footer;
 	}
 	
@@ -255,7 +304,7 @@ public class Advert34Controller {
 		
 		User user = service.findUserById(userId);
 		System.out.println("user found:: "+ user.toString());
-		return service.findUserById(userId);
+		return user;
 	}
 	
 	private CardDetails cardDetailsCreate(HttpServletRequest request) {
@@ -266,7 +315,7 @@ public class Advert34Controller {
 		String name = request.getParameter("Name");
 		String phoneState = request.getParameter("PhoneState");
 		
-		String publishNow = request.getParameter("PublishNow");
+		boolean publishNow = Boolean.parseBoolean(request.getParameter("PublishNow"));
 		String emailState = request.getParameter("EmailState");
 		String tips2 = request.getParameter("Tips2");
 		String preference = request.getParameter("Preference");
@@ -276,13 +325,36 @@ public class Advert34Controller {
 		String subcategory = request.getParameter("Subcategory");
 		String categorization = request.getParameter("Categorization");
 		
-		String used = request.getParameter("Used");
-		String newCard = request.getParameter("New");
-		String toGiveAwey = request.getParameter("ToGiveAwey");
-		String toChange = request.getParameter("ToChange");
+		cardDetails.setPublish(publishNow);
+		cardDetails.setReference(preference);
+		cardDetails.setStreet(street);
+		cardDetails.setProvince(province);
+		cardDetails.setSubcategory(subcategory);
+		cardDetails.setZipcode(zip);
+		cardDetails.setCategory(categorization);
 		
-		String negotiable = request.getParameter("Negotiable");
-		String price = request.getParameter("Price");
+		boolean used = Boolean.parseBoolean(request.getParameter("Used"));
+		boolean newCard = Boolean.parseBoolean(request.getParameter("New"));
+		
+		boolean status = false;
+		if(used) {
+			cardDetails.setStatus(false);
+		}else {
+			cardDetails.setStatus(true);
+		}
+		
+		boolean toGiveAwey = Boolean.parseBoolean(request.getParameter("ToGiveAwey"));
+		boolean toChange = Boolean.parseBoolean(request.getParameter("ToChange"));
+		boolean negotiable = Boolean.parseBoolean(request.getParameter("Negotiable"));
+		if(negotiable) {
+			cardDetails.setDealtype("Negotiable");
+		}else if(toChange) {
+			cardDetails.setDealtype("To change");
+		}else {
+			cardDetails.setDealtype("To give away");
+		}
+		double price = Double.parseDouble(request.getParameter("Price"));
+		cardDetails.setPrice(price);	
 		String tips = request.getParameter("Tips");
 		
 		boolean looking = Boolean.parseBoolean(request.getParameter("AddType[looking]"));
@@ -290,9 +362,10 @@ public class Advert34Controller {
 		if(looking) {
 			type = "looking";
 		}
-		
-		
-
+		cardDetails.setType(type);
+		int id = service.saveCardDetails(cardDetails);
+		System.out.println("cardDetail created with id: "+id);
+		cardDetails.setId(id);
 		return cardDetails;
 	}
 

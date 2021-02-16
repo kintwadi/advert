@@ -573,7 +573,15 @@ Application = {
                 "3"
             ]
         },
-        subcategory:"Enter your subcategory",
+        subcategory:{
+        text:"Subcategory",
+            placeholder:"select",
+            list:[
+                "1",
+                "2",
+                "3"
+            ]
+            },
         zip:"Zip",
         province:{
             text:"Province",
