@@ -1,7 +1,12 @@
 package com.advert43.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import javax.persistence.Query;
 
@@ -13,7 +18,10 @@ import org.springframework.stereotype.Service;
 import com.advert43.dao.IDao;
 import com.advert43.dto.Ad;
 import com.advert43.dto.Card;
+import com.advert43.dto.CardDetails;
+import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
+import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
 import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
@@ -63,8 +71,12 @@ public class Adver43Service {
 			jCard.put("id", card.getId());
 			jCard.put("header", card.getHeader());
 			jCard.put("description", card.getDescription());
-			jCard.put("image", card.getImage());
-
+			// use the image cover to default image
+			if(card.getCardDetail().getCardImages().size()>0) {
+				jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+			}else {
+				jCard.put("image", "img/ads.png");
+			}
 			JSONObject jFooter = new JSONObject();
 
 			jFooter.put("price", card.getFooter().getPrice());
@@ -88,7 +100,41 @@ public class Adver43Service {
 
 		return application;
 	}
-
+	// compress the image bytes before storing it in the database
+	    public static byte[] compressBytes(byte[] data) {
+	        Deflater deflater = new Deflater();
+	        deflater.setInput(data);
+	        deflater.finish();
+	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+	        byte[] buffer = new byte[1024];
+	        while (!deflater.finished()) {
+	            int count = deflater.deflate(buffer);
+	            outputStream.write(buffer, 0, count);
+	        }
+	        try {
+	            outputStream.close();
+	        } catch (IOException e) {
+	        }
+	        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+	        return outputStream.toByteArray();
+	    }
+    // uncompress the image bytes before returning it to the angular application
+	public static byte[] decompressBytes(byte[] data) {
+		        Inflater inflater = new Inflater();
+		        inflater.setInput(data);
+		        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+		        byte[] buffer = new byte[1024];
+		        try {
+		            while (!inflater.finished()) {
+		                int count = inflater.inflate(buffer);
+		                outputStream.write(buffer, 0, count);
+		            }
+		            outputStream.close();
+		        } catch (IOException ioe) {
+		        } catch (DataFormatException e) {
+		        }
+		        return outputStream.toByteArray();
+		    }
 	@SuppressWarnings("unchecked")
 	public JSONObject oldEntries(String lang) {
 
@@ -106,7 +152,12 @@ public class Adver43Service {
 			jCard.put("id", card.getId());
 			jCard.put("header", card.getHeader());
 			jCard.put("description", card.getDescription());
-			jCard.put("image", card.getImage());
+			// use the image cover to default image
+			if(card.getCardDetail().getCardImages().size()>0) {
+				jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+			}else {
+				jCard.put("image", "img/ads.png");
+			}
 
 			JSONObject jFooter = new JSONObject();
 
@@ -134,7 +185,7 @@ public class Adver43Service {
 		JSONObject categoryContainer = (JSONObject) application.get("CategoryContainer");
 		JSONArray categories = (JSONArray) categoryContainer.get("categories");
 		categories.clear();
-
+ 
 		List<List<SubCategory>> categoryDataList = dao.categoryDataList();
 
 		for(int i = 0; i < categoryDataList.size(); i++) {
@@ -144,7 +195,6 @@ public class Adver43Service {
 
 
 			Category parent = subCategories.get(i).getCategory();
-
 			JSONObject category = new JSONObject();
 			category.put("text",parent.getName() );
 			category.put("link","#" );
@@ -162,15 +212,15 @@ public class Adver43Service {
 				entries.add(CategoryItem1);
 
 			}
-
+ 
 			category.put("Entries", entries);
 			categories.add(category);
 		}
 
 		categoryContainer.replace("categories", categories);
-
+		
 		application.replace("CategoryContainer", categoryContainer);
-
+		
 		return application ;
 	}
 
@@ -179,7 +229,6 @@ public class Adver43Service {
 		List<Ad> ads = dao.randomAds();
 		Random rand = new Random(); 
 		int index = rand.nextInt(ads.size()); 
-
 		return ads.get(index);
 	}
 
@@ -243,8 +292,42 @@ public class Adver43Service {
 		return application;	
 	}
 
+	@SuppressWarnings("unchecked")
+	public JSONArray getListOfCategories() {
+		List<Category> cateListList= dao.Categories();		
+		JSONArray categories = new JSONArray();
 
+		for(Category cat:cateListList) {
 
+			categories.add(cat.getName());
+		}
+		return categories;
+	}
+	@SuppressWarnings("unchecked")
+	public Location findLocationByLocationId(int location_id){
+		return dao.findLocationByLocationId(location_id);
+	}
+	@SuppressWarnings("unchecked")
+	public JSONArray getListOfSubCategoriesFromcategory(int category) {
+		List<SubCategory> subcateListList = dao.subCategoryListFromCategory(category);		
+		JSONArray subcategories = new JSONArray();
+
+		for(SubCategory cat :subcateListList) {
+
+			subcategories.add(cat.getName());
+		}
+		return subcategories;
+	}
+	@SuppressWarnings("unchecked")
+	public JSONArray getListOfLocations() {
+		List<Location> locationList= dao.locations();
+		JSONArray locations = new JSONArray();
+
+		for(Location loc:locationList) {
+			locations.add(loc.getLocation());
+		}
+		return locations;
+	}
 
 	@SuppressWarnings("unchecked")
 	public JSONObject getMainApplication(String lang) {
@@ -265,13 +348,17 @@ public class Adver43Service {
 			counts.clear();
 
 			cards.forEach(card -> {
-
 				JSONObject jCard = new JSONObject();
 				jCard.put("id", card.getId());
 				jCard.put("header", card.getHeader());
 				jCard.put("description", card.getDescription());
-				jCard.put("image", card.getImage());
-
+				// use the image cover to default image
+				if(card.getCardDetail().getCardImages().size()>0) {
+					jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+				}else {
+					jCard.put("image", "img/ads.png");
+				}
+				
 				JSONObject jFooter = new JSONObject();
 
 				jFooter.put("price", card.getFooter().getPrice());
@@ -306,8 +393,12 @@ public class Adver43Service {
 				jCard.put("id", card.getId());
 				jCard.put("header", card.getHeader());
 				jCard.put("description", card.getDescription());
-				jCard.put("image", card.getImage());
-
+				// use the image cover to default image
+				if(card.getCardDetail().getCardImages().size()>0) {
+					jCard.put("image", card.getCardDetail().getCardImages().get(0).getImage());
+				}else {
+					jCard.put("image", "img/ads.png");
+				}
 				JSONObject jFooter = new JSONObject();
 
 				jFooter.put("price", card.getFooter().getPrice());
@@ -415,14 +506,23 @@ public class Adver43Service {
 
 		}
 	}
-	
+	public Footer findFooterByPrice(String price) {
+		return dao.findFooterByPrice(price);
+	}
+	public void saveFooter(Footer footer) {
+		dao.saveFooter(footer);
+	}
 	public User findUserById(int id) {
-		
 		return dao.findUserById(id);
 	}
+	public int saveCardDetails(CardDetails cardDetail) {
+		return dao.saveCardDetails(cardDetail);
+	}
+	public void saveCardImage(CardImage cardImage) {
+		dao.saveCardImage(cardImage);
+	}
 	public void saveCard(Card card) {
-		
-		
+		dao.saveCard(card);
 	}
 
 }
