@@ -3,6 +3,7 @@
 
 <head th:insert="links :: header_links">
 	<meta  http-equiv="content-type" content="text/html;charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
 	<meta name="google" content="notranslate">
   <title></title>
 
@@ -134,8 +135,10 @@
                   <div class="row">
                     <div class="col-md-1 border-right">
                       <div class="box" id="imgBox">
+                      <form id="formUpload"	enctype="multipart/form-data">
                         <input type="file" id="img" class="inputfile inputfile-1 form-control" name="puth"
                           accept="image/jpeg, image/png">
+                        </form>
                         <label for="img">
                           <img data-toggle="tooltip" data-placement="right" class="puth" src="img/add-photo.png">
                         </label>
@@ -206,6 +209,12 @@
                         </div>
                       </div>
                       <div class="form-group row">
+                        <label for="inputText" class="col-sm-2 col-form-label" id="price"></label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="priceVal">
+                        </div>
+                      </div>
+                      <div class="form-group row">
                         <label for="inputText" class="col-sm-2 col-form-label" id="lblDescription"></label>
                         <div class="col-sm-10">
                           <textarea class="form-control" rows="3" id="descriptionVal"></textarea>
@@ -221,15 +230,8 @@
                   </div>
 
                   <div class="row margin-botton">
-                    <div class="col-md-3">
-                      <div class="form-group row">
-                        <label for="inputText" class="col-sm-6 col-form-label" id="price"></label>
-                        <div class="col-sm-6">
-                          <input type="text" class="form-control" id="priceVal">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-9">
+                    
+                    <div class="col-md-12">
                       <div class="form-check form-check-inline">
                         <label for="iNegotiable" class="btn btn-warning radio" id="negotiable">
                           <input type="radio" class="badgebox" name="price" id="iNegotiable" value="">
@@ -248,11 +250,6 @@
                           <span class="badge"><i class="fa fa-circle"></i></span>
                         </label>
                       </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-12 text-center">
                       <div class="form-check form-check-inline">
                         <label for="iNew" class="btn btn-warning radio" id="new">
                           <input type="radio" id="iNew" name="stateAd" class="badgebox">
@@ -281,13 +278,16 @@
                     <div class="col-md-9">
                       <div class="form-group row">
                         <label for="inputText" class="col-sm-2 col-form-label" id="categorization"></label>
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                           <select class="form-control" id="categorizationList">
                             <option selected class="none" id="placeCategorization"></option>
                           </select>
                         </div>
-                        <div class="col-sm-5">
-                          <input type="text" class="form-control" id="subcategory">
+                        <label for="inputText" class="col-sm-2 col-form-label" id="lblSubcategory"></label>
+                        <div class="col-sm-4">
+                          <select class="form-control" id="subcategory">
+                            <option selected class="none" id="placeSubcategory"></option>
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -302,19 +302,19 @@
               <div class="row ">
                 <div class="col-md-12">
                   <div class="form-row">
-                    <div class="form-group col-md-2">
-                      <label for="inputZip" id="zip"></label>
-                      <input type="text" class="form-control" id="iZip">
-                    </div>
                     <div class="form-group col-md-4">
-                      <label for="inputState" id="province"></label>
+                     <label for="inputState" id="province"></label>
                       <select id="inputState" class="form-control">
                         <option selected class="none" id="placeState"></option>
                       </select>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                       <label for="inputCity" id="street"></label>
                       <input type="text" id="iStreet" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputZip" id="zip"></label>
+                      <input type="text" class="form-control" id="iZip">
                     </div>
                   </div>
                   <div class="form-row">

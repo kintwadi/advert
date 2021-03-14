@@ -22,7 +22,6 @@ public class Card implements Serializable{
 	private int id;
 	private String header; // title
 	private String description;
-	private String image; // cover image
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "footer_id", referencedColumnName = "footer_id")
@@ -57,14 +56,6 @@ public class Card implements Serializable{
 		this.header = header;
 	}
 
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-
 	public String getDescription() {
 		return description;
 	}
@@ -78,8 +69,12 @@ public class Card implements Serializable{
 		this.footer = footer;
 	}
 
-
-
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -101,8 +96,6 @@ public class Card implements Serializable{
 		builder.append(header);
 		builder.append(", description=");
 		builder.append(description);
-		builder.append(", image=");
-		builder.append(image);
 		builder.append(", footer=");
 		builder.append(footer);
 		builder.append(", user=");
@@ -112,9 +105,4 @@ public class Card implements Serializable{
 		builder.append("]");
 		return builder.toString();
 	}
-
-
-
-
-
 }
