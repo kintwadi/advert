@@ -22,10 +22,10 @@ public class Ad  implements Serializable{
 	private int id;
 	private String header;
 	private String description;
-	private String image;
+	private byte[] image;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "footer", referencedColumnName = "footer_id")
+	@JoinColumn(name = "footer_id", referencedColumnName = "footer_id")
 	private Footer footer;
 
 	public int getId() {
@@ -52,11 +52,11 @@ public class Ad  implements Serializable{
 		this.description = description;
 	}
 
-	public String getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 

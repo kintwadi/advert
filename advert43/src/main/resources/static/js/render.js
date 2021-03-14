@@ -221,8 +221,8 @@ function Render(app) {
 		var profile  = null;
 		userName = $("<h6>");
 		name = $("<span>");
-		userLink = $("<a>");;
-		userImage = $("<img>");
+		userLink = $("<a>");
+		userImage = $("<img >");
 		profile = $("<a>");
 		// render the name of user
 		name.html(app.UserContainer.User.name);
@@ -234,6 +234,7 @@ function Render(app) {
 		profile.html(app.UserContainer.User.profile);
 		// render the image of user 
 		userImage.attr("src", app.UserContainer.User.image);
+		console.log(app.UserContainer.User.image);
 		userImage.attr("id", app.UserContainer.User.imageCssId);
 		profile.attr("href", app.UserContainer.User.profileLink);
 		profile.attr("id", app.UserContainer.User.profileCssId);
@@ -380,7 +381,7 @@ function Render(app) {
 			cardColumn.prop("type","OC");
 			var singleBotton = $('<div class="single-bottom mb-35">');
 			var image = $('<img>');
-			image.attr("src", element.image);
+			image.attr("src", "data:image/jpg;base64,"+element.image);
 			singleBotton.append(image);
 			var bottonCap = $('<div class="trend-bottom-cap">');
 			bottonCap.append($('<h6>').text(element.header));
@@ -478,7 +479,7 @@ function Render(app) {
 			cardColumn.prop("type","NC");
 			var singleBotton = $('<div class="single-bottom mb-35">');
 			var image = $('<img>');
-			image.attr("src", element.image);
+			image.attr("src", "data:image/jpg;base64,"+element.image);
 			singleBotton.append(image);
 			var bottonCap = $('<div class="trend-bottom-cap">');
 			bottonCap.append($('<h6>').text(element.header));
@@ -585,7 +586,7 @@ function Render(app) {
 						var cardColumn = $('<div class="col-md-3 old-card">');
 						var singleBotton = $('<div class="single-bottom mb-35">');
 						var image = $('<img>');
-						image.attr("src", element.image);
+						image.attr("src", "data:image/jpg;base64,"+element.image);
 						singleBotton.append(image);
 						var bottonCap = $('<div class="trend-bottom-cap">');
 						bottonCap.append($('<h6>').text(element.header));
@@ -612,7 +613,7 @@ function Render(app) {
 						var cardColumn = $('<div class="col-md-3 old-card">');
 						var singleBotton = $('<div class="single-bottom mb-35">');
 						var image = $('<img>');
-						image.attr("src", element.image);
+						image.attr("src", "data:image/jpg;base64,"+element.image);
 						singleBotton.append(image);
 						var bottonCap = $('<div class="trend-bottom-cap">');
 						bottonCap.append($('<h6>').text(element.header));
@@ -666,9 +667,83 @@ function Render(app) {
         btnCreateNewAd.click(this.CleanModalForm);
         btnCreateNewAd.click(this.SlideRender);
         btnCreateNewAd.click(this.CreateYourAddMood);
-
+        btnCreateNewAd.click(this.LoadDatasToNewAd);
         newAdComponent.prepend(btnCreateNewAd);
     };
+    this.LoadDatasToNewAd = function(){
+    // get all categorization and render then
+    	$.get("categories_list", function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // this is the update list of the categorizations on create new Card
+        app.NewAdd.categorization.list = data;
+		render.renderDataCategorization();
+		render.renderDataSubCategorization(null);
+    });
+    // get all locations and render then
+    	$.get("locations_list", function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // this is the update list of the locations on create new Card
+        app.NewAdd.province.list = data;
+		render.renderDataProvince();
+    });
+    }
+    this.renderDataCategorization = function(){
+    	let newAd = app.NewAdd;
+		$("#categorization").text(newAd.categorization.text);
+        let _sizeCategorization = newAd.categorization.list.length;
+        $("#categorizationList").find('option').remove().end();
+        for (let index = 0; index < _sizeCategorization; index++) {
+            const element = newAd.categorization.list[index];
+            let option = $('<option>');
+            let indexOf = index + 1;
+            option.attr("value", indexOf);
+            option.text(element);
+            $("#categorizationList").append(option);
+        }
+        $("#placeCategorization").text(newAd.categorization.placeholder);
+        $("#categorizationList").val(null);
+        $("#categorizationList").change(function(){
+        	//alert("mudou para: "+$("#categorizationList").val()+" user:"+localStorage.userId);
+        	$.get('subcategories_list',{category:$("#categorizationList").val()},function(data){
+        		render.renderDataSubCategorization(data);
+        	});
+        });
+    }
+    
+    this.renderDataSubCategorization = function(data){
+    	let newAd = app.NewAdd;
+		$("#lblSubcategory").text(newAd.subcategory.text);
+        let _sizeSubCategory = data.length;
+        $("#subcategory").find('option').remove().end();
+        for (let index = 0; index < _sizeSubCategory; index++) {
+            const element = data[index];
+            let option = $('<option>');
+            let indexOf = index + 1;
+            option.attr("value", indexOf);
+            option.text(element);
+            $("#subcategory").append(option);
+        }
+        $("#placeSubcategory").text(newAd.subcategory.placeholder);
+        $("#subcategory").val(null);
+    }
+    this.renderDataProvince = function(){
+        let newAd = app.NewAdd;
+        $("#province").text(newAd.province.text);
+        let _sizeState = newAd.province.list.length;
+        $("#inputState").find('option').remove().end();
+        for (let index = 0; index < _sizeState; index++) {
+            const element = newAd.province.list[index];
+            let option = $('<option>');
+            let indexOf = index + 1;
+            option.attr("value", indexOf);
+            option.text(element);
+            $("#inputState").append(option);
+        }
+        $("#placeState").text(newAd.province.placeholder);
+        $("#inputState").val(null);
+    }
     var slideList = [];
     var listAds = Array();
     // this represents the Message buttom near of create new ad (render Message Component)
@@ -1052,7 +1127,7 @@ function Render(app) {
     }
     // 
     this.CreateYourAddMood = function () {
-        var newAd = app.NewAdd;
+        let newAd = app.NewAdd;
         $("#title").text(newAd.title);
         $("#divEdit").attr("style", "display:none;");
         $("#divAdd").attr("style", "");
@@ -1075,30 +1150,10 @@ function Render(app) {
         $("#togiveaway").prepend(newAd.toGiveAwey);
         $("#new").prepend(newAd.new);
         $("#used").prepend(newAd.used);
-        $("#categorization").text(newAd.categorization.text);
-        let _sizeCategorization = newAd.categorization.list.length;
-        $("#placeCategorization").text(newAd.categorization.placeholder)
-        for (let index = 0; index < _sizeCategorization; index++) {
-            const element = newAd.categorization.list[index];
-            let option = $('<option>');
-            let indexOf = index + 1;
-            option.attr("value", "category_" + indexOf);
-            option.text(element);
-            $("#categorizationList").append(option);
-        }
-        $("#subcategory").attr("placeholder", newAd.subcategory);
+        
+        //$("#subcategory").attr("placeholder", newAd.subcategory);
         $("#zip").text(newAd.zip);
-        $("#province").text(newAd.province.text);
-        let _sizeState = newAd.province.list.length;
-        $("#placeState").text(newAd.province.placeholder);
-        for (let index = 0; index < _sizeState; index++) {
-            const element = newAd.province.list[index];
-            let option = $('<option>');
-            let indexOf = index + 1;
-            option.attr("value", "state_" + indexOf);
-            option.text(element);
-            $("#inputState").append(option);
-        }
+        
         $("#street").text(newAd.street);
         $("#preference").text(newAd.preference);
         $("#tips2").text(newAd.tips2.text);
@@ -1196,15 +1251,7 @@ function Render(app) {
     }
     this.CreateNewAdWithModalData = function () {
         let ad = {};
-        let _size = slideList.length;
-        let urlBase = "img/backgrounds/";
-        let images = [];
-        for (let index = 0; index < _size; index++) {
-            const element = slideList[index];
-            let image = urlBase + "" + element;
-            images.push(image);
-        }
-        ad.UploadImage = images;
+        ad.UploadImage = slideList;
         AddType = {
             offer: true,
             looking: true,
@@ -1355,7 +1402,7 @@ function Render(app) {
     */
     this.LoadAllAds = function(){
         // this request go at server and return the ads of current user 
-        $.post('LoadAllAds',null,'LoadAllAdsCallBack');
+        //$.get('LoadAllAds',null,'LoadAllAdsCallBack');
     }
     // get the ajax response of LoadAllAds
     this.LoadAllAdsCallBack = function (data, status) {
@@ -1387,8 +1434,7 @@ function Render(app) {
     this.SaveNewAdInToServer = function(ad){
         // this request go at server and add new ad and return the update list of ads
     	ad.userId = localStorage.userId;
-    	console.log("aqui:: "+add.toString());
-        $.post('saveNewAd',ad,this.SaveNewAdInToServerCallBack);
+    	$.post('saveNewAd', ad, this.SaveNewAdInToServerCallBack);
     }
     // get the ajax response of SaveNewAdInToServer
     this.SaveNewAdInToServerCallBack = function (data, status) {
@@ -1419,7 +1465,7 @@ function Render(app) {
         publish1 = {
             title: "Publish",
             state: "publish-on",
-            image: "img/1.jpg",
+            image: "",
             Edit: {
                 cssId: "btn_edit",
                 title: "Edit",
@@ -1435,9 +1481,10 @@ function Render(app) {
             publish1.state = "publish-on";
         else
             publish1.state = "publish-off";
-        if (ad.UploadImage.length > 0)
-            publish1.image = ad.UploadImage[0];
-
+        if (ad.UploadImage.length > 0){
+            publish1.image = ad.UploadImage[0].image;
+			//console.log(ad.UploadImage[0].image);
+		}
         if (position >= 0 && position < app.Publisher.publishList.length) {
             app.Publisher.publishList[position] = publish1;
         } else {
@@ -1485,10 +1532,10 @@ function Render(app) {
             // img fazia
             return;
         }
-        render.MoveImageToserver($("#img").val());
-        slideList.push(img);
+        render.MoveImageToserver($("#formUpload")[0]);
+        //slideList.push(img);
         // comment the line bellow when the server ajax request are running
-        render.SlideRender();
+        //render.SlideRender();
 
     }
     /*
@@ -1500,20 +1547,48 @@ function Render(app) {
     *  return the urlBase of folder
     *  
     */
+    this.convert = function (my) {
+
+        var arrayBuffer = my;
+        let array = new Uint8Array(arrayBuffer);
+        let binaryString = String.fromCharCode.apply(null, array);
+
+        //console.log(binaryString);
+        //alert(binaryString);
+        return binaryString;
+    }
     this.MoveImageToserver = function (image) {
         // get the  image and move to server folder 
         // and return de urlBase of image ex: urlBase = "image/slideAds/"
-        $.post('MoveImageToserver', 'image', 'MoveImageToserverCallBack');
+        var imageFile = new FormData(image);
+        //imageFile.append('image',imageFile.get('image'));
+        
+        //$.post('slide_upload', imageFile, this.MoveImageToserverCallBack);
+        $.ajax({
+        type:"POST",
+        enctype:'multipart/form-data',
+        url:"slide_upload",
+        data:imageFile,
+        processData:false,
+        contentType:false,
+        cache:false,
+        success : this.MoveImageToserverCallBack,
+    	error : function(e){
+    		console.log(e.responseText);
+    	}
+        });
     }
+
     // get the ajax response of MoveImageToserver
-    this.MoveImageToserverCallBack = function (data, status) {
-        console.log("response data::" + data);
-        console.log("response status::" + status);
-        // this is the urlBase f image 
-        urlBase = data;
-        // this render the slide
-        render.SlideRender();
-    }
+    this.MoveImageToserverCallBack = function(data) {
+    	//console.log("response data::" + JSON.stringify(data));
+     	// this is the urlBase f image 
+       	//slideList = null;
+       	slideList.push(data);
+       	//alert("response data::" + JSON.stringify(data));
+       	// this render the slide
+       	render.SlideRender();
+   	}
     /*
     * this represents how to process the output or events
     * get the output data and prepare it for the back end
@@ -1524,17 +1599,18 @@ function Render(app) {
     */
     this.RemoveImageToserver = function (image) {
         // get the  image and move to server folder 
-        // and return de urlBase of image ex: urlBase = "image/slideAds/"
-        $.post('RemoveImageToserver', 'image', 'RemoveImageToserverCallBack');
+        // and return de image that was deleted"
+        console.log(image);
+        $.post('slide_delete', {position:image}, this.RemoveImageToserverCallBack);
     }
     // get the ajax response of RemoveImageToserver
     this.RemoveImageToserverCallBack = function (data, status) {
         console.log("response data::" + data);
         console.log("response status::" + status);
         // remove into variable list of imageSlide wheather status is success 
-        if (data == true) {
+        if (data != null) {
             // remove in local variable list of  image in to slide 
-            slideList.splice(index, 1);
+            slideList.splice(data, 1);
             // render the slide
             render.SlideRender();
         }
@@ -1556,7 +1632,7 @@ function Render(app) {
             span.append(i);
             indexOf = index + 1;
             let img = $('<img>');
-            img.attr("src", urlBase + "" + element);
+            img.attr("src", "data:image/jpg;base64," + element.image);
             span.click(
                 function () {
                     render.DeleteSlideImg(index);
@@ -1616,9 +1692,9 @@ function Render(app) {
     var actualActive = 0;
     var action = 0;
     this.DeleteSlideImg = function (index) {
-        render.RemoveImageToserver(slideList[index]);
+        render.RemoveImageToserver(index);
         // comment this two lines bellow when the method that remove image in to Server just do and work 
-        slideList.splice(index, 1);
+        //slideList.splice(index, 1);
         render.SlideRender();
     }
     var indexEdit = -1;
@@ -1642,7 +1718,11 @@ function Render(app) {
             var panelBody = $('<div class="panel-body">');
             var picture = $('<div class="picture">');
             var image = $('<img alt="">');
-            image.attr("src", element.image);
+            if(element.image!=null){
+            	image.attr("src", "data:image/jpg;base64,"+element.image);
+            }else{
+            	image.attr("src", "");
+            }
             var tambler = $('<div>');
             tambler.addClass(element.state);
             tambler.attr("id", "state_" + val);
@@ -1877,7 +1957,7 @@ function Render(app) {
 			var cardColumn = $('<div class="col-md-3 old-card">');
 			var singleBotton = $('<div class="single-bottom mb-35">');
 			var image = $('<img>');
-			image.attr("src", element.image);
+			image.attr("src", "data:image/jpg;base64,"+element.image);
 			singleBotton.append(image);
 			var bottonCap = $('<div class="trend-bottom-cap">');
 			bottonCap.append($('<h6>').text(element.header));
@@ -1953,7 +2033,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2027,7 +2107,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2052,7 +2132,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2097,7 +2177,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2122,7 +2202,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2159,7 +2239,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2182,7 +2262,7 @@ function Render(app) {
 				var cardColumn = $('<div class="col-md-3 old-card">');
 				var singleBotton = $('<div class="single-bottom mb-35">');
 				var image = $('<img>');
-				image.attr("src", element.image);
+				image.attr("src", "data:image/jpg;base64,"+element.image);
 				singleBotton.append(image);
 				var bottonCap = $('<div class="trend-bottom-cap">');
 				bottonCap.append($('<h6>').text(element.header));
@@ -2731,6 +2811,7 @@ $.get("app_main_app", function(application, status){
 	//render.NewEntriesContainer();
 	//render.OldEntriesContainer();
 	render.SearchContainer();
+	//render.CreateNewAd();
 	render.CategoryContainer();
 });
 
@@ -2738,9 +2819,10 @@ function setRandomAd(){
 
 	$.get("app_random_ad", function(ad, status){
 
-		var adContainer = document.querySelector(".adContainer");
-		console.log("ad: "+ JSON.stringify(ad));
-		adContainer.setAttribute('src',ad.image);
+		var adContainer = $('.adContainer');
+		//console.log("ad: "+ JSON.stringify(ad));
+		//alert(ad.image);
+		adContainer.attr("src","data:image/jpg;base64,"+ad.image);
 
 	});
 }

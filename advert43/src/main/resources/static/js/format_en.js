@@ -48,7 +48,7 @@ Application = {
                 answear: "Click here to reset it.",
                 newQuestion:"Don't have an account?",
                 newAnswear:"Sign up.",
-                error: "Invalid Email or Password
+                error: "Invalid Email or Password"
                 
 
             },
