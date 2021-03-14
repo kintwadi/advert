@@ -510,7 +510,7 @@ Application = {
         }
     }, 
     CreateNewAd:{
-        text:"CREATE NEW AD",
+        text:"CREATE NEW CARD",
         cssId:"newAd",
         cssClass:"newAd"
 
@@ -544,8 +544,8 @@ Application = {
         button:"Send"
     },
     NewAdd:{
-        title:"Create your add",
-        editTitle:"Edit your add",
+        title:"Create your card",
+        editTitle:"Edit your card",
         uploadImage:"Upload Images",
         addType:{
             text:"Add type",
@@ -556,7 +556,7 @@ Application = {
         description:"Description",
         tips:{
             text:"Tips",
-            placeholder:"You can add your ad description"
+            placeholder:"You can add your card description"
         },
         price:"Price",
         negotiable:"Negotiable",
@@ -573,7 +573,15 @@ Application = {
                 "3"
             ]
         },
-        subcategory:"Enter your subcategory",
+        subcategory:{
+        text:"Subcategory",
+            placeholder:"select",
+            list:[
+                "1",
+                "2",
+                "3"
+            ]
+            },
         zip:"Zip",
         province:{
             text:"Province",

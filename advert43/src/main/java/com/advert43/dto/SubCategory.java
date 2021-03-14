@@ -21,8 +21,8 @@ public class SubCategory implements Serializable {
 	private int id;
 	private String name;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "parent", referencedColumnName = "category_id")
-	private Category parent;
+	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
+	private Category category;
 
 
 	public SubCategory() {
@@ -41,11 +41,11 @@ public class SubCategory implements Serializable {
 	}
 
 
-	public Category getParent() {
-		return parent;
+	public Category getCategory() {
+		return category;
 	}
-	public void setParent(Category parent) {
-		this.parent = parent;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	@Override
 	public String toString() {
@@ -55,7 +55,7 @@ public class SubCategory implements Serializable {
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", parent=");
-		builder.append(parent);
+		builder.append(category);
 		builder.append("]");
 		return builder.toString();
 	}

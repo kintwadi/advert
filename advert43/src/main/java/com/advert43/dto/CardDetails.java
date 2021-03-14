@@ -1,5 +1,7 @@
 package com.advert43.dto;
 
+import java.util.ArrayList;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -31,13 +34,12 @@ public class CardDetails {
 	private String province;
 	private String street;
 	private String reference;
+	//@OneToMany(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "card_image_id", referencedColumnName = "card_detail_id")
+	private ArrayList<CardImage> cardImages;
 	// publish now
 	private boolean publish;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "card_image", referencedColumnName = "card_image_id")
-	private CardImage cardImage;
-
+    
 	public int getId() {
 		return id;
 	}
@@ -58,10 +60,17 @@ public class CardDetails {
 		return price;
 	}
 
+	public void setCardImages(ArrayList<CardImage> cardImage) {
+		this.cardImages = cardImage;
+	}
+	
+	public ArrayList<CardImage> getCardImages() {
+		return cardImages;
+	}
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
 	public boolean isStatus() {
 		return status;
 	}
@@ -133,7 +142,7 @@ public class CardDetails {
 	public void setPublish(boolean publish) {
 		this.publish = publish;
 	}
-
+/*
 	public CardImage getCardImage() {
 		return cardImage;
 	}
@@ -141,7 +150,7 @@ public class CardDetails {
 	public void setCardImage(CardImage cardImage) {
 		this.cardImage = cardImage;
 	}
-
+*/
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -170,11 +179,8 @@ public class CardDetails {
 		builder.append(", publish=");
 		builder.append(publish);
 		builder.append(", cardImage=");
-		builder.append(cardImage);
+		//builder.append(cardImage);
 		builder.append("]");
 		return builder.toString();
 	}
-
-
-
 }

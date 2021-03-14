@@ -20,7 +20,7 @@ public class User implements Serializable {
 	@Column(name = "user_id")
 	private Integer id;
 	private String name;
-	private String photo;
+	private byte[] photo;
 	private String telefone;
 	private  boolean telVisible;
 	@Column(unique = true)
@@ -80,14 +80,14 @@ public class User implements Serializable {
 	
 
 
-	public String getPhoto() {
+	public byte[] getPhoto() {
 		return photo;
 	}
 
 
 
 
-	public void setPhoto(String photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
 

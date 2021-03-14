@@ -40,7 +40,8 @@ function loadUser(user){
 	$("#login").css("display","none");
 	$("#sign-up").css("display","none");
 	$("#link-id").css("display","block");
-	$("#user-link-img").attr("src",user.photo);
+	//$("#user-link-img").attr("src","img/uploads/user.jpg");
+	$("#user-link-img").attr("src","data:image/jpg;base64,"+user.photo);
 	$("#user-name-id").html(user.name);
 
 	localStorage.userId = user.id;
