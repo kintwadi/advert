@@ -401,6 +401,17 @@
         "showMore": " Mostrar mais"
     },
     "NewAdd":{
+    "tips":{
+            "text":"Tips",
+            "placeholder":"You can add your card description as sutch ...."
+        },
+        "tips2":{
+            "text":"Tips",
+            "placeholder":"You can add your reference or google map geolocation as sutch ...."
+        }
+    },
+"Publisher":{
+  "publishList":[]
     },
     "FooterContainer": {
         "copyRight": "&copy;2020",

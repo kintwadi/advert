@@ -47,9 +47,13 @@ function loadUser(user){
 	localStorage.userId = user.id;
 	localStorage.username = user.name;
 	localStorage.userphoto = user.photo;
+	localStorage.useremail = user.email;
+	localStorage.usertelefone = user.telefone;
+	localStorage.useremailvisible = user.email_visible;
+	localStorage.usertelvisible = user.tel_visible;
 	
 
-
+	
 
 	$('#loginModal').iziModal('close');
 

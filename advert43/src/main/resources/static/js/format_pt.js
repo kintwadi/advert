@@ -556,7 +556,7 @@ Application = {
         description:"Description",
         tips:{
             text:"Tips",
-            placeholder:"You can add your card description"
+            placeholder:"You can add your card description as sutch ...."
         },
         price:"Price",
         negotiable:"Negotiable",
@@ -596,7 +596,7 @@ Application = {
         preference:"Preference or Geolocation",
         tips2:{
             text:"Tips",
-            placeholder:"You can add further reference or google map geolocation"
+            placeholder:"You can add your reference or google map geolocation as sutch ...."
         },
         phone:{
             text:"Celphone",
