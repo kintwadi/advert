@@ -1,0 +1,48 @@
+------ SEMANTIC SOFT ADBERT43 -------
+
+----refazer partes do Orçamento 3 do advert43----
+
+Para novos anúncios eles tém de ser anúncios semanais (7 dias úteis).10€√
+
+Para os anúncios anteriores tém de ser anúncios das semanas anteriores(posterior­es a 7).10€√
+
+Para os cards do user ao invés do título, aparecer a label do publish.4€√
+
+Re-estruturar a página de singleCard (retirar a sessão de busca).5€
+
+Pra o pacote base (não incluir mensagem no single card, nem contactos).5€√
+
+Fazer a página de singleCard apresentar os dados de um single card clicado.10€√
+
+Redefinir a busca(buscar em todos os campos).10€√
+
+Refatorar o user pra trabalhar com o package associado.5€√
+
+Remover share e o follow.2€√
+
+Incluir o campo do package no user.3€√
+
+Redefinir dto e service dos users pra trabalharem com package.5€√
+
+Description estar no formato de tabela ou artigo.3€√
+
+Redefinir os tamamhos dos cards.2€√
+
+Testar o carregar o card pra editar quando faz (create,update)2€
+
+Form grouping ao invés de tabela (lable e value) no description do singlecard 5€√
+
+-------
+Resize da brand e do header 3€
+
+Remover search do profile 3€
+
+Resolver o zoom no slider do singlecard.2€
+
+retirar o cardImages do CardDetails e refatorar o processo de renderização dos cards sem o cardImages.5€
+
+
+modificar o front-end dos cards pra limitar o texto dos descriptions.3€
+
+Total = 90€
+
