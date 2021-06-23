@@ -200,7 +200,23 @@ public class DaoImpl  implements IDao {
 	@Override
 	public List<Card> newEntries() {
 		try {		
-			Query query = entityManager.createNativeQuery("SELECT c.* FROM advert43.card c join card_details cd on cd.card_detail_id = c.card_detail_id where cd.publish = 1 order by c.card_id DESC;",Card.class);
+			Query query = entityManager.createNativeQuery("SELECT c.*, TIMESTAMPDIFF(DAY, DATE(c.create_date), CURDATE()) as dias FROM advert43.card c join card_details cd on cd.card_detail_id = c.card_detail_id where cd.publish = 1 and (TIMESTAMPDIFF(DAY, DATE(c.create_date),CURDATE()) <= 7) order by c.create_date DESC;",Card.class);
+			List<Card> cards = query.getResultList();
+			cards.forEach(card->{
+				card.getCardDetail().setCardImages(this.findCardImagesByCardDetailsId(card.getCardDetail().getId()));
+			});
+			return cards;
+		} catch (NoResultException  e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Card> oldEntries() {
+		try {		
+			Query query = entityManager.createNativeQuery("SELECT c.*, TIMESTAMPDIFF(DAY, DATE(c.create_date), CURDATE()) as dias FROM advert43.card c join card_details cd on cd.card_detail_id = c.card_detail_id where cd.publish = 1 and (TIMESTAMPDIFF(DAY, DATE(c.create_date),CURDATE()) > 7) order by c.create_date DESC;",Card.class);
 			List<Card> cards = query.getResultList();
 			cards.forEach(card->{
 				card.getCardDetail().setCardImages(this.findCardImagesByCardDetailsId(card.getCardDetail().getId()));

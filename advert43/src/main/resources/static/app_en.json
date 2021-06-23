@@ -391,6 +391,10 @@
         ],
         "showMore": " Show more entries"
     },
+"Publisher":{
+	"title":"Published",
+  "publishList":[]
+    },
     "FooterContainer": {
         "copyRight": "@ COPYRIGHT 2020",
         "Private": {

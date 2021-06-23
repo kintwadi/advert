@@ -157,7 +157,7 @@ public class Adver43Service {
 	@SuppressWarnings("unchecked")
 	public JSONObject oldEntries(String lang) {
 
-		List<Card> cards = dao.newEntries();
+		List<Card> cards = dao.oldEntries();
 		app = Util.getJSONApp(lang);
 
 		JSONObject application = (JSONObject) app.get("Application");
@@ -381,12 +381,11 @@ public class Adver43Service {
 				JSONObject publisher = (JSONObject) application.get("Publisher");
 				JSONArray publishList = (JSONArray) publisher.get("publishList");
 				publishList.clear();
-
 				cards.forEach(card -> {
 					
 					JSONObject jCard = new JSONObject();
 					jCard.put("id", card.getId());
-					jCard.put("title", card.getHeader());
+					jCard.put("title", publisher.get("title").toString());
 					if(card.getCardDetail().isPublish()==true)
 						jCard.put("state", "publish-on");
 					else
@@ -474,7 +473,7 @@ public class Adver43Service {
 
 		{
 
-			List<Card> cards = dao.newEntries();
+			List<Card> cards = dao.oldEntries();
 
 			JSONObject newEntriesContainer = (JSONObject) application.get("OldEntriesContainer");
 			JSONArray entries = (JSONArray) newEntriesContainer.get("Entries");

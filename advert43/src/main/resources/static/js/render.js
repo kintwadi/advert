@@ -441,9 +441,37 @@ function Render(app) {
 		// });
 	};
 	this.cardListener = function (e){
-
-		window.location.href = "single_card?ref="+e.currentTarget.ref+"&type="+e.currentTarget.type;
+		
+		//window.location.href = "single_card?ref="+e.currentTarget.ref+"&type="+e.currentTarget.type;
+		render.singleCard(e.currentTarget.ref);
 	}
+	
+    /*
+    * this represents how to process the output or events
+    * get the output data and prepare it for the back end
+    * use JQUERY-PoST AJAX
+    * so the next team would only look at this method alone
+    *  need to prepare the microservice that return the list of ads
+    * of current user 
+    */
+    this.singleCard = function(id){
+    	//alert("entrou para carregar a pagina do card clicado");
+        // this request go at server and return the ads of current user 
+        $.get('LoadTheSingleCard',{card_id:id},this.singleCardCallBack);
+    }
+    // get the ajax response of LoadAllAds
+    this.singleCardCallBack = function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // add the data into variable list of ads wheather status is success 
+        if (status == "success") {
+            // update de list of the ads 
+			//alert("card: "+JSON.stringfy(data));
+			localStorage.setItem("singleCard", JSON.stringify(data));
+			//localStorage.singleCard = ;
+            window.location.href = "single_card";
+        }
+    }
 	// user render the NewEntriesContainer
 	this.NewEntriesContainer = function () {
 		/*

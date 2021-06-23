@@ -645,6 +645,7 @@ Application = {
         ]
     },
     Publisher:{
+	title:"Publicado",
         publishList:[
             // terá os publishs dos ads que virão do microservice e serão passados ao array listAds que está no render 
         ]

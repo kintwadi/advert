@@ -129,6 +129,8 @@ public class Advert34Controller {
 			jCarDetail.put("UploadImage", null);
 		//return card.getCardDetail().getCardImages();
 		jCard.put("cardDetail", jCarDetail);
+		//System.out.println("id"+jCard.get("id"));
+		
 		return jCard;
 	}
 	@GetMapping(Constants.LoadAllAds)

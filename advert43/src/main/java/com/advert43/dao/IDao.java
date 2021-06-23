@@ -18,6 +18,7 @@ public interface IDao {
 	
 	public List<Card> getAllCardsByuserId(int user_id);
 	public List<Card> newEntries();
+	public List<Card> oldEntries();
 	public void updateCardPublish(int id,boolean publish);
 	public List<Category> Categories();
 	public List<SubCategory> subCategoryListFromCategory(int category);
