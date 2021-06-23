@@ -18,6 +18,7 @@ function setUserInfo(){
 	 	$("#user-name-id").html(username);
 	 	$("#new-card").css("display","none");
 		$(".newEntriesContainer").css("display","none");
+		$("#middle_colapse .panel-primary").first().css("display","none");
 		LoadAllAds();
 		
 	  	

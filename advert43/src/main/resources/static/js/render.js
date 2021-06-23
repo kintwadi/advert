@@ -3108,7 +3108,7 @@ render.Message();
 //call the render of ads link
 render.Links();
 //render de slide 
-render.Slider();
+//render.Slider();
 render.UserData();
 //call render of the advertisement 
 render.AdvertisementContainer();

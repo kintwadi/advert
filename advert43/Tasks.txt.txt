@@ -33,16 +33,16 @@ Testar o carregar o card pra editar quando faz (create,update)2€
 Form grouping ao invés de tabela (lable e value) no description do singlecard 5€√
 
 -------
-Resize da brand e do header 3€
+Resize da brand e do header 3€√
 
-Remover search do profile 3€
+Remover search do profile 3€√
 
-Resolver o zoom no slider do singlecard.2€
+Resolver o zoom no slider do singlecard.2€√
 
 retirar o cardImages do CardDetails e refatorar o processo de renderização dos cards sem o cardImages.5€
 
 
 modificar o front-end dos cards pra limitar o texto dos descriptions.3€
 
-Total = 90€
+Total = 100€
 

@@ -505,7 +505,18 @@ Application = {
             }
         ],
         Description:{
-            title:"Description",
+            title:"título",
+            location:"localização",
+            province:"Província",
+            street:"Rua",
+            price:"Preço",
+            description:"Descrição",
+            category:"Categoria",
+            subcategory:"Subcategoria",
+            type:"Tipo",
+            zipcode:"Código Zip",
+            reference:"Georeferência",
+            dealtype:"tipo de negócio",
             text:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus dolorem deserunt, vero libero cumque itaque? Repudiandae dicta libero in qui officia, saepe porro maiores possimus autem quasi, pariatur at recusandae!"
         }
     }, 

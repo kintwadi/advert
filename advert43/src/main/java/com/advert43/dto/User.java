@@ -2,11 +2,14 @@ package com.advert43.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
@@ -29,7 +32,10 @@ public class User implements Serializable {
 	private String activeSince;
 	private String password;
 	private boolean remember;
-	
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "package_id", referencedColumnName = "package_id")
+	private Package thepackage;
 
 	
 	
@@ -54,6 +60,20 @@ public class User implements Serializable {
 	
 	
 	
+	public Package getPackage() {
+		return thepackage;
+	}
+
+
+
+
+	public void setPackage(Package thepackage) {
+		this.thepackage = thepackage;
+	}
+
+
+
+
 	public User(Integer id, String name) {
 		super();
 		this.id = id;
