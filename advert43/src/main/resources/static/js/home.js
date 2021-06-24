@@ -24,6 +24,7 @@ $('#answear').html(login.answear);
 $('#new_question').html(login.newQuestion);
 $('#new_answear').html(login.newAnswear);
 
+/*
 $("#loginModal").iziModal({
 
 	title: '<i class="fa fa-lock" aria-hidden="true"></i>',
@@ -33,7 +34,7 @@ $("#loginModal").iziModal({
 	height:430
 
 });
-
+*/
 function loadUser(profile){
 
 	let user = profile.user;

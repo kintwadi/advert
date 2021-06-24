@@ -64,6 +64,30 @@ public class Advert34Controller {
 		model.addAttribute("lang", Constants.LANGUAGE);
 		return Constants.VIEW_HOME;
 	}
+	@GetMapping(Constants.RECOVER)
+	public String recover(Model model) {
+
+		model.addAttribute("lang", Constants.LANGUAGE);
+		return Constants.VIEW_RECOVER;
+	}
+	@GetMapping(Constants.EMAILRECOVER)
+	public String email_recover(Model model) {
+
+		model.addAttribute("lang", Constants.LANGUAGE);
+		return Constants.VIEW_EMAILRECOVER;
+	}
+	@GetMapping(Constants.LOGIN)
+	public String login(Model model) {
+
+		model.addAttribute("lang", Constants.LANGUAGE);
+		return Constants.VIEW_LOGIN;
+	}
+	@GetMapping(Constants.REGISTER)
+	public String register(Model model) {
+
+		model.addAttribute("lang", Constants.LANGUAGE);
+		return Constants.VIEW_REGISTER;
+	}
 	@GetMapping(Constants.LoadTheSingleCard)
 	@ResponseBody
 	public JSONObject LoadTheSingleCard(@RequestParam("card_id")   int card_id) {

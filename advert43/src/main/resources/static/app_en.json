@@ -25,7 +25,7 @@
             {
               "AboutUS":{
                   "text": "About US",
-                "link": "#",
+                "link": "/",
                 "cssClass": "nav-link",
                 "cssId": "about-us"
               } 
@@ -33,7 +33,7 @@
            { 
              "ContactUS": {
                 "text": "Contact Us",
-                "link": "#",
+                "link": "contact",
                 "cssClass": "nav-link",
                 "cssId": ""
              }
@@ -42,7 +42,7 @@
             {
               "Login": {
                 "text": "Login",
-                "link": "#",
+                "link": "login",
                 "cssClass": "nav-link",
                 "cssId": ""
               }
@@ -51,7 +51,7 @@
             {
               "SignUp": {
                 "text": "SignUp",
-                "link": "#",
+                "link": "register",
                 "cssClass": "nav-link",
                 "cssId": ""
               }

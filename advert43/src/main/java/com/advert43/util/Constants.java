@@ -19,6 +19,10 @@ public class Constants {
 	public static final String VIEW_HOME = "home";
 	public static final String VIEW_SINGLE_CARD  = "single_card";
 	public static final String VIEW_CATEGORIES = "categories";
+	public static final String VIEW_LOGIN = "login";
+	public static final String VIEW_REGISTER = "register";
+	public static final String VIEW_RECOVER = "recover";
+	public static final String VIEW_EMAILRECOVER = "emailrecover";
 	// endpoints
 	public static final String ROOT = "/";
 	public static final String NEW_ENTRIES = "/app_new_entries";
@@ -38,6 +42,10 @@ public class Constants {
 	public static final String SLIDE_UPLOAD = "/slide_upload";
 	public static final String SLIDE_DELETE = "/slide_delete";
 	public static final String LoadTheSingleCard = "/LoadTheSingleCard";
+	public static final String LOGIN = "/login";
+	public static final String REGISTER = "/register";
+	public static final String RECOVER = "/recover";
+	public static final String EMAILRECOVER = "/emailrecover";
 	
 	public static final String ALL_SUBCATEGORIES = "/query_subCategory_all";
 

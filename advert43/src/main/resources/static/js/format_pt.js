@@ -30,28 +30,28 @@ Application = {
         	
         	Home = {
                     text: "Home",
-                    link: "#",
+                    link: "/",
                     cssClass: "nav-link",
                     cssId: "home"
 
                 },
             AboutUS = {
                 text: "Sobre nós",
-                link: "#",
+                link: "about",
                 cssClass: "nav-link",
                 cssId: "about-us"
 
             },
             ContactUS = {
                 text: "Contacto",
-                link: "#",
+                link: "contact",
                 cssClass: "nav-link",
                 cssId: "contact-us"
 
             },
             Login = {
                 text: "Acesso",
-                link: "#",
+                link: "login",
                 cssClass: "nav-link",
                 cssId: "login",
                 header: "Acesso",
@@ -70,7 +70,7 @@ Application = {
             },
             SignUp = {
                 text: "Cadastre-se",
-                link: "#",
+                link: "register",
                 cssClass: "nav-link",
                 cssId: "sign-up"
 

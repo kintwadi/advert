@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+
+<head th:insert="links :: header_links">
+<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+<meta name="google" content="notranslate">
+<title></title>
+
+</head>
+
+<body>
+
+
+
+	<!-- Navigation -->
+	<nav
+		class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+		<div class="container">
+			<a class="navbar-brand"><img alt=""></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto" id="headerContainerMenu">
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+<!-- Page Content -->
+  <div class="containes">
+
+    <div class="rows">
+      <div class="col-md-6 text-center box-logo">
+          <h1>Logo</h1>
+          <span>Let us help you connect your business to the word</span>
+      </div>
+      <div class="col-md-6 ">
+        <div id="panel-new-d">
+          <div class="panel panel-default">
+              <div class="panel-body margin-box">
+                <h4>Log in</h4>
+                <div class="container">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <input type="email" class="form-control email" placeholder="E-mail" id="email" name="email">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <input type="password" class="form-control password" placeholder="Password" id="password" name="password">
+                          </div>
+                      </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <div class="checkbox">
+                            <label>Remember me <input type="checkbox" value=""></label>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                          <a href="#">Forget your password?</a>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-default"><b>Continue</b></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+     
+    </div>
+    <!-- /.row -->
+
+	<!-- Footer -->
+	<footer class="py-2 bg-dark navbar-fixed-botton">
+		<div class="container">
+			<div class="row"></div>
+		</div>
+		<!-- /.container -->
+	</footer>
+
+	<span th:insert="links :: footer_links"></span>
+	<span th:insert="login_fragment :: login"></span>
+	<script th:src="@{js/home.js}"></script>
+	
+
+</body>
+
+</html>
