@@ -38,6 +38,7 @@ import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
 import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
+import com.advert43.dto.Plan;
 import com.advert43.dto.Profile;
 import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
@@ -130,6 +131,27 @@ public class Advert34Controller {
 		//return card.getCardDetail().getCardImages();
 		jCard.put("cardDetail", jCarDetail);
 		//System.out.println("id"+jCard.get("id"));
+		
+		// user
+		JSONObject jUser = new JSONObject();
+		User user = service.findUserById(card.getUser().getId());
+		jUser.put("id", user.getId());
+		jUser.put("name", user.getName());
+		jUser.put("email", user.getEmail());
+		jUser.put("telefone", user.getTelefone());
+		jUser.put("email_visible", user.isEmail_visible());
+		jUser.put("telefone_visible", user.isTel_visible());
+		jUser.put("active_since", user.getActiveSince());
+
+		// plan
+		java.util.List<Plan> plans = service.getPlansByPackage(user.getPackage().getId());
+		ArrayList<String> feactures = new ArrayList<String>();
+		for (Plan plan : plans) {
+			feactures.add(plan.getFeacture().getName());
+		}
+		jUser.put("package", user.getPackage().getName());
+		jUser.put("feactures", feactures);
+		jCard.put("user", jUser);
 		
 		return jCard;
 	}
@@ -276,7 +298,6 @@ public class Advert34Controller {
 		boolean remember = Boolean.parseBoolean(request.getParameter("remember"));
 		Profile profile = new Profile();
 		
-
 		if(Util.isValid(email)) {
 
 			User user = service.findByEmail(email);
@@ -291,6 +312,9 @@ public class Advert34Controller {
 			System.out.println(user.getPhoto());
 			user.setPassword("");	
 			profile.setUser(user);
+			java.util.List<Plan> plans = service.getPlansByPackage(user.getPackage().getId());
+			//System.out.println(plans);
+			profile.setPlan(plans);
 		}
 
 		return profile;

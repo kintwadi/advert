@@ -20,8 +20,11 @@ import com.advert43.dto.Card;
 import com.advert43.dto.CardDetails;
 import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
+import com.advert43.dto.Feacture;
 import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
+import com.advert43.dto.Package;
+import com.advert43.dto.Plan;
 import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
 
@@ -222,6 +225,43 @@ public class DaoImpl  implements IDao {
 				card.getCardDetail().setCardImages(this.findCardImagesByCardDetailsId(card.getCardDetail().getId()));
 			});
 			return cards;
+		} catch (NoResultException  e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Feacture> feactures() {
+		try {
+			Query query = entityManager.createNativeQuery("Select * from feacture ",Feacture.class);
+			List<Feacture> feactures = query.getResultList();
+			return feactures;
+		} catch (NoResultException  e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Plan> getPlansByPackage(int package_id) {
+		try {
+			Query query = entityManager.createNativeQuery("Select p.* from plan p where p.package_id = ?",Plan.class);
+			query.setParameter(1, package_id);
+			List<Plan> plans = query.getResultList();
+			return plans;
+		} catch (NoResultException  e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Package> packages() {
+		try {
+			Query query = entityManager.createNativeQuery("Select * from package ",Package.class);
+			List<Package> packages = query.getResultList();
+			return packages;
 		} catch (NoResultException  e) {
 			// TODO: handle exception
 			return null;

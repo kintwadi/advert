@@ -11,6 +11,9 @@ import com.advert43.dto.Category;
 import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
 import com.advert43.dto.SubCategory;
+import com.advert43.dto.Feacture;
+import com.advert43.dto.Package;
+import com.advert43.dto.Plan;
 import com.advert43.dto.User;
 
 public interface IDao {
@@ -26,6 +29,9 @@ public interface IDao {
 	public List<Ad>randomAds();
 	public List<Location> locations();
 	public Card getSingleCard(int id);
+	public List<Feacture> feactures();
+	public List<Package> packages();
+	public List<Plan> getPlansByPackage(int package_id);
 	public User addUser(User user);
 	public User findByEmail(String email);
 	public Location findLocationByLocationId(int location_id); 

@@ -8,14 +8,14 @@ Application = {
             id: "1",
             name: "advert43",
             image: "img/user.png",
-            link: "#"
+            link: "profile"
         }
     }
     ,
     HeaderContainer: {
         Logo: {
             icon: "img/logo.png",
-            iconLink: "#",
+            iconLink: "/",
             cssClass: "logoImg",
             cssId: "logoImg"
         },

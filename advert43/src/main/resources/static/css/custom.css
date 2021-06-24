@@ -21,6 +21,7 @@ nav.navbar {
 	box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
 	margin-bottom: 50px !important;
 	font-family: "Roboto", sans-serif !important;
+	max-height: 120px;
 }
 
 #headerContainerMenu {
@@ -236,6 +237,8 @@ nav.navbar {
 .new-card img, .old-card img {
 	width: 100%;
 	padding: 10px;
+  	max-height: 120px;
+  	max-width: 100%;
 }
 
 .new-card .trend-bottom-cap, .old-card .trend-bottom-cap {
@@ -245,12 +248,18 @@ nav.navbar {
 .new-card .trend-bottom-cap h6, .old-card .trend-bottom-cap h6 {
 	text-transform: uppercase;
 	font-family: "Roboto", sans-serif !important;
+	
 }
 
 .new-card .trend-bottom-cap span, .old-card .trend-bottom-cap span {
 	color: #646464;
 	font-family: "Roboto", sans-serif !important;
 	font-size: 13px !important;
+  	display: block;
+  	max-width: 150px;
+  	overflow: hidden;
+  	white-space: nowrap;
+  	text-overflow: ellipsis;
 }
 
 .new-card .trend-bottom-cap hr, .old-card .trend-bottom-cap hr {
@@ -590,12 +599,21 @@ a {
 .card-new .trend-bottom-cap h6, .card-new .trend-bottom-cap h6 {
 	text-transform: uppercase;
 	font-family: "Roboto", sans-serif !important;
+     width: 100px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 
 .card-new .trend-bottom-cap span, .card-new .trend-bottom-cap span {
 	color: #646464;
 	font-family: "Roboto", sans-serif !important;
 	font-size: 13px !important;
+	
+     width: 250px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 
 .card-new .trend-bottom-cap hr, .card-new .trend-bottom-cap hr {

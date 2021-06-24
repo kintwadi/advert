@@ -11,8 +11,10 @@ function setSingleCardInfo(){
 	  	
 	 	//console.log(userphoto);
 		Slider(card);
-		
-	  	
+		render.Message();
+		render.Links();
+		render.UserData();
+		render.dataUserLogin();
   }
   this.Slider = function (card) {
 		var carousel = $('#carouselExampleIndicators');

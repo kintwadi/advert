@@ -2,16 +2,16 @@
 $.get("app_main_app", function(application, status){
 
 	var render = new Render(application);
+	//render.dataUserLogin();
 	render.NewEntriesContainer();
 	render.OldEntriesContainer();
-	
 	
 	
 });
 
 var  app = Application;
 var render = new Render(app);
-
+render.dataUserLogin();
 var login = app.HeaderContainer.Menu[3];
 
 $('#email').attr("placeholder",login.emailPlaceHolder);
@@ -34,9 +34,9 @@ $("#loginModal").iziModal({
 
 });
 
-function loadUser(user){
+function loadUser(profile){
 
-
+	let user = profile.user;
 	$("#login").css("display","none");
 	$("#sign-up").css("display","none");
 	$("#link-id").css("display","block");
@@ -51,10 +51,28 @@ function loadUser(user){
 	localStorage.usertelefone = user.telefone;
 	localStorage.useremailvisible = user.email_visible;
 	localStorage.usertelvisible = user.tel_visible;
+	localStorage.useremailvisible = user.email_visible;
+	localStorage.usertelvisible = user.tel_visible;
+	//let plan = profile.plan;
+	//localStorage.plan = plan;
+				
+	/*let len = profile.plan.length;
 	
-
-	
-
+	for(i =0;i<len;i++){
+		let element = profile.plan[i];
+		//alert(element.feacture.name);
+	}
+	*/
+	let userFeactures = [];
+	profile.plan.forEach(
+		element => {
+   			//alert(element.feacture.name);
+   			userFeactures.push(element.feacture.name);
+    }
+	);
+	//JSON.stringify(profile)
+	localStorage.setItem("plan",userFeactures);
+	//alert(localStorage.getItem("plan"));
 	$('#loginModal').iziModal('close');
 
 }
@@ -84,7 +102,7 @@ $('#form_login').submit(function (evt) {
 					var user = profile.user;
 					console.log("profile response:: "+JSON.stringify(user));
 					if(user != null){
-						loadUser(user);
+						loadUser(profile);
 					}
 				}
 		);

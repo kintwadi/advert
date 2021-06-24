@@ -2651,8 +2651,31 @@ function Render(app) {
         $("#new-user").append(userName);
         
     };
+    // render the data user login
+    this.dataUserLogin = function(){
+    	if(localStorage.userId!=null){
+		  	$("#login").css("display","none");
+		  	$("#sign-up").css("display","none");
+			$("#link-id").css("display","block");
+		  	var userSettings = $("#user-settings");
+		  	var userId = localStorage.userId;
+		 	var username = localStorage.username;
+		 	var userphoto = localStorage.userphoto;
+		 	//console.log(userphoto);
+		 	//$("#user-link-img").attr("src","img/uploads/user.jpg");
+		 	$("#user-link-img").attr("src","data:image/jpg;base64,"+userphoto);
+		 	$("#user-name-id").html(username);
+		 	$("#new-card").css("display","none");
+			$(".newEntriesContainer").css("display","none");
+			$("#middle_colapse .panel-primary").first().css("display","none");
+			
+		}
+    }
 	// render the user data 
 	this.UserData = function () {
+		var card = localStorage.getItem("singleCard");
+	  	let myCard = JSON.parse(card);
+		//alert(myCard.user.name);
 		var userName = null;
 		var cellphone = null;
 		var activeSince = null;
@@ -2661,28 +2684,45 @@ function Render(app) {
 		userName = $("<h4>");
 		cellphone = $("<h4>");;
 		activesince = $("<h4>");
-		// render the name of user
-		i = $("<i class='fa fa-user'> ")
-		span = $("<span class='span'> ");
-		span.text(" " + app.NewUser.name);
-		userName.append(i);
-		userName.append(span);
-		// render the cellphone of user 
-		i = $("<i class='fa fa-phone'> ")
-		span = $("<span class='span'> ");
-		span.text(" " + app.NewUser.cellphone);
-		cellphone.append(i);
-		cellphone.append(span);
-		// render the active since
-		i = $("<span class='text-right'> ")
-		span = $("<span class='span'>");
-		i.text("ACTIVE SINCE ");
-		span.text(" " + app.NewUser.activeSince);
-		activesince.append(i);
-		activesince.append(span);
-		$(".user-data").append(userName);
-		$(".user-data").append(cellphone);
-		$(".user-data").append(activesince);
+		if(myCard.user.name!=null){
+			// render the name of user
+			i = $("<i class='fa fa-user'> ")
+			span = $("<span class='span'> ");
+			span.text(" " + myCard.user.name);
+			userName.append(i);
+			userName.append(span);
+			$(".user-data").append(userName);
+		}
+		if(myCard.user.package!="Basic"){
+			if(myCard.user.telefone!=null && myCard.user.telefone_visible==true){
+				// render the cellphone of user 
+				i = $("<i class='fa fa-phone'> ")
+				span = $("<span class='span'> ");
+				span.text(" " + myCard.user.telefone);
+				cellphone.append(i);
+				cellphone.append(span);
+				$(".user-data").append(cellphone);
+			}
+			if(myCard.user.email!=null && myCard.user.email_visible==true){
+				// render the cellphone of user 
+				i = $("<i class='fa fa-envelope'> ")
+				span = $("<span class='span'> ");
+				span.text(" " + myCard.user.email);
+				cellphone.append(i);
+				cellphone.append(span);
+				$(".user-data").append(cellphone);
+			}
+		}
+		if(myCard.user.active_since!=null){
+			// render the active since
+			i = $("<span class='text-right'> ")
+			span = $("<span class='span'>");
+			i.text("ACTIVE SINCE ");
+			span.text(" " + myCard.user.active_since);
+			activesince.append(i);
+			activesince.append(span);
+			$(".user-data").append(activesince);
+		}
 		console.log($(".user-data"));
 	};
 	 // render the AdvertisementContainer
@@ -2703,40 +2743,73 @@ function Render(app) {
     };
 	// render the message component
 	this.Message = function () {
-		var message = $("#message");
-		var divForm = $("<div class='form'>");
-		var divFormGroup = $("<div class='form-group'>");
-		var legend = $("<legend>");
-		var label = $("<label for='name'>");
-		var fild = $("<input type='text' class='form-control' id='name'>");
-		label.text(app.Message.filds[0]);
-		legend.text(app.Message.text);
-		message.append(legend);
-		divFormGroup.append(label);
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		label = $("<label for='phone'>");
-		fild = $("<input type='text' class='form-control' id='phone'>");
-		divFormGroup = $("<div class='form-group'>");
-		label.text(app.Message.filds[1]);
-		divFormGroup.append(label);
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		fild = $('<textarea class="form-control" id="description" rows="3">');
-		fild.attr("placeholder", app.Message.filds[2]);
-		divFormGroup = $("<div class='form-group'>");
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		divFormGroup = $("<div class='bt'>");
-		fild = $('<button type="submit" id="send" class="btn btn-primary">');
-		let i = $('<i class="fa fa-envelope">');
-		i.text("   " + app.Message.button.text);
-		fild.append(i);
-		fild.click(this.SendMessage);
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		message.append(divForm);
-
+		if(localStorage.userId!=null){
+			
+			var card = localStorage.getItem("singleCard");
+		  	let myCard = JSON.parse(card);
+			//alert(myCard.user.name);
+			
+			let v = false;
+			myCard.user.feactures.every(
+			element => {
+	   				//alert(element);
+	   				if(element.includes("Receive message")==true){
+	   					v = true;
+	   					return false;
+	   				}
+	   				return true;
+	    		}
+			);
+			var message = $("#message");
+			message.attr('style',"display:none;");
+			//alert(v);
+			if(v==true){
+				var divForm = $("<div class='form'>");
+				var divFormGroup = $("<div class='form-group'>");
+				var legend = $("<legend>");
+				var label = $("<label for='name'>");
+				var fildId = $("<input type='hidden' class='form-control' id='userId'>");
+				fildId.val(localStorage.userId);
+				var fild = $("<input type='text' class='form-control' id='name'>");
+				fild.val(localStorage.username);
+				label.text(app.Message.filds[0]);
+				legend.text(app.Message.text);
+				message.append(legend);
+				divFormGroup.append(label);
+				divFormGroup.append(fild);
+				fild.attr('readonly','true');
+				divForm.append(divFormGroup);
+				label = $("<label for='phone'>");
+				fild = $("<input type='text' class='form-control' id='phone'>");
+				if(localStorage.usertelefone!="null"){
+					fild.val(localStorage.usertelefone);
+					fild.attr('readonly','true');
+				}else{
+					fild.val();
+					fild.attr('readonly','true');
+				}
+				divFormGroup = $("<div class='form-group'>");
+				label.text(app.Message.filds[1]);
+				divFormGroup.append(label);
+				divFormGroup.append(fild);
+				divForm.append(divFormGroup);
+				fild = $('<textarea class="form-control" id="description" rows="3">');
+				fild.attr("placeholder", app.Message.filds[2]);
+				divFormGroup = $("<div class='form-group'>");
+				divFormGroup.append(fild);
+				divForm.append(divFormGroup);
+				divFormGroup = $("<div class='bt'>");
+				fild = $('<button type="submit" id="send" class="btn btn-primary">');
+				let i = $('<i class="fa fa-envelope">');
+				i.text("   " + app.Message.button.text);
+				fild.append(i);
+				fild.click(this.SendMessage);
+				divFormGroup.append(fild);
+				divForm.append(divFormGroup);
+				message.append(divForm);
+				message.attr('style',"");
+			}
+		}
 	};
 	// click of the send button 
 	this.SendMessage = function () {
@@ -2759,7 +2832,7 @@ function Render(app) {
 		link.text(app.Links.follow.text);
 		link.attr("href", app.Links.follow.link);
 		div.append(link);
-
+		div.attr('style',"display:none;");
 	};
 	this.Slider = function () {
 		var carousel = $('#carouselExampleIndicators');
@@ -3103,13 +3176,14 @@ render.UserContainer();
 render.FooterContainer();
 
 //call render of message form
-
-render.Message();
+//render.Message();
 //call the render of ads link
-render.Links();
+//render.Links();
 //render de slide 
 //render.Slider();
-render.UserData();
+//render.UserData();
+// render de data user login
+//render.dataUserLogin();
 //call render of the advertisement 
 render.AdvertisementContainer();
 render.NewUser();

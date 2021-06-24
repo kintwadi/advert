@@ -23,8 +23,11 @@ import com.advert43.dto.Card;
 import com.advert43.dto.CardDetails;
 import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
+import com.advert43.dto.Feacture;
 import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
+import com.advert43.dto.Package;
+import com.advert43.dto.Plan;
 import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
 import com.advert43.util.Util;
@@ -44,6 +47,19 @@ public class Adver43Service {
 	public User addUser(User user) {
 
 		return dao.addUser(user);
+	}
+
+	public List<Package> getAllPackages() {
+
+		return dao.packages();
+	}
+	public List<Feacture> getAllFeactures() {
+
+		return dao.feactures();
+	}
+	public List<Plan> getPlansByPackage(int package_id) {
+
+		return dao.getPlansByPackage(package_id);
 	}
 	public SubCategory getSubCategory(int subcategory_id) {
 

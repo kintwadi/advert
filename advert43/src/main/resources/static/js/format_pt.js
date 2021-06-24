@@ -22,7 +22,7 @@ Application = {
     HeaderContainer: {
         Logo: {
             icon: "img/logo.png",
-            iconLink: "#",
+            iconLink: "/",
             cssClass: "logoImg",
             cssId: "logoImg"
         },
