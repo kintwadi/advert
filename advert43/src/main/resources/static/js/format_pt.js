@@ -61,10 +61,22 @@ Application = {
                 remember:"Lembra - me",
                 question:"Esqueceu a conta?",
                 answear: "Clique aqui para redefini-lo.",
+                answearLink: "recover",
                 newQuestion:"Não tens uma conta?",
                 newAnswear:"Regista-te.",
-                error: "Email or Senha Inválido"
-                
+                newAnswearLink: "register",
+                error: "Email ou Senha Inválido",
+                Recover:{
+                	text: "Recuperar sua conta",
+	                link: "emailrecover",
+	                cssClass: "nav-link",
+	                cssId: "recover",
+	                header: "Recuperar sua conta",
+	                info:"Informe seu Email para receber o código de recuperação",
+	                emailPlaceHolder: "Email",
+	                submitLabel: "Confirmar"
+	                
+                }
                 	
 
             },

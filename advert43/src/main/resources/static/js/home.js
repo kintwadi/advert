@@ -17,12 +17,20 @@ var login = app.HeaderContainer.Menu[3];
 $('#email').attr("placeholder",login.emailPlaceHolder);
 $('#password').attr("placeholder",login.passwordPlaceHolder);
 $('#btn_login').attr("value",login.submitLabel);
-$('#label_remember').html(login.remember);
+$('#label_remember').html(login.remember+" ");
+$('#label_remember').append(" "+('<input type="checkbox" id="remember_me" value="">'));
+
 $('#login_header').html(login.header);
 $('#question').html(login.question);
 $('#answear').html(login.answear);
+$('#answear').attr('href',login.answearLink);
 $('#new_question').html(login.newQuestion);
 $('#new_answear').html(login.newAnswear);
+$('#new_answear').attr('href',login.newAnswearLink);
+
+$('#btn_recover').attr("value",login.Recover.submitLabel);
+$('#recover_header').html(login.Recover.header);
+$('#recover_info').html(login.Recover.info);
 
 /*
 $("#loginModal").iziModal({
@@ -74,7 +82,7 @@ function loadUser(profile){
 	//JSON.stringify(profile)
 	localStorage.setItem("plan",userFeactures);
 	//alert(localStorage.getItem("plan"));
-	$('#loginModal').iziModal('close');
+	//$('#loginModal').iziModal('close');
 
 }
 
@@ -99,11 +107,69 @@ $('#form_login').submit(function (evt) {
 			remember: remember.prop('checked'),
 
 				},function(profile,status){
+				//alert(profile);
+					if(profile==""){
+						$("#login-error").html(login.error);
+						$("#login-error").css("color","red");
+						$("#login-error").slideToggle();
+										
+					}else{
+						var user = profile.user;
+						console.log("profile response:: "+JSON.stringify(user));
+						if(user != null){
+							loadUser(profile);
+							window.location.href = window.location.origin+window.location.pathname.replace('login','');
+						}
+					}
+				}
+		);
 
-					var user = profile.user;
-					console.log("profile response:: "+JSON.stringify(user));
-					if(user != null){
-						loadUser(profile);
+	}else{
+
+		$("#login-error").html(login.error);
+		$("#login-error").css("color","red");
+		$("#login-error").slideToggle();
+
+	} 
+	evt.preventDefault();
+
+
+});
+
+
+$('#form_recover').submit(function (evt) {
+	alert("clicou em continuar para recuperar");
+	return 0;
+	$("#login-error").css("display","none");
+	let loginError = $("#login-error");
+	let email = $("#email");
+	let password = $("#password");
+	let remember = $("#remember_me");
+	loginError.css("display", "none");
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if( re.test(String(email.val()).toLowerCase())){
+
+		$.post("query_login",
+
+				{
+			email: email.val(),
+			password: password.val(),
+			remember: remember.prop('checked'),
+
+				},function(profile,status){
+				//alert(profile);
+					if(profile==""){
+						$("#login-error").html(login.error);
+						$("#login-error").css("color","red");
+						$("#login-error").slideToggle();
+										
+					}else{
+						var user = profile.user;
+						console.log("profile response:: "+JSON.stringify(user));
+						if(user != null){
+							loadUser(profile);
+							window.location.href = window.location.origin+window.location.pathname.replace('login','');
+						}
 					}
 				}
 		);

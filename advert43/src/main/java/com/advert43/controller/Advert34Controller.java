@@ -325,6 +325,9 @@ public class Advert34Controller {
 		if(Util.isValid(email)) {
 
 			User user = service.findByEmail(email);
+			if(user==null)
+				return null;
+			
 			//user.setPhoto(service.decompressBytes(user.getPhoto()));
 			//testeToGenerateImgIntemporaryFolder(user.getPhoto().getBytes(),user.getPhoto().length());
 		    //user.setPhoto(Base64.getEncoder().encodeToString(user.getPhoto().));
@@ -339,6 +342,8 @@ public class Advert34Controller {
 			java.util.List<Plan> plans = service.getPlansByPackage(user.getPackage().getId());
 			//System.out.println(plans);
 			profile.setPlan(plans);
+		}else {
+			return null;
 		}
 
 		return profile;

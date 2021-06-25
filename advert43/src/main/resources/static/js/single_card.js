@@ -64,7 +64,10 @@ function setSingleCardInfo(){
 		labelDesc.text(app.Slider.Description.title);
 		divFormGroup.append(labelDesc);
 		divFormGroup.append(textAreaComponet);
-		descriptionComponet.append(divFormGroup);
+		//descriptionComponet.append(divFormGroup);
+		let titleDesc = $('<h4>');
+		titleDesc.text(app.Slider.Description.title+": "+myCard.header);
+		descriptionComponet.append(titleDesc);
 		
   					
 		divFormGroup = $("<div class='Form-Group'>");

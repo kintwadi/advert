@@ -372,7 +372,7 @@ CREATE TABLE `user` (
   `active_since` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `remember` bit(1) NOT NULL,
-  `code_recovry` varchar(150) DEFAULT NULL,
+  `code_recovery` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `fk_user_package1_idx` (`package_id`),
   CONSTRAINT `fk_user_package1` FOREIGN KEY (`package_id`) REFERENCES `package` (`package_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -458,4 +458,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-23 18:33:08
+-- Dump completed on 2021-06-25 12:51:54

@@ -207,7 +207,6 @@ nav.navbar{
 .new-card img, .old-card img{
   width: 100%;
   padding: 10px;
-  max-height: 100px;
 }
 .new-card .trend-bottom-cap, .old-card .trend-bottom-cap{
   padding: 10px;
@@ -215,23 +214,12 @@ nav.navbar{
 .new-card .trend-bottom-cap h6, .old-card .trend-bottom-cap h6{
   text-transform: uppercase;
   font-family:"Roboto",sans-serif !important;
-  
-  display: block;
-  max-width: 550px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 .new-card .trend-bottom-cap span, .old-card .trend-bottom-cap span{
 
   color:#646464;
   font-family:"Roboto",sans-serif !important;
   font-size: 13px !important;
-  display: block;
-  width: 100px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 .new-card .trend-bottom-cap hr, .old-card .trend-bottom-cap hr{
   margin: 0;
@@ -1003,9 +991,7 @@ span.title{
 .destination-slider .owl-nav {
 	display: block !important
 }
-.navbar{
-	max-height: 120px;
-}
+
 .destination-slider .owl-prev {
 	position: absolute;
 	top: 46%;
