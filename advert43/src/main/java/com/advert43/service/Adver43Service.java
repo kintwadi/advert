@@ -65,6 +65,10 @@ public class Adver43Service {
 
 		return dao.findSubCategoryById(subcategory_id);
 	}
+	public User getuUserByCode(int code) {
+
+		return dao.findUserByCode(code);
+	}
 	public Location getLocation(int location_id) {
 
 		return dao.findLocationByLocationId(location_id);

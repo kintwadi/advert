@@ -36,6 +36,7 @@ public interface IDao {
 	public User findByEmail(String email);
 	public Location findLocationByLocationId(int location_id); 
 	public User findUserById(int id);
+	public User findUserByCode(int code);
 	public Footer findFooterByPrice(String price);
 	public SubCategory findSubCategoryById(int subcategory_id);
 	public Category findCategoryById(int category_id);

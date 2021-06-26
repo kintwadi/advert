@@ -74,7 +74,13 @@ Application = {
 	                header: "Recuperar sua conta",
 	                info:"Informe seu Email para receber o código de recuperação",
 	                emailPlaceHolder: "Email",
-	                submitLabel: "Confirmar"
+	                submitLabel: "Confirmar",
+	                infoRecover:"Informe o código que foi enviado ao seu Email para recuperação de ua conta",
+	                emailPlaceHolder: "Email",
+	                codePlaceHolder: "Código",
+	                emailPlaceHolder: "Email",
+                	newPasswordPlaceHolder:"Nova Senha",
+	                submitRecoverLabel: "Finalizar"
 	                
                 }
                 	

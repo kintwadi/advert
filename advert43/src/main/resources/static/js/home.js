@@ -32,6 +32,11 @@ $('#btn_recover').attr("value",login.Recover.submitLabel);
 $('#recover_header').html(login.Recover.header);
 $('#recover_info').html(login.Recover.info);
 
+$('#btn_emailrecover').attr("value",login.Recover.submitRecoverLabel);
+$('#code').attr('placeholder',login.Recover.codePlaceHolder);
+$('#newPassword').attr('placeholder',login.Recover.newPasswordPlaceHolder);
+$('#recover_label').html(login.Recover.infoRecover);
+
 /*
 $("#loginModal").iziModal({
 
@@ -139,36 +144,35 @@ $('#form_login').submit(function (evt) {
 
 $('#form_recover').submit(function (evt) {
 	alert("clicou em continuar para recuperar");
-	return 0;
-	$("#login-error").css("display","none");
-	let loginError = $("#login-error");
+	//return 0;
+	$("#recover-error").css("display","none");
+	let recoverError = $("#recover-error");
 	let email = $("#email");
 	let password = $("#password");
 	let remember = $("#remember_me");
-	loginError.css("display", "none");
+	recoverError.css("display", "none");
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if( re.test(String(email.val()).toLowerCase())){
 
-		$.post("query_login",
+		$.post("emailconfirm",
 
 				{
 			email: email.val(),
 			password: password.val(),
 			remember: remember.prop('checked'),
 
-				},function(profile,status){
-				//alert(profile);
-					if(profile==""){
-						$("#login-error").html(login.error);
-						$("#login-error").css("color","red");
-						$("#login-error").slideToggle();
+				},function(data,status){
+				alert(data);
+					if(data==""){
+						$("#recover-error").html(login.Recover.error);
+						$("#recover-error").css("color","red");
+						$("#recover-error").slideToggle();
 										
 					}else{
-						var user = profile.user;
-						console.log("profile response:: "+JSON.stringify(user));
-						if(user != null){
-							loadUser(profile);
-							window.location.href = window.location.origin+window.location.pathname.replace('login','');
+						console.log("Data response:: "+data);
+						if(data != null){
+							//loadUser(profile);
+							window.location.href = "emailrecover";
 						}
 					}
 				}

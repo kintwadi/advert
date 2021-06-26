@@ -46,6 +46,7 @@ public class Constants {
 	public static final String REGISTER = "/register";
 	public static final String RECOVER = "/recover";
 	public static final String EMAILRECOVER = "/emailrecover";
+	public static final String EMAILCONFIRM = "/emailconfirm";
 	
 	public static final String ALL_SUBCATEGORIES = "/query_subCategory_all";
 

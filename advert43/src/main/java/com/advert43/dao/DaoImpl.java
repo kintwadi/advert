@@ -397,6 +397,17 @@ public class DaoImpl  implements IDao {
 			return null;
 		}
 	}
+	@Override
+	public User findUserByCode(int code) {
+		try {
+			Query query = entityManager.createNativeQuery("Select * from user where code_recovery = ?",User.class);
+			query.setParameter(1, code);
+			return  (User)query.getSingleResult();
+		} catch (NoResultException  e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
 	
 
 	@Transactional 

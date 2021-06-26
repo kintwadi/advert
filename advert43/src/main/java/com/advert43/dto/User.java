@@ -28,6 +28,8 @@ public class User implements Serializable {
 	private  boolean telVisible;
 	@Column(unique = true)
 	private String email;
+	@Column(name = "code_recovery",unique = true)
+	private String codeRecovery;
 	private boolean emailVisible;
 	private String activeSince;
 	private String password;
@@ -41,6 +43,20 @@ public class User implements Serializable {
 	
 	public String getActiveSince() {
 		return activeSince;
+	}
+
+
+
+
+	public String getCodeRecovery() {
+		return codeRecovery;
+	}
+
+
+
+
+	public void setCodeRecovery(String codeRecovery) {
+		this.codeRecovery = codeRecovery;
 	}
 
 

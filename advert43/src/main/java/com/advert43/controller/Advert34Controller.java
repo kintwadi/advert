@@ -10,6 +10,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Random;
 
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,7 +20,10 @@ import org.apache.tomcat.jni.File;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +49,7 @@ import com.advert43.dto.User;
 import com.advert43.service.Adver43Service;
 import com.advert43.util.Constants;
 import com.advert43.util.Util;
+import com.advert43.util.emailConfig;
 import com.google.gson.JsonArray;
 
 import antlr.collections.List;
@@ -57,7 +62,14 @@ public class Advert34Controller {
 	@Autowired
 	private Adver43Service service;
 	private ArrayList<CardImage> slideList = new ArrayList();
-
+	@Value("${spring.mail.host}")
+	private String host;
+	@Value("${spring.mail.port}")
+	private int port;
+	@Value("${spring.mail.username}")
+	private String username;
+	@Value("${spring.mail.password}")
+	private String password;
 	@GetMapping(Constants.ROOT)
 	public String home(Model model) {
 
@@ -69,6 +81,29 @@ public class Advert34Controller {
 
 		model.addAttribute("lang", Constants.LANGUAGE);
 		return Constants.VIEW_RECOVER;
+	}
+
+	@PostMapping(Constants.EMAILCONFIRM)
+	@ResponseBody
+	public String confirmRecover(@RequestParam("email")   String email) {
+		User user = null;
+		Integer code = 0;
+		do {
+			Random r = new Random();
+			int low = 1000;
+			int high = 9999;
+			int result = r.nextInt(high-low) + low;
+			user = service.getuUserByCode(result);
+			code = result;
+		}while(user!=null);
+		if(code>0) {
+			user = service.findByEmail(email);
+			user.setCodeRecovery(code.toString());
+			this.sendCodeToRecoverByEmail(email, code.toString());
+			//service.updateUserRemember(email, code);
+			return email;
+		}
+		return null;
 	}
 	@GetMapping(Constants.EMAILRECOVER)
 	public String email_recover(Model model) {
@@ -383,6 +418,27 @@ public class Advert34Controller {
 		return service.getListOfLocations();
 	}
 	
+	public void sendCodeToRecoverByEmail(String email,String code) {
+		emailConfig mconf = new emailConfig();
+		System.out.println("Host: "+this.host);
+		System.out.println("Port: "+this.port);
+		// create email sender
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost(this.host);
+		mailSender.setPort(this.port);
+		mailSender.setUsername(this.username);
+		mailSender.setPassword(this.password);
+		
+		// create mail instance
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setFrom(mailSender.getUsername());
+		mailMessage.setTo(email);
+		mailMessage.setSubject("Código de recuperação de conta");
+		mailMessage.setText("Cordiais saudações, estamos encaminhando para si o código de recuperação da tua conta:"+code+"<br> use ele na recuperação informando a nova senha.");
+		
+		// send the emailMassage
+		mailSender.send(mailMessage);
+	}
 	@PostMapping("/saveNewAd")
 	@ResponseBody
 	public String saveNewAd(Model model, HttpServletRequest request) {
@@ -478,7 +534,7 @@ public class Advert34Controller {
 		String zip = request.getParameter("Zip");
 		String subcategory = request.getParameter("Subcategory");
 		String categorization = request.getParameter("Categorization");
-		
+		 
 		cardDetails.setPublish(publishNow);
 		cardDetails.setReference(preference);
 		cardDetails.setStreet(street);
