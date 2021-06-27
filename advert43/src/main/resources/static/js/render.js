@@ -441,9 +441,37 @@ function Render(app) {
 		// });
 	};
 	this.cardListener = function (e){
-
-		window.location.href = "single_card?ref="+e.currentTarget.ref+"&type="+e.currentTarget.type;
+		
+		//window.location.href = "single_card?ref="+e.currentTarget.ref+"&type="+e.currentTarget.type;
+		render.singleCard(e.currentTarget.ref);
 	}
+	
+    /*
+    * this represents how to process the output or events
+    * get the output data and prepare it for the back end
+    * use JQUERY-PoST AJAX
+    * so the next team would only look at this method alone
+    *  need to prepare the microservice that return the list of ads
+    * of current user 
+    */
+    this.singleCard = function(id){
+    	//alert("entrou para carregar a pagina do card clicado");
+        // this request go at server and return the ads of current user 
+        $.get('LoadTheSingleCard',{card_id:id},this.singleCardCallBack);
+    }
+    // get the ajax response of LoadAllAds
+    this.singleCardCallBack = function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // add the data into variable list of ads wheather status is success 
+        if (status == "success") {
+            // update de list of the ads 
+			//alert("card: "+JSON.stringfy(data));
+			localStorage.setItem("singleCard", JSON.stringify(data));
+			//localStorage.singleCard = ;
+            window.location.href = "single_card";
+        }
+    }
 	// user render the NewEntriesContainer
 	this.NewEntriesContainer = function () {
 		/*
@@ -677,6 +705,7 @@ function Render(app) {
         console.log("response status::" + status);
         // this is the update list of the categorizations on create new Card
         app.NewAdd.categorization.list = data;
+		render.renderDataOfBasepackage();
 		render.renderDataCategorization();
 		render.renderDataSubCategorization(null);
     });
@@ -689,6 +718,119 @@ function Render(app) {
 		render.renderDataProvince();
     });
     }
+    this.LoadDatasToUpdateAd = function(cat,sub,prov){
+    // get all categorization and render then
+    	$.get("categories_list", function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // this is the update list of the categorizations on create new Card
+        app.NewAdd.categorization.list = data;
+		render.renderDataOfBasepackage();
+		let newAd = app.NewAdd;
+		$("#categorization").text(newAd.categorization.text);
+        let _sizeCategorization = newAd.categorization.list.length;
+        $("#categorizationList").find('option').remove().end();
+        for (let index = 0; index < _sizeCategorization; index++) {
+            const element = newAd.categorization.list[index];
+            let option = $('<option>');
+            option.attr("value", element.id);
+            option.attr("id",element.id);
+            option.text(element.name);
+			if(option.text()==cat){
+            	//alert('entrou')
+            	option.prop('selected',true);
+        	}
+            $("#categorizationList").append(option);
+        }
+        $("#placeCategorization").text(newAd.categorization.placeholder);
+        
+		//alert("mudou para: "+$("#categorizationList").val()+" user:"+localStorage.userId);
+    	$.get('subcategories_list',{category:$("#categorizationList").val()},function(data){
+		// get all subcategory
+		$("#lblSubcategory").text(newAd.subcategory.text);
+        let _sizeSubCategory = 0;
+        if(data!=null)
+        	_sizeSubCategory = data.length;
+        
+        $("#subcategory").find('option').remove().end();
+        for (let index = 0; index < _sizeSubCategory; index++) {
+            const element = data[index];
+            let option = $('<option>');
+            option.attr("value", element.id);
+            option.attr("id",element.id);
+            option.text(element.name);
+			if(option.text()==sub){
+            	//alert('entrou')
+            	option.prop('selected',true);
+        	}
+            $("#subcategory").append(option);
+        }
+        $("#placeSubcategory").text(newAd.subcategory.placeholder);
+        });
+    });
+    // get all locations and render then
+    	$.get("locations_list", function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // this is the update list of the locations on create new Card
+        app.NewAdd.province.list = data;
+		// get all provinces
+		$("#province").text(app.NewAdd.province.text);
+        let _sizeState = data.length;
+        
+		//alert(data);
+        $("#inputState").find('option').remove().end();
+        for (let index = 0; index < _sizeState; index++) {
+            const element = data[index];
+            let option = $('<option>');
+            let indexOf = index + 1;
+            option.attr("value", indexOf);
+            option.attr("id",indexOf);
+            option.text(element);
+			if(option.text()==prov){
+            	//alert('entrou')
+            	option.prop('selected',true);
+        	}
+            $("#inputState").append(option);
+        }
+        $("#placeState").text(app.NewAdd.province.placeholder);
+    });
+    }
+    this.renderDataOfBasepackage = function(){
+    	
+	 	let phoneVisible = false;
+	 	
+	 	if(localStorage.usertelvisible=="true")
+			phoneVisible = true;
+		
+        $("#ckbxPhone").prop("checked",phoneVisible);
+	 	
+	 	if(localStorage.usertelefone=="null")
+			$("#iPhone").val(null);
+		else
+			$("#iPhone").val(localStorage.usertelefone);
+	 	
+	 	let emailVisible = false;
+	 	
+	 	if(localStorage.useremailvisible=="true")
+			emailVisible = true;
+		
+	 	$("#ckbxEmail").prop("checked",emailVisible);
+	 	
+	 	if(localStorage.useremail=="null")
+			$("#iEmail").val(null);
+		else
+			$("#iEmail").val(localStorage.useremail);
+        
+		$("#iName").val(localStorage.username);
+		
+		// let as read only
+		$("#iName").attr("readonly",true);
+		$("#iEmail").attr("readonly",true);
+		$("#iPhone").attr("readonly",true);
+		$("#ckbxEmail").attr("disabled",true);
+		$("#ckbxPhone").attr("disabled",true);      
+    }
     this.renderDataCategorization = function(){
     	let newAd = app.NewAdd;
 		$("#categorization").text(newAd.categorization.text);
@@ -697,9 +839,9 @@ function Render(app) {
         for (let index = 0; index < _sizeCategorization; index++) {
             const element = newAd.categorization.list[index];
             let option = $('<option>');
-            let indexOf = index + 1;
-            option.attr("value", indexOf);
-            option.text(element);
+            option.attr("value", element.id);
+            option.attr("id",element.id);
+            option.text(element.name);
             $("#categorizationList").append(option);
         }
         $("#placeCategorization").text(newAd.categorization.placeholder);
@@ -715,14 +857,17 @@ function Render(app) {
     this.renderDataSubCategorization = function(data){
     	let newAd = app.NewAdd;
 		$("#lblSubcategory").text(newAd.subcategory.text);
-        let _sizeSubCategory = data.length;
+        let _sizeSubCategory = 0;
+        if(data!=null)
+        	_sizeSubCategory = data.length;
+        
         $("#subcategory").find('option').remove().end();
         for (let index = 0; index < _sizeSubCategory; index++) {
             const element = data[index];
             let option = $('<option>');
-            let indexOf = index + 1;
-            option.attr("value", indexOf);
-            option.text(element);
+            option.attr("value", element.id);
+            option.attr("id",element.id);
+            option.text(element.name);
             $("#subcategory").append(option);
         }
         $("#placeSubcategory").text(newAd.subcategory.placeholder);
@@ -738,6 +883,7 @@ function Render(app) {
             let option = $('<option>');
             let indexOf = index + 1;
             option.attr("value", indexOf);
+            option.attr("id",indexOf);
             option.text(element);
             $("#inputState").append(option);
         }
@@ -1109,21 +1255,94 @@ function Render(app) {
             panel_message.append(me);
     }
     // use this to render EditYourAdds
-    this.EditYourAdd = function (position) {
+    this.EditYourAdd = function (position,cardId) {
         let newAd = app.NewAdd;
+        data = {
+        	image: "",
+        }
         $("#title").text(newAd.editTitle);
-        let myAd = listAds[position];
-        let _size = myAd.UploadImage.length;
+        //let myAd = listAds[position];
+        let _size = 0;
+        if(app.Publisher.publishList[position].UploadImage!=null)
+        	_size = app.Publisher.publishList[position].UploadImage.length;
+        
+        //alert(1);
+        //alert(_size);
         slideList = [];
         for (let index = 0; index < _size; index++) {
-            const element = myAd.UploadImage[index];
-            let img = element.split('/');
-            img = img[(img.length - 1)];
-            //alert(img);
-            slideList.push(img);
+            const element = app.Publisher.publishList[index].UploadImage;
+            data.image = element;
+            slideList.push(data);
         }
-        render.SlideRender();
-        render.UpdateModalForm(myAd);
+        f = 0;
+        //alert("image: "+slideList[0].image);
+        //slideList = app.Publisher.publishList[position].UploadImage;
+        //alert(cardId);
+		idCard = cardId;
+        render.LoadTheSingleCard(cardId);
+    }
+    /*
+    * this represents how to process the output or events
+    * get the output data and prepare it for the back end
+    * use JQUERY-PoST AJAX
+    * so the next team would only look at this method alone
+    *  need to prepare the microservice that return the list of ads
+    * of current user 
+    */
+    this.LoadTheSingleCard = function(id){
+    	//alert("entrou para carregar os cards");
+        // this request go at server and return the ads of current user 
+        $.get('LoadTheSingleCard',{card_id:id},this.LoadTheSingleCardCallBack);
+    }
+    // get the ajax response of LoadAllAds
+    this.LoadTheSingleCardCallBack = function (data, status) {
+    publish1 = {
+            title: "Publish",
+            state: "publish-on",
+            UploadImage: [],
+            Edit: {
+                cssId: "btn_edit",
+                title: "Edit",
+                flag: "fa fa-edit"
+            },
+            Delete: {
+                cssId: "delete",
+                title: "Delete",
+                flag: "fa fa-trash"
+            }
+        }
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // add the data into variable list of ads wheather status is success 
+        
+        if (status == "success") {
+            // update de list of the ads 
+            //alert(JSON.stringify(data));
+            let fotos = {};
+            let _size = data.cardDetail.UploadImage.length;
+        	slideList = [];
+        	//alert(_size);
+        	for (let index = 0; index < _size; index++) {
+            	const element = data.cardDetail.UploadImage[index];
+            	fotos.image = element;
+            	slideList.push(fotos);
+            	fotos = {};
+        	}
+        
+        	//alert("image: "+slideList[0].image);
+        	//slideList = app.Publisher.publishList[position].UploadImage;
+        	//alert(cardId);
+        	render.SlideRender();
+        	let myAd = data;
+        	render.UpdateModalForm(myAd);
+        
+            // empty the local list of publish in format
+            //app.Publisher.publishList = data.Publisher.publishList;
+            //let _size = render.listAds.length;
+        	//alert(render.listAds.length);
+            //render = new Render(data);
+            //render.Publisher();
+        }
     }
     // 
     this.CreateYourAddMood = function () {
@@ -1158,7 +1377,7 @@ function Render(app) {
         $("#preference").text(newAd.preference);
         $("#tips2").text(newAd.tips2.text);
         $("#iTips2").attr("placeholder", newAd.tips2.placeholder);
-
+		slideList = [];
         $("#phone").text(newAd.phone.text);
         $("#email").text(newAd.email.text);
         $("#phoneState").prepend(newAd.phone.visible);
@@ -1176,8 +1395,9 @@ function Render(app) {
                 render.FinishAd();
             }
         );
+        
     }
-
+	
     // use to Clean Ads content in form Modal add 
     this.CleanModalForm = function () {
         slideList = [];
@@ -1185,7 +1405,6 @@ function Render(app) {
         $("#iLookingfor").prop("checked", false);
         $("#titelVal").val(null);
         $("#descriptionVal").val(null);
-        $("#tipsVal").val(null);
         $("#priceVal").val(null);
         $("#iNegotiable").prop("checked", false);
         $("#iTochange").prop("checked", false);
@@ -1198,13 +1417,38 @@ function Render(app) {
         $("#inputState").val(null);
         $("#iStreet").val(null);
         $("#iPreference").val(null);
-        $("#iTips2").val(null);
         $("#iPhone").val(null);
         $("#iEmail").val(null);
         $("#iName").val(null);
-        $("#visible1").prop("checked", false);
-        $("#visible2").prop("checked", false);
+        $("#ckbxPhone").prop("checked", false);
+        $("#ckbxEmail").prop("checked", false);
         $("#publish_now").prop("checked", false);
+        render.EmptySlideList();
+    }
+    //populate the value of a categorization in modal
+    this.popCategorization = function(val){
+    	for(i = 1; i<$('#categorizationList').find('option').length;i++){
+        	alert($('#categorizationList #'+i).text());
+        	if($('#categorizationList #'+i).text()==val){
+        	   	 $('#categorizationList #'+i).prop('selected',true);
+        	}
+    	}
+    }
+    this.popSubCategorization = function(val){
+    	
+    	for(i = 1; i<$('#subcategory').find('option').length;i++){
+        	if($('#subcategory #'+i).text()==val){
+        	   	 $('#subcategory #'+i).prop('selected',true);
+        	}
+    	}
+    }
+    this.popProvince = function(val){
+    	
+    	for(i = 1; i<$('#inputState').find('option').length;i++){
+        	if($('#inputState #'+i).text()==val){
+        	   	 $('#inputState #'+i).prop('selected',true);
+        	}
+    	}
     }
     // use to render the Ads content in form Modal add 
     this.UpdateModalForm = function (ad) {
@@ -1215,37 +1459,78 @@ function Render(app) {
             let image = urlBase + "" + element;
             images.push(image);
         }
-        ad.UploadImage = images;
+        //ad.UploadImage = slideList;
         
         AddType = {
             offer: true,
             looking: true,
         }
+        render.LoadDatasToUpdateAd(ad.cardDetail.category.name,ad.cardDetail.subCategory.name,ad.cardDetail.province.location);
         // modify the value of filds in modal
-        $("#iOffer").prop("checked", ad.AddType.offer);
-        $("#iLookingfor").prop("checked", ad.AddType.looking);
-        $("#titelVal").val(ad.TitleOfAd);
-        $("#descriptionVal").val(ad.Description);
-        $("#tipsVal").val(ad.Tips);
-        $("#priceVal").val(ad.Price);
-        $("#iNegotiable").prop("checked", ad.Negotiable);
-        $("#iTochange").prop("checked", ad.ToChange);
-        $("#Itogiveaway").prop("checked", ad.ToGiveAwey);
-        $("#iNew").prop("checked", ad.New);
-        $("#iUsed").prop("checked", ad.Used);
-        $("#categorizationList").val(ad.Categorization);
-        $("#subcategory").val(ad.Subcategory);
-        $("#iZip").val(ad.Zip);
-        $("#inputState").val(ad.Province);
-        $("#iStreet").val(ad.Street);
-        $("#iPreference").val(ad.Preference);
-        $("#iTips2").val(ad.Tips2);
+        if(ad.cardDetail.type=="offer"){
+        	$("#iOffer").prop("checked", true);
+        	$("#iLookingfor").prop("checked", false);
+        }else{
+        	$("#iLookingfor").prop("checked", true);
+        	$("#iOffer").prop("checked", false);
+        	}
+        $("#titelVal").val(ad.header);
+        $("#descriptionVal").val(ad.description);
+        //$("#tipsVal").val(ad.Tips);
+        $("#priceVal").val(ad.Footer.price);
+        if(ad.cardDetail.dealtype == "To change"){
+        	$("#iNegotiable").prop("checked", false);
+        	$("#iTochange").prop("checked", true);
+        	$("#Itogiveaway").prop("checked", false);
+        	$("#iNew").prop("checked", false);
+        	$("#iUsed").prop("checked", false);
+        }else if(ad.cardDetail.dealtype == "Negotiable"){
+        	$("#iNegotiable").prop("checked", true);
+        	$("#iTochange").prop("checked", false);
+        	$("#Itogiveaway").prop("checked", false);
+        	$("#iNew").prop("checked", false);
+        	$("#iUsed").prop("checked", false);
+        }else if(ad.cardDetail.dealtype == "To give away"){
+        	$("#iNegotiable").prop("checked", false);
+        	$("#iTochange").prop("checked", false);
+        	$("#Itogiveaway").prop("checked", true);
+        	$("#iNew").prop("checked", false);
+        	$("#iUsed").prop("checked", false); 
+        }else if(ad.cardDetail.dealtype == "New"){
+        	$("#iNegotiable").prop("checked", false);
+        	$("#iTochange").prop("checked", false);
+        	$("#Itogiveaway").prop("checked", false);
+        	$("#iNew").prop("checked", true);
+        	$("#iUsed").prop("checked", false);
+        }else{
+        	$("#iNegotiable").prop("checked", false);
+        	$("#iTochange").prop("checked", false);
+        	$("#Itogiveaway").prop("checked", false);
+        	$("#iNew").prop("checked", false);
+        	$("#iUsed").prop("checked", true);
+        }
+        //alert(ad.cardDetail.category.name);
+        //document.getElementById("categorizationList").selectedIndex = '2'//""+ad.cardDetail.category.id; 
+    	//alert(document.getElementById("categorizationList").selectedIndex);
+    	//render.popCategorization(ad.cardDetail.category.name);
+        //render.popSubCategorization(ad.cardDetail.subCategory.name);
+        //render.popProvince(ad.cardDetail.province.location);
+        //$("#categorizationList").val(ad.cardDetail.category.id);
+        //$("#subcategory").val(ad.cardDetail.subCategory.id);
+        $("#iZip").val(ad.cardDetail.zipcode);
+        //$("#inputState").val(ad.cardDetail.province.id);
+        $("#iStreet").val(ad.cardDetail.street);
+        $("#iPreference").val(ad.cardDetail.reference);
+        /*$("#iTips2").val(ad.Tips2);
         $("#iPhone").val(ad.Phone);
         $("#iEmail").val(ad.Email);
         $("#iName").val(ad.Name);
-        $("#visible1").prop("checked", ad.PhoneState);
-        $("#visible2").prop("checked", ad.EmailState);
-        $("#publish_now").prop("checked", ad.PublishNow);
+        $("#ckbxPhone").prop("checked", ad.PhoneState);
+        $("#ckbxEmail").prop("checked", ad.EmailState);
+        */
+        //render.data
+        //if(ad.cardDetail.publish==true)
+        $("#publish_now").prop("checked", ad.cardDetail.publish);
         $("#divEdit").attr("style", "");
         $("#divAdd").attr("style", "display:none;");
     }
@@ -1263,12 +1548,11 @@ function Render(app) {
         ad.AddType = AddType;
         ad.TitleOfAd = $("#titelVal").val();
         ad.Description = $("#descriptionVal").val();
-        ad.Tips = $("#tipsVal").val();
         if (render.isMoney($("#priceVal").val()))
             ad.Price = $("#priceVal").val();
         else
             ad.Price = null;
-
+		//alert(ad.Price);
         let Negotiable = $("#iNegotiable").prop("checked");
         let Tochange = $("#iTochange").prop("checked");
         let togiveaway = $("#Itogiveaway").prop("checked");
@@ -1285,33 +1569,44 @@ function Render(app) {
         ad.Province = $("#inputState").val();
         ad.Street = $("#iStreet").val();
         ad.Preference = $("#iPreference").val();
-        ad.Tips2 = $("#iTips2").val();
         if ($.isNumeric($("#iPhone").val()))
             ad.Phone = $("#iPhone").val();
         else
             ad.Phone = null;
         ad.Email = $("#iEmail").val();
         ad.Name = $("#iName").val();
-        ad.PhoneState = $("#visible1").prop("checked");
-        ad.EmailState = $("#visible2").prop("checked");
+        ad.PhoneState = $("#ckbxPhone").prop("checked");
+        ad.EmailState = $("#ckbxEmail").prop("checked");
         ad.PublishNow = $("#publish_now").prop("checked");
         return ad;
     }
     this.FinishUpdateAd = function (position) {
         // catch the Ads in to modal form 
         let ad = render.CreateNewAdWithModalData();
-        render.SaveEditAdInToServer(ad);
-        // comment the all lines instructions bellow wheather the SaveEditAdsInToServer are doing and work  
-        // verigy whether need to update in to list of adds
-        if (position >= 0 && position < listAds.length) {
-            // Update the publish in PublishList in to format.js of the ad
-            render.CreateOrUpdateAndPublish(ad, position);
-            listAds[position] = ad;
-        } else {
-            // Nenhum Ad pra actualizar
+        if(ad.Price==null || f>0) 
+        	return;
+        f= f+1;
+        //alert(ad.Price);
+        //alert(f);
+        render.SaveUpdateAdInToServer(ad);
+        
+    }
+    this.SaveUpdateAdInToServer = function(ad){
+        // this request go at server and add new ad and return the update list of ads
+        ad.userId = localStorage.userId;
+        ad.cardId = idCard;
+        //alert(idCard);
+        $.post('saveUpdateAd',ad,this.SaveUpdateAdInToServerCallBack);
+    } 
+    // get the ajax response of SaveEditAdInToServer
+    this.SaveUpdateAdInToServerCallBack = function(data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // add the data into variable list of ads wheather status is success 
+        if (status == "success") {
+	       render.LoadAllAds();
+	       render.CleanModalForm();
         }
-        // clean the modal form 
-        render.CleanModalForm();
     }
     /*
     * this represents how to process the output or events
@@ -1322,11 +1617,9 @@ function Render(app) {
     *  return the update list of ads 
     * of current user 
     */
-    this.SaveEditAdInToServer = function(ad){
+    this.SaveEditAdInToServer = function(ad,status){
         // this request go at server and add new ad and return the update list of ads
-    	
-    	
-        $.post('SaveEditAdInToServer','ad','SaveEditAdInToServerCallBack');
+        $.post('editPublishCard',{id:ad,publish:status},this.SaveEditAdInToServerCallBack);
     } 
     // get the ajax response of SaveEditAdInToServer
     this.SaveEditAdInToServerCallBack = function(data, status) {
@@ -1357,9 +1650,10 @@ function Render(app) {
     *  return the update list of ads 
     * of current user 
     */
-    this.DeletePublishOnTheServer = function(ad){
+    this.DeletePublishOnTheServer = function(cardId){
+    	//alert(cardId);
         // this request go at server and delete the ad and return the update list of ads
-        $.post('DeletePublishOnTheServer','ad','DeletePublishOnTheServerCallBack');
+        $.post('deleteCard',{card_id:cardId},this.DeletePublishOnTheServerCallBack);
     } 
     // get the ajax response of DeletePublishOnTheServer
     this.DeletePublishOnTheServerCallBack = function(data, status) {
@@ -1367,30 +1661,22 @@ function Render(app) {
         console.log("response status::" + status);
         // add the data into variable list of ads wheather status is success 
         if (status == "success") {
-            // update de list of the ads 
-            listAds = data;
-            let _size = listAds.length;
-            // empty the local list of publish in format
-            app.Publisher.publishList = null;
-            for (let index = 0; index < _size; index++) {
-                const element = listAds[index];
-                // Create a new publish in PublishList in to format.js of the new ad  
-                render.CreateOrUpdateAndPublish(ad, -1);
-            }
+	       render.LoadAllAds();
         }
     } 
     this.FinishAd = function () {
         // catch the Ads in to modal form 
         ad = render.CreateNewAdWithModalData();
+        //alert("adicionar");
         // event that do the jquery-post ajax to save new ad in to server
         render.SaveNewAdInToServer(ad);
         // comment the three lines in bellow (the comments lines not includes on three lines) when the SaveNewAdInToServer do and work
         // Create a new publish in PublishList in to format.js of the new ad  
-        render.CreateOrUpdateAndPublish(ad, -1);
+        //render.CreateOrUpdateAndPublish(ad, -1);
         // add the ads in to list of ads
-        listAds.push(ad);
+        //listAds.push(ad);
         // clean the modal form
-        render.CleanModalForm();
+        //render.CleanModalForm();
     }
     /*
     * this represents how to process the output or events
@@ -1401,25 +1687,41 @@ function Render(app) {
     * of current user 
     */
     this.LoadAllAds = function(){
+    	//alert("entrou para carregar os cards");
         // this request go at server and return the ads of current user 
-        //$.get('LoadAllAds',null,'LoadAllAdsCallBack');
+        $.get('loadAllAds',{user_id:localStorage.userId},this.LoadAllAdsCallBack);
+        slideList = [];
     }
     // get the ajax response of LoadAllAds
     this.LoadAllAdsCallBack = function (data, status) {
+    publish1 = {
+            title: "Publish",
+            state: "publish-on",
+            UploadImage: [],
+            Edit: {
+                cssId: "btn_edit",
+                title: "Edit",
+                flag: "fa fa-edit"
+            },
+            Delete: {
+                cssId: "delete",
+                title: "Delete",
+                flag: "fa fa-trash"
+            }
+        }
         console.log("response data::" + data);
         console.log("response status::" + status);
         // add the data into variable list of ads wheather status is success 
         if (status == "success") {
             // update de list of the ads 
-            listAds = data;
+            render.listAds = data.Publisher.publishList;
             // empty the local list of publish in format
-            app.Publisher.publishList = null;
-            let _size = listAds.length;
-            for (let index = 0; index < _size; index++) {
-                const element = listAds[index];
-                // Create a new publish in PublishList in to format.js of the new ad  
-                render.CreateOrUpdateAndPublish(ad, -1);
-            }
+            app.Publisher.publishList = data.Publisher.publishList;
+            let _size = render.listAds.length;
+        	//alert(_size);
+            //alert(render.listAds.length);
+            //render = new Render(data);
+            render.Publisher();
         }
     }
     /*
@@ -1447,7 +1749,8 @@ function Render(app) {
             let pos = listAds.length-1; 
             let ad = listAds[pos];
             // Create a new publish in PublishList in to format.js of the new ad  
-            render.CreateOrUpdateAndPublish(ad, -1);
+            render.LoadAllAds();
+            //render.CreateOrUpdateAndPublish(ad, -1);
             // clean the modal form
             render.CleanModalForm();
         }
@@ -1468,12 +1771,12 @@ function Render(app) {
             image: "",
             Edit: {
                 cssId: "btn_edit",
-                title: "Edit",
+                title: "Editar",
                 flag: "fa fa-edit"
             },
             Delete: {
                 cssId: "delete",
-                title: "Delete",
+                title: "Deletar",
                 flag: "fa fa-trash"
             }
         }
@@ -1482,8 +1785,8 @@ function Render(app) {
         else
             publish1.state = "publish-off";
         if (ad.UploadImage.length > 0){
-            publish1.image = ad.UploadImage[0].image;
-			//console.log(ad.UploadImage[0].image);
+            publish1.image = ad.UploadImage[0];
+			//console.log(ad.UploadImage[0]);
 		}
         if (position >= 0 && position < app.Publisher.publishList.length) {
             app.Publisher.publishList[position] = publish1;
@@ -1589,6 +1892,25 @@ function Render(app) {
        	// this render the slide
        	render.SlideRender();
    	}
+   	this.EmptySlideList = function(){
+        // get the  image and move to server folder 
+        // and return de image that was deleted"
+        //alert("entrou em zerar o slideList do server");
+        $.post('slide_empty', null, this.EmptySlideListCallBack);
+    }
+    // get the ajax response of RemoveImageToserver
+    this.EmptySlideListCallBack = function (data, status) {
+        console.log("response data::" + data);
+        console.log("response status::" + status);
+        // remove into variable list of imageSlide wheather status is success 
+        if (data != null) {
+            // remove in local variable list of  image in to slide 
+            slideList = [];
+            //alert("devolveu dado");
+            // render the slide
+            render.SlideRender();
+        }
+    }
     /*
     * this represents how to process the output or events
     * get the output data and prepare it for the back end
@@ -1718,8 +2040,8 @@ function Render(app) {
             var panelBody = $('<div class="panel-body">');
             var picture = $('<div class="picture">');
             var image = $('<img alt="">');
-            if(element.image!=null){
-            	image.attr("src", "data:image/jpg;base64,"+element.image);
+            if(element.UploadImage!=null){
+            	image.attr("src", "data:image/jpg;base64,"+element.UploadImage[0]);
             }else{
             	image.attr("src", "");
             }
@@ -1734,33 +2056,35 @@ function Render(app) {
             var row = $('<div class="row">');
             var column = $('<div class="col-md-12">');
             var switches = $('<div class="custom-control custom-switch">');
+            switches.attr("id",index);
             if (element.state == "publish-on") {
                 checkboxControl = $('<input type="checkbox" class="custom-control-input" checked>');
 
             } else {
                 checkboxControl = $('<input type="checkbox" class="custom-control-input">');
             }
-            checkboxControl.attr("id", "publish_" + val);
+            checkboxControl.attr("id", element.id);
             checkboxControl.click(
                 function () {
-                    // alert("clicou");
+                     let myId = $('div#'+index+' input.custom-control-input').attr('id');
+                     //alert("clicou :" +myId);
                     if (element.state == "publish-off") {
                         //estava off
                         element.state = "publish-on";
                         let divState = $("#state_" + val);
                         divState.attr("class", element.state);
-                        render.ChangeThePublishNow(true, index);
+                        render.ChangeThePublishNow(true, myId);
                     } else {
                         // estava on
                         element.state = "publish-off";
                         let divState = $("#state_" + val);
                         divState.attr("class", element.state);
-                        render.ChangeThePublishNow(false, index);
+                        render.ChangeThePublishNow(false, myId);
                     }
                 }
             );
             var checkBoxLabel = $('<label class="custom-control-label">');
-            checkBoxLabel.attr("for", "publish_" + val);
+            checkBoxLabel.attr("for", element.id);
             checkBoxLabel.text(element.title);
             switches.append(checkboxControl);
             switches.append(checkBoxLabel);
@@ -1780,14 +2104,16 @@ function Render(app) {
             btnEdit.attr('id', element.Edit.cssId + "_" + val);
             btnDelete.click(function () {
                 // let currentPublisher = $("div#config_" + val);
+                let cardId = $('div#'+index+' input.custom-control-input').attr('id');
                 let position = val - 1;
-                render.DeletePublish(position);
+                render.DeletePublish(position,cardId);
                 // currentPublisher.hide();
             });
             btnEdit.click(
                 function () {
                     let position = val - 1;
-                    render.EditYourAdd(position);
+                	let cardId = $('div#'+index+' input.custom-control-input').attr('id');
+                    render.EditYourAdd(position,cardId);
                     indexEdit = position;
                 }
             );
@@ -1805,21 +2131,20 @@ function Render(app) {
             publisher.append(divPrincipal);
         }
     };
+    var idCard = 0;
     this.ChangeThePublishNow = function (state, position) {
-        listAds[position].PublishNow = state;
-        // go at server and update the ad 
-        render.SaveEditAdInToServer(listAds[position]);
+        //listAds[position].PublishNow = state;
+        // go at server and update the ad
+        //alert(app.Publisher.publishList.length); 
+        render.SaveEditAdInToServer(position,state);
     }
-    this.DeletePublish = function (position) {
+    this.DeletePublish = function (position,cardId) {
         // get the ad in the list of ads 
         let ad = listAds[position]; 
         // go at the server and remove the ad
-        render.DeletePublishOnTheServer(ad);
-        // comment the lines bellow when the DeletePublishOnTheServer are doing and work  
-        listAds.splice(position, 1);
-        app.Publisher.publishList.splice(position, 1);
-        render.Publisher();
+        render.DeletePublishOnTheServer(cardId);
     }
+    var f = 0;
     $("#finishEdit").click(
         function () {
             render.FinishUpdateAd(indexEdit);
@@ -2326,8 +2651,31 @@ function Render(app) {
         $("#new-user").append(userName);
         
     };
+    // render the data user login
+    this.dataUserLogin = function(){
+    	if(localStorage.userId!=null){
+		  	$("#login").css("display","none");
+		  	$("#sign-up").css("display","none");
+			$("#link-id").css("display","block");
+		  	var userSettings = $("#user-settings");
+		  	var userId = localStorage.userId;
+		 	var username = localStorage.username;
+		 	var userphoto = localStorage.userphoto;
+		 	//console.log(userphoto);
+		 	//$("#user-link-img").attr("src","img/uploads/user.jpg");
+		 	$("#user-link-img").attr("src","data:image/jpg;base64,"+userphoto);
+		 	$("#user-name-id").html(username);
+		 	$("#new-card").css("display","none");
+			$(".newEntriesContainer").css("display","none");
+			$("#middle_colapse .panel-primary").first().css("display","none");
+			
+		}
+    }
 	// render the user data 
 	this.UserData = function () {
+		var card = localStorage.getItem("singleCard");
+	  	let myCard = JSON.parse(card);
+		//alert(myCard.user.name);
 		var userName = null;
 		var cellphone = null;
 		var activeSince = null;
@@ -2336,28 +2684,45 @@ function Render(app) {
 		userName = $("<h4>");
 		cellphone = $("<h4>");;
 		activesince = $("<h4>");
-		// render the name of user
-		i = $("<i class='fa fa-user'> ")
-		span = $("<span class='span'> ");
-		span.text(" " + app.NewUser.name);
-		userName.append(i);
-		userName.append(span);
-		// render the cellphone of user 
-		i = $("<i class='fa fa-phone'> ")
-		span = $("<span class='span'> ");
-		span.text(" " + app.NewUser.cellphone);
-		cellphone.append(i);
-		cellphone.append(span);
-		// render the active since
-		i = $("<span class='text-right'> ")
-		span = $("<span class='span'>");
-		i.text("ACTIVE SINCE ");
-		span.text(" " + app.NewUser.activeSince);
-		activesince.append(i);
-		activesince.append(span);
-		$(".user-data").append(userName);
-		$(".user-data").append(cellphone);
-		$(".user-data").append(activesince);
+		if(myCard.user.name!=null){
+			// render the name of user
+			i = $("<i class='fa fa-user'> ")
+			span = $("<span class='span'> ");
+			span.text(" " + myCard.user.name);
+			userName.append(i);
+			userName.append(span);
+			$(".user-data").append(userName);
+		}
+		if(myCard.user.package!="Basic"){
+			if(myCard.user.telefone!=null && myCard.user.telefone_visible==true){
+				// render the cellphone of user 
+				i = $("<i class='fa fa-phone'> ")
+				span = $("<span class='span'> ");
+				span.text(" " + myCard.user.telefone);
+				cellphone.append(i);
+				cellphone.append(span);
+				$(".user-data").append(cellphone);
+			}
+			if(myCard.user.email!=null && myCard.user.email_visible==true){
+				// render the cellphone of user 
+				i = $("<i class='fa fa-envelope'> ")
+				span = $("<span class='span'> ");
+				span.text(" " + myCard.user.email);
+				cellphone.append(i);
+				cellphone.append(span);
+				$(".user-data").append(cellphone);
+			}
+		}
+		if(myCard.user.active_since!=null){
+			// render the active since
+			i = $("<span class='text-right'> ")
+			span = $("<span class='span'>");
+			i.text("ACTIVE SINCE ");
+			span.text(" " + myCard.user.active_since);
+			activesince.append(i);
+			activesince.append(span);
+			$(".user-data").append(activesince);
+		}
 		console.log($(".user-data"));
 	};
 	 // render the AdvertisementContainer
@@ -2378,40 +2743,73 @@ function Render(app) {
     };
 	// render the message component
 	this.Message = function () {
-		var message = $("#message");
-		var divForm = $("<div class='form'>");
-		var divFormGroup = $("<div class='form-group'>");
-		var legend = $("<legend>");
-		var label = $("<label for='name'>");
-		var fild = $("<input type='text' class='form-control' id='name'>");
-		label.text(app.Message.filds[0]);
-		legend.text(app.Message.text);
-		message.append(legend);
-		divFormGroup.append(label);
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		label = $("<label for='phone'>");
-		fild = $("<input type='text' class='form-control' id='phone'>");
-		divFormGroup = $("<div class='form-group'>");
-		label.text(app.Message.filds[1]);
-		divFormGroup.append(label);
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		fild = $('<textarea class="form-control" id="description" rows="3">');
-		fild.attr("placeholder", app.Message.filds[2]);
-		divFormGroup = $("<div class='form-group'>");
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		divFormGroup = $("<div class='bt'>");
-		fild = $('<button type="submit" id="send" class="btn btn-primary">');
-		let i = $('<i class="fa fa-envelope">');
-		i.text("   " + app.Message.button.text);
-		fild.append(i);
-		fild.click(this.SendMessage);
-		divFormGroup.append(fild);
-		divForm.append(divFormGroup);
-		message.append(divForm);
-
+		if(localStorage.userId!=null){
+			
+			var card = localStorage.getItem("singleCard");
+		  	let myCard = JSON.parse(card);
+			//alert(myCard.user.name);
+			
+			let v = false;
+			myCard.user.feactures.every(
+			element => {
+	   				//alert(element);
+	   				if(element.includes("Receive message")==true){
+	   					v = true;
+	   					return false;
+	   				}
+	   				return true;
+	    		}
+			);
+			var message = $("#message");
+			message.attr('style',"display:none;");
+			//alert(v);
+			if(v==true){
+				var divForm = $("<div class='form'>");
+				var divFormGroup = $("<div class='form-group'>");
+				var legend = $("<legend>");
+				var label = $("<label for='name'>");
+				var fildId = $("<input type='hidden' class='form-control' id='userId'>");
+				fildId.val(localStorage.userId);
+				var fild = $("<input type='text' class='form-control' id='name'>");
+				fild.val(localStorage.username);
+				label.text(app.Message.filds[0]);
+				legend.text(app.Message.text);
+				message.append(legend);
+				divFormGroup.append(label);
+				divFormGroup.append(fild);
+				fild.attr('readonly','true');
+				divForm.append(divFormGroup);
+				label = $("<label for='phone'>");
+				fild = $("<input type='text' class='form-control' id='phone'>");
+				if(localStorage.usertelefone!="null"){
+					fild.val(localStorage.usertelefone);
+					fild.attr('readonly','true');
+				}else{
+					fild.val();
+					fild.attr('readonly','true');
+				}
+				divFormGroup = $("<div class='form-group'>");
+				label.text(app.Message.filds[1]);
+				divFormGroup.append(label);
+				divFormGroup.append(fild);
+				divForm.append(divFormGroup);
+				fild = $('<textarea class="form-control" id="description" rows="3">');
+				fild.attr("placeholder", app.Message.filds[2]);
+				divFormGroup = $("<div class='form-group'>");
+				divFormGroup.append(fild);
+				divForm.append(divFormGroup);
+				divFormGroup = $("<div class='bt'>");
+				fild = $('<button type="submit" id="send" class="btn btn-primary">');
+				let i = $('<i class="fa fa-envelope">');
+				i.text("   " + app.Message.button.text);
+				fild.append(i);
+				fild.click(this.SendMessage);
+				divFormGroup.append(fild);
+				divForm.append(divFormGroup);
+				message.append(divForm);
+				message.attr('style',"");
+			}
+		}
 	};
 	// click of the send button 
 	this.SendMessage = function () {
@@ -2434,7 +2832,7 @@ function Render(app) {
 		link.text(app.Links.follow.text);
 		link.attr("href", app.Links.follow.link);
 		div.append(link);
-
+		div.attr('style',"display:none;");
 	};
 	this.Slider = function () {
 		var carousel = $('#carouselExampleIndicators');
@@ -2778,13 +3176,14 @@ render.UserContainer();
 render.FooterContainer();
 
 //call render of message form
-
-render.Message();
+//render.Message();
 //call the render of ads link
-render.Links();
+//render.Links();
 //render de slide 
-render.Slider();
-render.UserData();
+//render.Slider();
+//render.UserData();
+// render de data user login
+//render.dataUserLogin();
 //call render of the advertisement 
 render.AdvertisementContainer();
 render.NewUser();
@@ -2797,7 +3196,7 @@ render.MessageComponentRender();
 // use render the Publisher
 render.Publisher();
 // use render the LoadAllAds instead of Publisher in render
-render.LoadAllAds();
+//render.LoadAllAds();
 
 
 

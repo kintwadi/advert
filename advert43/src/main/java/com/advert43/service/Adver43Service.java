@@ -1,7 +1,8 @@
 package com.advert43.service;
 
-import java.io.ByteArrayOutputStream;
+//import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.zip.DataFormatException;
@@ -13,6 +14,7 @@ import javax.persistence.Query;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.stereotype.Service;
 
 import com.advert43.dao.IDao;
@@ -21,11 +23,17 @@ import com.advert43.dto.Card;
 import com.advert43.dto.CardDetails;
 import com.advert43.dto.CardImage;
 import com.advert43.dto.Category;
+import com.advert43.dto.Feacture;
 import com.advert43.dto.Footer;
 import com.advert43.dto.Location;
+import com.advert43.dto.Package;
+import com.advert43.dto.Plan;
 import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
 import com.advert43.util.Util;
+import com.google.gson.JsonObject;
+
+import net.bytebuddy.description.TypeVariableSource.Visitor;
 
 @Service
 public class Adver43Service {
@@ -39,6 +47,35 @@ public class Adver43Service {
 	public User addUser(User user) {
 
 		return dao.addUser(user);
+	}
+
+	public List<Package> getAllPackages() {
+
+		return dao.packages();
+	}
+	public List<Feacture> getAllFeactures() {
+
+		return dao.feactures();
+	}
+	public List<Plan> getPlansByPackage(int package_id) {
+
+		return dao.getPlansByPackage(package_id);
+	}
+	public SubCategory getSubCategory(int subcategory_id) {
+
+		return dao.findSubCategoryById(subcategory_id);
+	}
+	public User getuUserByCode(int code) {
+
+		return dao.findUserByCode(code);
+	}
+	public Location getLocation(int location_id) {
+
+		return dao.findLocationByLocationId(location_id);
+	}
+	public Category getCategory(int category_id) {
+
+		return dao.findCategoryById(category_id);
 	}
 	public User findByEmail(String email) {
 		return dao.findByEmail(email);
@@ -101,7 +138,8 @@ public class Adver43Service {
 		return application;
 	}
 	// compress the image bytes before storing it in the database
-	    public static byte[] compressBytes(byte[] data) {
+	/*
+	public static byte[] compressBytes(byte[] data) {
 	        Deflater deflater = new Deflater();
 	        deflater.setInput(data);
 	        deflater.finish();
@@ -135,10 +173,11 @@ public class Adver43Service {
 		        }
 		        return outputStream.toByteArray();
 		    }
+		    */
 	@SuppressWarnings("unchecked")
 	public JSONObject oldEntries(String lang) {
 
-		List<Card> cards = dao.newEntries();
+		List<Card> cards = dao.oldEntries();
 		app = Util.getJSONApp(lang);
 
 		JSONObject application = (JSONObject) app.get("Application");
@@ -296,10 +335,10 @@ public class Adver43Service {
 	public JSONArray getListOfCategories() {
 		List<Category> cateListList= dao.Categories();		
 		JSONArray categories = new JSONArray();
-
+		
 		for(Category cat:cateListList) {
 
-			categories.add(cat.getName());
+			categories.add(cat);
 		}
 		return categories;
 	}
@@ -311,12 +350,33 @@ public class Adver43Service {
 	public JSONArray getListOfSubCategoriesFromcategory(int category) {
 		List<SubCategory> subcateListList = dao.subCategoryListFromCategory(category);		
 		JSONArray subcategories = new JSONArray();
+		
+		for(SubCategory subcat :subcateListList) {
 
-		for(SubCategory cat :subcateListList) {
-
-			subcategories.add(cat.getName());
+			subcategories.add(subcat);
 		}
 		return subcategories;
+	}
+	@SuppressWarnings("unchecked")
+	public void updatePublishCard(int id, boolean publish) {
+		dao.updateCardPublish(id, publish);
+	}
+	@SuppressWarnings("unchecked")
+	public Card getCardById(int card_id) {
+		Card card = dao.getSingleCard(card_id);
+		card.getCardDetail().setCardImages((ArrayList<CardImage>) dao.findCardImagesByCardDetailsId2(card.getCardDetail().getId()));
+		return card;
+	}@SuppressWarnings("unchecked")
+	public ArrayList<CardImage> getCardImagesByCardDetailId(int cardDetailId) {
+		return (ArrayList<CardImage>) dao.findCardImagesByCardDetailsId2(cardDetailId);
+	}
+	@SuppressWarnings("unchecked")
+	public int deleteCarddetails(CardDetails cardDetail) {
+		return dao.deleteCardDetails(cardDetail);
+	}
+	@SuppressWarnings("unchecked")
+	public int deleteCardImage(CardImage cardImage) {
+		return dao.deleteCardImage(cardImage);
 	}
 	@SuppressWarnings("unchecked")
 	public JSONArray getListOfLocations() {
@@ -328,7 +388,59 @@ public class Adver43Service {
 		}
 		return locations;
 	}
+	@SuppressWarnings("unchecked")
+	public JSONObject getMyCards(int user_id,String lang) {
 
+			app = Util.getJSONApp(lang);
+			JSONObject application = (JSONObject) app.get("Application");
+				int count = 1;
+				List<Card> cards = dao.getAllCardsByuserId(user_id);
+
+
+
+				JSONObject publisher = (JSONObject) application.get("Publisher");
+				JSONArray publishList = (JSONArray) publisher.get("publishList");
+				publishList.clear();
+				cards.forEach(card -> {
+					
+					JSONObject jCard = new JSONObject();
+					jCard.put("id", card.getId());
+					jCard.put("title", publisher.get("title").toString());
+					if(card.getCardDetail().isPublish()==true)
+						jCard.put("state", "publish-on");
+					else
+						jCard.put("state", "publish-off");
+					JSONObject edit = new JSONObject();
+					edit.put("cssId", "btn_edit");
+					edit.put("title", "Editar");
+					edit.put("flag", "fa fa-edit");
+
+					JSONObject delete = new JSONObject();
+					delete.put("cssId", "delete");
+					delete.put("title", "Deletar");
+					delete.put("flag", "fa fa-trash");
+					
+					JSONArray UploadImage = new JSONArray();
+					card.getCardDetail().getCardImages().forEach(cardImage->{
+						UploadImage.add(cardImage.getImage());
+					});
+					// use the image cover to default image
+					if(card.getCardDetail().getCardImages().size()>0) {
+						jCard.put("UploadImage", UploadImage);
+					}else {
+						jCard.put("UploadImage", null);
+					}
+					jCard.put("Edit", edit);
+					jCard.put("Delete", delete);
+					publishList.add(jCard);
+
+				});
+
+				publisher.replace("publishList", publishList);
+				application.replace("Publisher", publisher);
+
+			return application;
+	}
 	@SuppressWarnings("unchecked")
 	public JSONObject getMainApplication(String lang) {
 
@@ -381,7 +493,7 @@ public class Adver43Service {
 
 		{
 
-			List<Card> cards = dao.newEntries();
+			List<Card> cards = dao.oldEntries();
 
 			JSONObject newEntriesContainer = (JSONObject) application.get("OldEntriesContainer");
 			JSONArray entries = (JSONArray) newEntriesContainer.get("Entries");
@@ -518,9 +630,19 @@ public class Adver43Service {
 	public int saveCardDetails(CardDetails cardDetail) {
 		return dao.saveCardDetails(cardDetail);
 	}
+	public int updateCardDetails(CardDetails cardDetail) {
+		return dao.updateCardDetails(cardDetail);
+	}
 	public void saveCardImage(CardImage cardImage) {
 		dao.saveCardImage(cardImage);
 	}
+	public void updateCardImage(CardImage cardImage) {
+		dao.updateCardImage(cardImage);
+	}
+	public void updateCard(Card card) {
+		dao.updateCard(card);
+	}
+
 	public void saveCard(Card card) {
 		dao.saveCard(card);
 	}

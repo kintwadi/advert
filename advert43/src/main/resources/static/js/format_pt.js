@@ -22,7 +22,7 @@ Application = {
     HeaderContainer: {
         Logo: {
             icon: "img/logo.png",
-            iconLink: "#",
+            iconLink: "/",
             cssClass: "logoImg",
             cssId: "logoImg"
         },
@@ -30,28 +30,28 @@ Application = {
         	
         	Home = {
                     text: "Home",
-                    link: "#",
+                    link: "/",
                     cssClass: "nav-link",
                     cssId: "home"
 
                 },
             AboutUS = {
                 text: "Sobre nós",
-                link: "#",
+                link: "about",
                 cssClass: "nav-link",
                 cssId: "about-us"
 
             },
             ContactUS = {
                 text: "Contacto",
-                link: "#",
+                link: "contact",
                 cssClass: "nav-link",
                 cssId: "contact-us"
 
             },
             Login = {
                 text: "Acesso",
-                link: "#",
+                link: "login",
                 cssClass: "nav-link",
                 cssId: "login",
                 header: "Acesso",
@@ -61,16 +61,34 @@ Application = {
                 remember:"Lembra - me",
                 question:"Esqueceu a conta?",
                 answear: "Clique aqui para redefini-lo.",
+                answearLink: "recover",
                 newQuestion:"Não tens uma conta?",
                 newAnswear:"Regista-te.",
-                error: "Email or Senha Inválido"
-                
+                newAnswearLink: "register",
+                error: "Email ou Senha Inválido",
+                Recover:{
+                	text: "Recuperar sua conta",
+	                link: "emailrecover",
+	                cssClass: "nav-link",
+	                cssId: "recover",
+	                header: "Recuperar sua conta",
+	                info:"Informe seu Email para receber o código de recuperação",
+	                emailPlaceHolder: "Email",
+	                submitLabel: "Confirmar",
+	                infoRecover:"Informe o código que foi enviado ao seu Email para recuperação de ua conta",
+	                emailPlaceHolder: "Email",
+	                codePlaceHolder: "Código",
+	                emailPlaceHolder: "Email",
+                	newPasswordPlaceHolder:"Nova Senha",
+	                submitRecoverLabel: "Finalizar"
+	                
+                }
                 	
 
             },
             SignUp = {
                 text: "Cadastre-se",
-                link: "#",
+                link: "register",
                 cssClass: "nav-link",
                 cssId: "sign-up"
 
@@ -505,7 +523,18 @@ Application = {
             }
         ],
         Description:{
-            title:"Description",
+            title:"título",
+            location:"localização",
+            province:"Província",
+            street:"Rua",
+            price:"Preço",
+            description:"Descrição",
+            category:"Categoria",
+            subcategory:"Subcategoria",
+            type:"Tipo",
+            zipcode:"Código Zip",
+            reference:"Georeferência",
+            dealtype:"tipo de negócio",
             text:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus dolorem deserunt, vero libero cumque itaque? Repudiandae dicta libero in qui officia, saepe porro maiores possimus autem quasi, pariatur at recusandae!"
         }
     }, 
@@ -556,7 +585,7 @@ Application = {
         description:"Description",
         tips:{
             text:"Tips",
-            placeholder:"You can add your card description"
+            placeholder:"You can add your card description as sutch ...."
         },
         price:"Price",
         negotiable:"Negotiable",
@@ -596,7 +625,7 @@ Application = {
         preference:"Preference or Geolocation",
         tips2:{
             text:"Tips",
-            placeholder:"You can add further reference or google map geolocation"
+            placeholder:"You can add your reference or google map geolocation as sutch ...."
         },
         phone:{
             text:"Celphone",
@@ -645,6 +674,7 @@ Application = {
         ]
     },
     Publisher:{
+	title:"Publicado",
         publishList:[
             // terá os publishs dos ads que virão do microservice e serão passados ao array listAds que está no render 
         ]

@@ -8,35 +8,35 @@ Application = {
             id: "1",
             name: "advert43",
             image: "img/user.png",
-            link: "#"
+            link: "profile"
         }
     }
     ,
     HeaderContainer: {
         Logo: {
             icon: "img/logo.png",
-            iconLink: "#",
+            iconLink: "/",
             cssClass: "logoImg",
             cssId: "logoImg"
         },
         Menu: [
             AboutUS = {
                 text: "About US",
-                link: "#",
+                link: "about",
                 cssClass: "nav-link",
                 cssId: "about-us"
 
             },
             ContactUS = {
                 text: "Contact Us",
-                link: "#",
+                link: "contact",
                 cssClass: "nav-link",
                 cssId: ""
 
             },
             Login = {
                 text: "Login",
-                link: "#",
+                link: "login",
                 cssClass: "nav-link",
                 cssId: "",
                 header: "Login",
@@ -54,7 +54,7 @@ Application = {
             },
             SignUp = {
                 text: "SignUp",
-                link: "#",
+                link: "register",
                 cssClass: "nav-link",
                 cssId: ""
 

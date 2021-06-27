@@ -9,14 +9,14 @@
             "id": "1",
             "name": "advert43",
             "image": "img/user.png",
-            "link": "#"
+            "link": "profile"
         }
     }
     ,
     "HeaderContainer": {
         "Logo": {
             "icon": "img/logo.png",
-            "iconLink": "#",
+            "iconLink": "/",
             "cssClass": "logoImg",
             "cssId": "logoImg"
         },
@@ -25,7 +25,7 @@
         	 {
               "Home":{
                   "text": "Home",
-                "link": "#",
+                "link": "/",
                 "cssClass": "nav-link",
                 "cssId": "home"
               } 
@@ -33,7 +33,7 @@
             {
               "AboutUS":{
                   "text": "Sobre nós",
-                "link": "#",
+                "link": "about",
                 "cssClass": "nav-link",
                 "cssId": "about-us"
               } 
@@ -41,7 +41,7 @@
            { 
              "ContactUS": {
                 "text": "Contacto",
-                "link": "#",
+                "link": "contact",
                 "cssClass": "nav-link",
                 "cssId": ""
              }
@@ -50,7 +50,7 @@
             {
               "Login": {
                 "text": "Acesso",
-                "link": "#",
+                "link": "login",
                 "cssClass": "nav-link",
                 "cssId": ""
               }
@@ -59,7 +59,7 @@
             {
               "SignUp": {
                 "text": "Cadastre-se",
-                "link": "#",
+                "link": "register",
                 "cssClass": "nav-link",
                 "cssId": ""
               }
@@ -401,6 +401,18 @@
         "showMore": " Mostrar mais"
     },
     "NewAdd":{
+    "tips":{
+            "text":"Tips",
+            "placeholder":"You can add your card description as sutch ...."
+        },
+        "tips2":{
+            "text":"Tips",
+            "placeholder":"You can add your reference or google map geolocation as sutch ...."
+        }
+    },
+"Publisher":{
+	"title":"Publicado",
+  "publishList":[]
     },
     "FooterContainer": {
         "copyRight": "&copy;2020",
