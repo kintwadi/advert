@@ -43,6 +43,8 @@ public interface IDao {
 	public ArrayList<CardImage> findCardImagesByCardDetailsId(int cardDetailsId);
 	public List<CardImage> findCardImagesByCardDetailsId2(int cardDetailsId);
 	public void updateUserRemember(String email,boolean remember);
+	public void updateUserCode(String email,String code);
+	public void updateUserCodeToNullAndPassword(String email,String password);
 	public void saveFooter(Footer footer);
 	public void saveSubCategory(SubCategory subcategory);
 	public void saveCard(Card card);

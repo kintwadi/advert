@@ -80,8 +80,8 @@ Application = {
 	                codePlaceHolder: "Código",
 	                emailPlaceHolder: "Email",
                 	newPasswordPlaceHolder:"Nova Senha",
-	                submitRecoverLabel: "Finalizar"
-	                
+	                submitRecoverLabel: "Finalizar",
+	                codeError: "código informado incorrecto"
                 }
                 	
 

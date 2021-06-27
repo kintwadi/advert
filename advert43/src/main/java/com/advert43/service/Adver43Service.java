@@ -48,7 +48,12 @@ public class Adver43Service {
 
 		return dao.addUser(user);
 	}
-
+	public void updateUserCode(String email,String code) {
+		dao.updateUserCode(email, code);
+	}
+	public void updateUserCodeToNullAndPassword(String email,String password) {
+		dao.updateUserCodeToNullAndPassword(email, password);
+	}
 	public List<Package> getAllPackages() {
 
 		return dao.packages();
