@@ -147,7 +147,7 @@ $('#form_login').submit(function (evt) {
 
 
 $('#form_recover').submit(function (evt) {
-	alert("clicou em continuar para recuperar");
+	//alert("clicou em continuar para recuperar");
 	//return 0;
 	$("#recover-error").css("display","none");
 	let recoverError = $("#recover-error");
@@ -166,7 +166,7 @@ $('#form_recover').submit(function (evt) {
 			remember: remember.prop('checked'),
 
 				},function(data,status){
-				alert(data);
+				//alert(data);
 					if(data==""){
 						$("#recover-error").html(login.Recover.error);
 						$("#recover-error").css("color","red");
@@ -196,11 +196,11 @@ $('#form_recover').submit(function (evt) {
 });
 
 $('#form_emailrecover').submit(function (evt) {
-	alert("clicou em finalizar para recuperar");
-	return 0;
+	//alert("clicou em finalizar para recuperar");
+	//return 0;
 	$("#recover-error").css("display","none");
 	let recoverError = $("#recover-error");
-	let email = $("#email");
+	let email = $("#emailrecover");
 	let password = $("#newPassword");
 	let code = $("#code");
 	recoverError.css("display", "none");
@@ -212,10 +212,10 @@ $('#form_emailrecover').submit(function (evt) {
 				{
 			email: email.val(),
 			newPassword: password.val(),
-			code: cde.val(),
+			code: code.val(),
 
 				},function(data,status){
-				alert(data);
+				//alert(data);
 					if(data=="fail"){
 						$("#recover-error").html(login.Recover.codeError);
 						$("#recover-error").css("color","red");

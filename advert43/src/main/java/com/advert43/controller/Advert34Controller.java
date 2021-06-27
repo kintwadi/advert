@@ -90,7 +90,7 @@ public class Advert34Controller {
 		 String code = request.getParameter("code");
 		 String newPassword = request.getParameter("newPassword");
 		User user = service.findByEmail(email);
-		if(user.getCodeRecovery().equals(code)) {
+		if(code.equals(user.getCodeRecovery())) {
 			service.updateUserCodeToNullAndPassword(email, newPassword);
 			return "success";
 		}else {
@@ -112,6 +112,8 @@ public class Advert34Controller {
 		}while(user!=null);
 		if(code>0) {
 			user = service.findByEmail(email);
+			if(user==null)
+				return null;
 			user.setCodeRecovery(code.toString());
 			this.sendCodeToRecoverByEmail(email, code.toString());
 			service.updateUserCode(email, code.toString());
