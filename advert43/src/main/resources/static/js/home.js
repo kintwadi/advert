@@ -27,14 +27,18 @@ $('#answear').attr('href',login.answearLink);
 $('#new_question').html(login.newQuestion);
 $('#new_answear').html(login.newAnswear);
 $('#new_answear').attr('href',login.newAnswearLink);
-
+// recover
 $('#btn_recover').attr("value",login.Recover.submitLabel);
 $('#recover_header').html(login.Recover.header);
 $('#recover_info').html(login.Recover.info);
-
+// emailrecover
 $('#btn_emailrecover').attr("value",login.Recover.submitRecoverLabel);
 $('#code').attr('placeholder',login.Recover.codePlaceHolder);
 $('#newPassword').attr('placeholder',login.Recover.newPasswordPlaceHolder);
+$('#emailrecover').attr('placeholder',login.emailPlaceHolder);
+if(localStorage.getItem("emailRecover")!="")
+	$('#emailrecover').val(localStorage.getItem("emailRecover"));
+$('#emailrecover').attr("readonly",true);
 $('#recover_label').html(login.Recover.infoRecover);
 
 /*
@@ -143,7 +147,7 @@ $('#form_login').submit(function (evt) {
 
 
 $('#form_recover').submit(function (evt) {
-	alert("clicou em continuar para recuperar");
+	//alert("clicou em continuar para recuperar");
 	//return 0;
 	$("#recover-error").css("display","none");
 	let recoverError = $("#recover-error");
@@ -162,7 +166,7 @@ $('#form_recover').submit(function (evt) {
 			remember: remember.prop('checked'),
 
 				},function(data,status){
-				alert(data);
+				//alert(data);
 					if(data==""){
 						$("#recover-error").html(login.Recover.error);
 						$("#recover-error").css("color","red");
@@ -172,7 +176,55 @@ $('#form_recover').submit(function (evt) {
 						console.log("Data response:: "+data);
 						if(data != null){
 							//loadUser(profile);
+							localStorage.setItem("emailRecover",data);
 							window.location.href = "emailrecover";
+						}
+					}
+				}
+		);
+
+	}else{
+
+		$("#login-error").html(login.error);
+		$("#login-error").css("color","red");
+		$("#login-error").slideToggle();
+
+	} 
+	evt.preventDefault();
+
+
+});
+
+$('#form_emailrecover').submit(function (evt) {
+	//alert("clicou em finalizar para recuperar");
+	//return 0;
+	$("#recover-error").css("display","none");
+	let recoverError = $("#recover-error");
+	let email = $("#emailrecover");
+	let password = $("#newPassword");
+	let code = $("#code");
+	recoverError.css("display", "none");
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if( re.test(String(email.val()).toLowerCase())){
+
+		$.post("redefine",
+
+				{
+			email: email.val(),
+			newPassword: password.val(),
+			code: code.val(),
+
+				},function(data,status){
+				//alert(data);
+					if(data=="fail"){
+						$("#recover-error").html(login.Recover.codeError);
+						$("#recover-error").css("color","red");
+						$("#recover-error").slideToggle();
+										
+					}else{
+						console.log("Data response:: "+data);
+						if(data != null){
+							window.location.href = "login";
 						}
 					}
 				}

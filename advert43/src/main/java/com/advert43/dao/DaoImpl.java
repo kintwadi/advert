@@ -167,7 +167,24 @@ public class DaoImpl  implements IDao {
 			return null;
 		}
 	}
-	
+
+	@Transactional 
+	@Override
+	public void updateUserCode(String email,String code) {
+		Query query = entityManager.createNativeQuery("UPDATE user SET code_recovery = ? WHERE email = ?",User.class);
+		query.setParameter(1, code);
+		query.setParameter(2, email);
+		query.executeUpdate();
+		
+	}
+	@Transactional 
+	@Override
+	public void updateUserCodeToNullAndPassword(String email,String password) {
+		Query query = entityManager.createNativeQuery("UPDATE user SET code_recovery = null, password =? WHERE email = ?",User.class);
+		query.setParameter(1, password);
+		query.setParameter(2, email);
+		query.executeUpdate();
+	}
 	@Transactional 
 	@Override
 	public void updateUserRemember(String email,boolean remember) {

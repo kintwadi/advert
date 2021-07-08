@@ -44,7 +44,7 @@
               <div class="panel-body margin-box">
                 <h4 id="recover_header">Recover your account</h4>
                 <div class="container">
-                <form method="post" action="" id ="form_recover">
+                <form method="post" action="" id ="form_emailrecover">
 				<span id ="recover-error" ></span>
 	            <hr>
                     <div class="row">
@@ -57,7 +57,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="text" class="form-control code" placeholder="Code" id="code" name="code">
+      	                       <input type="email" class="form-control code" placeholder="email" id="emailrecover" name="email">
+        				    </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+      	                       <input type="text" class="form-control code" placeholder="Code" id="code" name="code">
                             </div>
                         </div>
                     </div>

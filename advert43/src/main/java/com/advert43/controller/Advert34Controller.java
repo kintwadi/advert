@@ -48,6 +48,7 @@ import com.advert43.dto.SubCategory;
 import com.advert43.dto.User;
 import com.advert43.service.Adver43Service;
 import com.advert43.util.Constants;
+import com.advert43.util.Mailer;
 import com.advert43.util.Util;
 import com.advert43.util.emailConfig;
 import com.google.gson.JsonArray;
@@ -82,7 +83,20 @@ public class Advert34Controller {
 		model.addAttribute("lang", Constants.LANGUAGE);
 		return Constants.VIEW_RECOVER;
 	}
-
+	@PostMapping(Constants.REDEFINE)
+	@ResponseBody
+	public String redefine(HttpServletRequest request) {
+		 String email = request.getParameter("email");
+		 String code = request.getParameter("code");
+		 String newPassword = request.getParameter("newPassword");
+		User user = service.findByEmail(email);
+		if(code.equals(user.getCodeRecovery())) {
+			service.updateUserCodeToNullAndPassword(email, newPassword);
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	@PostMapping(Constants.EMAILCONFIRM)
 	@ResponseBody
 	public String confirmRecover(@RequestParam("email")   String email) {
@@ -98,9 +112,11 @@ public class Advert34Controller {
 		}while(user!=null);
 		if(code>0) {
 			user = service.findByEmail(email);
+			if(user==null)
+				return null;
 			user.setCodeRecovery(code.toString());
 			this.sendCodeToRecoverByEmail(email, code.toString());
-			//service.updateUserRemember(email, code);
+			service.updateUserCode(email, code.toString());
 			return email;
 		}
 		return null;
@@ -422,6 +438,7 @@ public class Advert34Controller {
 		emailConfig mconf = new emailConfig();
 		System.out.println("Host: "+this.host);
 		System.out.println("Port: "+this.port);
+		/*
 		// create email sender
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost(this.host);
@@ -432,12 +449,22 @@ public class Advert34Controller {
 		// create mail instance
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setFrom(mailSender.getUsername());
-		mailMessage.setTo(email);
-		mailMessage.setSubject("Código de recuperação de conta");
-		mailMessage.setText("Cordiais saudações, estamos encaminhando para si o código de recuperação da tua conta:"+code+"<br> use ele na recuperação informando a nova senha.");
-		
+		mailMessage.setTo();
+		mailMessage.setSubject();
+		mailMessage.setText();
+		*/
 		// send the emailMassage
-		mailSender.send(mailMessage);
+
+		String from = this.username;
+		String password = this.password;
+		String to = email;
+		System.out.println(email);
+		String subject  = "Código de recuperação de conta";
+		String message = "Cordiais saudações, estamos encaminhando para si o código de recuperação da tua conta:"+code+""
+				+ "use ele na recuperação informando a nova senha.";
+		
+		Mailer.send(from, password, to, subject, message);
+		//mailSender.send(mailMessage);
 	}
 	@PostMapping("/saveNewAd")
 	@ResponseBody

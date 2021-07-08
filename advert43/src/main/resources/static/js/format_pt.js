@@ -68,6 +68,7 @@ Application = {
                 error: "Email ou Senha Inválido",
                 Recover:{
                 	text: "Recuperar sua conta",
+                	error: "Email Inválido, não existe nenhum usuário com este email.",
 	                link: "emailrecover",
 	                cssClass: "nav-link",
 	                cssId: "recover",
@@ -80,8 +81,8 @@ Application = {
 	                codePlaceHolder: "Código",
 	                emailPlaceHolder: "Email",
                 	newPasswordPlaceHolder:"Nova Senha",
-	                submitRecoverLabel: "Finalizar"
-	                
+	                submitRecoverLabel: "Finalizar",
+	                codeError: "código informado incorrecto"
                 }
                 	
 
