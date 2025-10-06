@@ -1,0 +1,27 @@
+Image Assets Needed:
+
+1. mgp-logo.png - Company logo (light version for navigation)
+2. mgp-logo-white.png - Company logo (white version for footer)
+3. about-image.jpg - Professional image for about section (team, office, or business scene)
+4. procurement-platform.jpg - Screenshot or mockup of procurement software
+5. analytics-dashboard.jpg - Screenshot or mockup of analytics dashboard
+6. supplier-portal.jpg - Screenshot or mockup of supplier portal interface
+
+Recommended image dimensions:
+- Logos: 200x60px (PNG with transparency)
+- About image: 800x600px (JPG, high quality)
+- Product images: 600x400px (JPG or PNG)
+
+You can use stock photos from:
+- Unsplash (https://unsplash.com)
+- Pexels (https://pexels.com)
+- Pixabay (https://pixabay.com)
+
+Search terms for stock photos:
+- "business meeting"
+- "office team"
+- "procurement"
+- "dashboard interface"
+- "business analytics"
+- "supply chain"
+- "logistics"
