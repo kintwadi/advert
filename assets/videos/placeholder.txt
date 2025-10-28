@@ -1,0 +1,32 @@
+Video Assets Needed:
+
+1. hero-bg.mp4 - Background video for hero section
+   - Duration: 10-30 seconds (looping)
+   - Resolution: 1920x1080 (Full HD)
+   - Format: MP4 (H.264 codec)
+   - Size: Keep under 5MB for web optimization
+   - Content: Professional business scenes, office environments, or abstract corporate visuals
+
+2. company-video.mp4 - Company introduction video (optional)
+   - Duration: 1-3 minutes
+   - Resolution: 1920x1080 (Full HD)
+   - Format: MP4 (H.264 codec)
+   - Content: Company overview, team introductions, office tour, or services showcase
+
+Video sources:
+- Pexels Videos (https://www.pexels.com/videos/)
+- Pixabay Videos (https://pixabay.com/videos/)
+- Videvo (https://www.videvo.net/)
+
+Search terms:
+- "business office"
+- "corporate meeting"
+- "modern workplace"
+- "professional team"
+- "technology"
+- "abstract business"
+
+Note: If you don't have videos, you can:
+1. Use a static background image instead
+2. Remove the video element from the hero section
+3. Use CSS gradients or patterns as background
