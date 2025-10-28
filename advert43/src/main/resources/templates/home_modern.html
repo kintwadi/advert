@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt">
+
+<head th:insert="links :: modern_header_links">
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>MGP Angola - Classificados Modernos</title>
+</head>
+
+<body>
+	<!-- Modern Navigation -->
+	<nav class="modern-navbar">
+		<div class="container-fluid">
+			<div class="nav-wrapper">
+				<a class="brand-logo" href="#">
+					<img alt="MGP Angola Logo" id="logo-img">
+				</a>
+				
+				<button class="mobile-toggle" id="mobileToggle">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+				
+				<div class="nav-menu" id="navMenu">
+					<ul class="nav-links" id="headerContainerMenu"></ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Hero Section -->
+	<section class="hero-section">
+		<div class="container">
+			<div class="hero-content">
+				<h1 class="hero-title">Descubra. Compre. Venda.</h1>
+				<p class="hero-subtitle">A plataforma líder de classificados em Angola</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Main Content -->
+	<main class="main-content">
+		<div class="container-fluid">
+			<div class="content-grid">
+				
+				<!-- Sidebar -->
+				<aside class="sidebar">
+					<!-- User Profile Card -->
+					<div class="card user-card">
+						<div id="userContainer"></div>
+					</div>
+					
+					<!-- Categories Card -->
+					<div class="card categories-card">
+						<div class="card-header">
+							<h3 class="card-title">Categorias</h3>
+						</div>
+						<div class="card-body">
+							<div id="categories">
+								<div id="treeview_container" class="hummingbird-treeview"></div>
+							</div>
+						</div>
+					</div>
+				</aside>
+
+				<!-- Main Feed -->
+				<section class="main-feed">
+					<!-- Search Panel -->
+					<div class="card search-card">
+						<div class="search-wrapper">
+							<div class="row search"></div>
+						</div>
+					</div>
+
+					<!-- Featured Listings -->
+					<div class="listings-section">
+						<div class="section-header">
+							<h2 class="section-title">Anúncios em Destaque</h2>
+							<span class="new-show-more">Ver Mais →</span>
+						</div>
+						<div id="new-card" class="listings-grid"></div>
+					</div>
+
+					<!-- All Listings -->
+					<div class="listings-section">
+						<div class="section-header">
+							<h2 class="section-title">Todos os Anúncios</h2>
+							<span class="show-more">Ver Mais →</span>
+						</div>
+						<div id="old-card" class="listings-grid"></div>
+					</div>
+
+					<!-- Pagination -->
+					<div class="pagination-wrapper">
+						<nav id="pagination"></nav>
+					</div>
+				</section>
+
+				<!-- Right Sidebar / Ads -->
+				<aside class="right-sidebar">
+					<div id="adContainer" class="ad-space"></div>
+				</aside>
+
+			</div>
+		</div>
+	</main>
+
+	<!-- Modern Footer -->
+	<footer class="modern-footer">
+		<div class="container">
+			<div class="footer-content">
+				<div class="footer-section">
+					<h4>MGP Angola</h4>
+					<p>A sua plataforma de confiança para classificados</p>
+				</div>
+				<div class="footer-section">
+					<h4>Links Rápidos</h4>
+					<ul>
+						<li><a href="#">Sobre Nós</a></li>
+						<li><a href="#">Contacto</a></li>
+						<li><a href="#">Termos de Uso</a></li>
+					</ul>
+				</div>
+				<div class="footer-section">
+					<h4>Siga-nos</h4>
+					<div class="social-links">
+						<a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+						<a href="#" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+						<a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>&copy; 2025 MGP Angola. Todos os direitos reservados.</p>
+			</div>
+		</div>
+	</footer>
+
+	<span th:insert="links :: footer_links"></span>
+	<script th:src="@{js/home.js}"></script>
+	<script th:src="@{js/modern.js}"></script>
+</body>
+
+</html>
